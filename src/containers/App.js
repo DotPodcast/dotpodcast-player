@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import logo from './logo.svg';
-import Player from './player/Player'
 import { actions } from '../reducers/player';
-import Header from '../components/header/Header';
-import Search from '../components/search';
+import Header from '../components/Header';
+import FooterPlayer from '../containers/Player';
+import SearchResults from '../components/SearchResults';
 import { Row, Col, Grid } from 'react-bootstrap';
 
 class App extends Component {
@@ -22,11 +22,11 @@ class App extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <Search results={this.props.searchResults} searchText={this.props.searchText}/>
+              <SearchResults onPlay={this.props.playEpisode} results={this.props.searchResults} searchText={this.props.searchText}/>
             </Col>
           </Row>
         </Grid>
-        {this.props.itemToPlay && <Player />}
+        <FooterPlayer active={this.props.itemToPlay}/>
       </div>
     );
   }

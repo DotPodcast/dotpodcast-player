@@ -2,7 +2,8 @@ import makeTypes from '../utils/makeTypes';
 
 export const types = makeTypes([
   'PLAY_URL',
-  'SET_PLAYING'
+  'SET_PLAYING',
+  'UPDATE_PROGRESS',
 ]);
 
 export const actions = {
@@ -17,7 +18,13 @@ export const actions = {
       type: types.SET_PLAYING,
       isPlaying
     }
-  }
+  },
+  updateProgress: (progress) => {
+    return {
+      type: types.UPDATE_PROGRESS,
+      progress
+    }
+  },
 }
 
 const defaultState = {
@@ -51,6 +58,11 @@ const player = (state = defaultState, action) => {
       return {
         ...state,
         playing: action.isPlaying
+      }
+    case types.UPDATE_PROGRESS:
+      return {
+        ...state,
+        ...action.progress
       }
     default:
       return state;

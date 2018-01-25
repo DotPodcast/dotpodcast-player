@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { Navbar, Nav, NavItem, FormGroup, FormControl } from 'react-bootstrap';
 import logo from './web-logo-dark.png';
 import './header-styles.css'
-import { actions } from '../../reducers/search';
+import { actions } from '../reducers/search';
 
 class Header extends Component {
   render() {
     return (
-      <Navbar fluid inverse fixedTop>
+      <Navbar className="main-header" fluid inverse fixedTop>
         <Navbar.Header>
           <Navbar.Brand className="icon-brand">
             <a href="#">

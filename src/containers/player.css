@@ -1,0 +1,25 @@
+.footer-player {
+  position: fixed;
+  width: 100%;
+  bottom: -100px;
+  left: 0;
+  height: 100px;
+  padding: 20px 50px;
+  background-color: #222;
+  transition: .2s;
+  box-shadow: 0 0 10px black;
+}
+
+.footer-player-active {
+  bottom: 0;
+}
+
+.play-pause {
+  background-color: #333;
+  color: #aaa;
+  border-radius: 15px;
+}
+
+.play-pause:active, .play-pause:focus {
+  outline: none;
+}

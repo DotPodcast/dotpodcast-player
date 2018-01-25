@@ -8,6 +8,11 @@
   }
 }
 
+.main-header {
+  border-bottom: none;
+  box-shadow: 0 0 10px black;
+}
+
 .search-input {
   border: 1px solid #111;
   background-color: #262D30;
