@@ -8,7 +8,6 @@ import { routerMiddleware } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 import AppRoutes from './routes';
 
-import '../node_modules/bootstrap/dist/css/bootstrap-grid.min.css';
 import './index.css';
 
 const history = createHistory();
