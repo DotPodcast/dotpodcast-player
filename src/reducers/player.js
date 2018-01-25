@@ -1,10 +1,4 @@
-const makeTypes = (typeStrings) => {
-  let types = {};
-  typeStrings.forEach((type) => {
-    types[type] = type;
-  })
-  return types;
-}
+import makeTypes from '../utils/makeTypes';
 
 export const types = makeTypes([
   'PLAY_URL',
@@ -35,7 +29,12 @@ const defaultState = {
   loaded: 0,
   duration: 0,
   playbackRate: 1.0,
-  loop: false
+  loop: false,
+  trackMetadata: {
+    title: '',
+    podcast: '',
+    image: '',
+  },
 };
 
 const player = (state = defaultState, action) => {

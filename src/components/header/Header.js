@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Navbar, Nav, NavItem, FormGroup, FormControl } from 'react-bootstrap';
 import logo from './web-logo-dark.png';
 import './header-styles.css'
+import { actions } from '../../reducers/search';
 
 class Header extends Component {
   render() {
@@ -18,7 +19,13 @@ class Header extends Component {
         <Nav pullRight>
           <Navbar.Form>
             <FormGroup>
-              <FormControl className="search-input" type="text" placeholder="Search" />
+              <FormControl
+                className="search-input"
+                type="text"
+                placeholder="Search"
+                value={this.props.searchText}
+                onInput={(evt) => this.props.updateSearch(evt.target.value)}
+                / >
             </FormGroup>
           </Navbar.Form>
         </Nav>
@@ -27,5 +34,17 @@ class Header extends Component {
   }
 }
 
-export default connect()(Header);
+const mapStateToProps = state => {
+  return {
+    searchText: state.search.text
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateSearch: (text) => dispatch(actions.updateQuery(text))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
 

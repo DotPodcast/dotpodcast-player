@@ -1,24 +1,42 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import logo from './logo.svg';
-import './App.css';
 import Player from './player/Player'
 import { actions } from '../reducers/player';
 import Header from '../components/header/Header';
+import Search from '../components/search';
+import { Row, Col, Grid } from 'react-bootstrap';
 
 class App extends Component {
   render() {
     return (
       <div>
         <Header />
-        <div className="App">
-          <p className="App-intro">
-            <input type="button" className="btn btn-primary" value="Load Test Audio" onClick={() => { this.props.playEpisode('http://www.sample-videos.com/audio/mp3/crowd-cheering.mp3') }}/>
-          </p>
-          <Player />
-        </div>
+        <Grid fluid>
+          <Row>
+            <Col xs={12}>
+              <p className="App-intro">
+                <input type="button" className="btn btn-primary" value="Load Test Audio" onClick={() => { this.props.playEpisode('http://www.sample-videos.com/audio/mp3/crowd-cheering.mp3') }}/>
+              </p>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              <Search results={this.props.searchResults} searchText={this.props.searchText}/>
+            </Col>
+          </Row>
+        </Grid>
+        {this.props.itemToPlay && <Player />}
       </div>
     );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    searchText: state.search.text,
+    searchResults: state.search.results,
+    itemToPlay: state.player.url
   }
 }
 
@@ -30,4 +48,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

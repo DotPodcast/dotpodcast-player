@@ -1,0 +1,19 @@
+.sk-panel__content {
+}
+
+.hit-row {
+  height: 60px;
+  padding: 10px;
+}
+
+.hit-row .hit-art {
+  display: inline-block;
+}
+
+.hit-row .hit-details {
+  display: inline-block;
+}
+
+.hit-row img {
+  max-height: 40px;
+}
