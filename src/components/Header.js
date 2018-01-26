@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Navbar, Nav, NavItem, FormGroup, FormControl } from 'react-bootstrap';
-import logo from './web-logo-dark.png';
+import logo from '../images/web-logo-dark.png';
 import { StyleSheet, css } from 'aphrodite';
 import { actions } from '../reducers/search';
 

@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { actions } from '../reducers/player';
 import Header from '../components/Header';
 import FooterPlayer from '../containers/Player';
-import SearchResults from '../components/SearchResults';
+import EpisodeList from '../components/SearchResults';
+import PodcastTileList from '../components/PodcastTileList';
+import PodcastTile from '../components/PodcastTile'
 import { Row, Col, Grid } from 'react-bootstrap';
 
 class App extends Component {
@@ -21,7 +23,10 @@ class App extends Component {
           </Row>
           <Row>
             <Col xs={12}>
-              <SearchResults onPlay={this.props.playEpisode} results={this.props.searchResults} searchText={this.props.searchText}/>
+              <PodcastTileList>
+                {this.props.podcastResults.hits.map((podcast, idx) => <PodcastTile key={idx} {...podcast._source}/>)}
+              </PodcastTileList>
+              <EpisodeList onPlay={this.props.playEpisode} results={this.props.episodeResults} searchText={this.props.searchText}/>
             </Col>
           </Row>
         </Grid>
@@ -34,7 +39,8 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     searchText: state.search.text,
-    searchResults: state.search.results,
+    podcastResults: state.search.podcastResults,
+    episodeResults: state.search.episodeResults,
     itemToPlay: state.player.url
   }
 }

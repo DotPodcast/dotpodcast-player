@@ -2,8 +2,10 @@ import makeTypes from '../utils/makeTypes';
 
 export const types = makeTypes([
   'SEARCH_REQUESTED',
-  'SEARCH_FETCH_SUCCEEDED',
-  'SEARCH_FETCH_FAILED',
+  'EPISODE_FETCH_SUCCEEDED',
+  'EPISODE_FETCH_FAILED',
+  'PODCAST_FETCH_SUCCEEDED',
+  'PODCAST_FETCH_FAILED',
 ]);
 
 export const actions = {
@@ -13,15 +15,27 @@ export const actions = {
       text
     };
   },
-  searchSuccess: (results) => {
+  episodeSuccess: (results) => {
     return {
-      type: types.SEARCH_FETCH_SUCCEEDED,
+      type: types.EPISODE_FETCH_SUCCEEDED,
       results
     };
   },
-  searchFail: (error) => {
+  episodeFail: (error) => {
     return {
-      type: types.SEARCH_FETCH_FAILED,
+      type: types.EPISODE_FETCH_FAILED,
+      error
+    };
+  },
+  podcastSuccess: (results) => {
+    return {
+      type: types.PODCAST_FETCH_SUCCEEDED,
+      results
+    };
+  },
+  podcastFail: (error) => {
+    return {
+      type: types.PODCAST_FETCH_FAILED,
       error
     };
   }
@@ -29,9 +43,15 @@ export const actions = {
 
 const defaultState = {
   text: '',
-  searching: false,
-  error: null,
-  results: {
+  podcastResults: {
+    searching: false,
+    error: null,
+    total: 0,
+    hits: []
+  },
+  episodeResults: {
+    searching: false,
+    error: null,
     total: 0,
     hits: []
   },
@@ -43,22 +63,48 @@ const search = (state = defaultState, action) => {
       return {
         ...state,
         text: action.text,
-        searching: true,
+        episodeResults: {
+          ...state.episodeResults,
+          searching: true,
+          hits: [],
+          total: 0
+        }
       };
-    case types.SEARCH_FETCH_SUCCEEDED:
+    case types.EPISODE_FETCH_SUCCEEDED:
       return {
         ...state,
-        searching: false,
-        results: {
+        episodeResults: {
+          searching: false,
           total: action.results.total,
           hits: action.results.hits
         }
       }
-    case types.SEARCH_FETCH_FAILED:
+    case types.EPISODE_FETCH_FAILED:
       return {
         ...state,
-        searching: false,
-        error: action.error,
+        episodeResults: {
+          ...state.episodeResults,
+          searching: false,
+          error: action.error,
+        }
+      }
+    case types.PODCAST_FETCH_SUCCEEDED:
+      return {
+        ...state,
+        podcastResults: {
+          searching: false,
+          total: action.results.total,
+          hits: action.results.hits
+        }
+      }
+    case types.PODCAST_FETCH_FAILED:
+      return {
+        ...state,
+        podcastResults: {
+          ...state.podcastResults,
+          searching: false,
+          error: action.error,
+        }
       }
     default:
       return state;

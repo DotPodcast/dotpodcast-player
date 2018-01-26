@@ -1,6 +1,5 @@
 import elasticsearch from 'elasticsearch-browser';
 
-
 const client = new elasticsearch.Client({
   host: [
     {
@@ -13,7 +12,6 @@ const client = new elasticsearch.Client({
   ]
 });
 
-
 const search = (query, options) => {
   return client.search({
     index: options.index,
@@ -22,11 +20,30 @@ const search = (query, options) => {
   })
 }
 
-export const searchEpisodes = (text, options) => {
+export const searchEpisodes = (text) => {
   return search({
     query: {
-      match: {
-        title: text
+      bool: {
+        should: [
+          {
+            multi_match: {
+              query: text,
+              type: 'phrase_prefix',
+              fields: [
+                'author.name^1',
+                'description^2',
+                'title^10',
+                'content_text'
+              ]
+            }
+          },
+          {
+            simple_query_string: {
+              query: text,
+              fields: ['_all']
+            }
+          }
+        ]
       }
     }
   }, {
@@ -35,3 +52,34 @@ export const searchEpisodes = (text, options) => {
   });
 };
 
+export const searchPodcasts = (text) => {
+  return search({
+    query: {
+      bool: {
+        should: [
+          {
+            multi_match: {
+              query: text,
+              type: 'phrase_prefix',
+              fields: [
+                'author.name^1',
+                'description_text^2',
+                'title^10',
+                'content_text'
+              ]
+            }
+          },
+          {
+            simple_query_string: {
+              query: text,
+              fields: ['_all']
+            }
+          }
+        ]
+      }
+    }
+  }, {
+    index: 'podcasts',
+    type: 'podcast'
+  });
+};
