@@ -10,10 +10,10 @@ import { routerMiddleware } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 import AppRoutes from './routes';
 import globalStyles from './utils/globalStyles';
+import Layout from './containers/Layout';
 
 const styles = globalStyles.StyleSheet.create({
-  globals: {
-    '*body': {
+  globals: { '*body': {
       paddingTop: 80,
       margin: 0,
       fontFamily: 'sans-serif',
@@ -38,7 +38,9 @@ sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
-    <AppRoutes history={history}/>
+    <Layout>
+      <AppRoutes history={history}/>
+    </Layout>
   </Provider>
   , document.getElementById('root'));
 registerServiceWorker();
