@@ -9,8 +9,21 @@ import registerServiceWorker from './registerServiceWorker';
 import { routerMiddleware } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 import AppRoutes from './routes';
+import globalStyles from './utils/globalStyles';
 
-import './index.css';
+const styles = globalStyles.StyleSheet.create({
+  globals: {
+    '*body': {
+      paddingTop: 80,
+      margin: 0,
+      fontFamily: 'sans-serif',
+      backgroundColor: '#262D30',
+      color: '#ddd',
+    }
+  }
+});
+globalStyles.css(styles.globals);
+
 
 const history = createHistory();
 const middleware = routerMiddleware(history);
