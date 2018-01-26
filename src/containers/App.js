@@ -23,6 +23,7 @@ class App extends Component {
           </Row>
           <Row>
             <Col xs={12}>
+              {this.props.searchText && <span>{this.props.podcastResults.total} podcasts found.</span>}
               <PodcastTileList>
                 {this.props.podcastResults.hits.map((podcast, idx) => <PodcastTile key={idx} {...podcast._source}/>)}
               </PodcastTileList>

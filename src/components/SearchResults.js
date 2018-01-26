@@ -7,7 +7,7 @@ class Search extends Component {
     const results = this.props.results
     return (
       <div>
-        <div>{results.total} results for: {this.props.searchText}</div>
+        {this.props.searchText && <div>{results.total} episodes found.</div>}
 
         <Grid fluid>
           {results.hits.map((result, idx) => {
