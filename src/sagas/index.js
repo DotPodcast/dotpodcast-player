@@ -1,6 +1,6 @@
 import { takeLatest } from 'redux-saga/effects';
 import { types as searchTypes } from '../reducers/search';
-import { getEpisodes } from './search-saga';
+import { getEpisodes } from './search';
 
 console.log('root')
 export default function* root() {
