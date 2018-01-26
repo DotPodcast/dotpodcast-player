@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import logo from './logo.svg';
 import { actions } from '../reducers/player';
 import Header from '../components/Header';
 import FooterPlayer from '../containers/Player';
@@ -15,7 +14,7 @@ class App extends Component {
         <Grid fluid>
           <Row>
             <Col xs={12}>
-              <p className="App-intro">
+              <p>
                 <input type="button" className="btn btn-primary" value="Load Test Audio" onClick={() => { this.props.playEpisode('http://www.sample-videos.com/audio/mp3/crowd-cheering.mp3') }}/>
               </p>
             </Col>
