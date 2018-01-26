@@ -4,7 +4,7 @@ import { Grid, Row, Col, ProgressBar } from 'react-bootstrap';
 import ReactPlayer from 'react-player';
 import { actions } from '../reducers/player';
 import ProgressSeeker from '../components/ProgressSeeker';
-import './player.css';
+import { StyleSheet, css } from 'aphrodite';
 
 class Player extends Component {
   ref = (player) => {
@@ -13,8 +13,8 @@ class Player extends Component {
   render() {
     const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate } = this.props.player;
     return (
-      <div className={this.props.active ? 'footer-player footer-player-active' : 'footer-player'}>
-        <Row className='podcast-player-container'>
+      <div className={css(styles.footerPlayer, this.props.active && styles.footerPlayerActive)}>
+        <Row>
           <ReactPlayer
             height='0'
             url={url}
@@ -27,7 +27,7 @@ class Player extends Component {
             onProgress={this.props.updateProgress}
           />
           <Col xs={3}>
-            <input type="button" className="play-pause" disabled={!url} value={playing ? 'Pause' : 'Play'} onClick={() => this.props.setPlaying(!playing)}/>
+            <input type="button" className={css(styles.playPause)} disabled={!url} value={playing ? 'Pause' : 'Play'} onClick={() => this.props.setPlaying(!playing)}/>
           </Col>
           <Col xs={6}>
             <ProgressSeeker max={1} value={played} />
@@ -40,12 +40,34 @@ class Player extends Component {
   }
 }
 
+const styles = StyleSheet.create({
+  footerPlayer: {
+    position: 'fixed',
+    width: '100%',
+    bottom: -100,
+    left: 0,
+    height: 100,
+    padding: '20px 50px',
+    backgroundColor: '#222',
+    transition: '.2s',
+  },
+  footerPlayerActive: {
+    bottom: 0,
+    boxShadow: '0 0 10px black'
+  },
+  playPause: {
+    backgroundColor: '#333',
+    color: '#aaa',
+    borderRadius: 15,
+    outline: 'none'
+  }
+})
+
 const mapStateToProps = (state) => {
   return {
     player: state.player,
   };
 };
-
 const mapDispatchToProps = (dispatch) => {
   return {
     setPlaying: (isPlaying) => dispatch(actions.setPlaying(isPlaying)),
