@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { actions } from '../reducers/player';
 import Header from '../components/Header';
 import FooterPlayer from '../containers/Player';
-import EpisodeList from '../components/SearchResults';
-import PodcastTileList from '../components/PodcastTileList';
-import PodcastTile from '../components/PodcastTile'
-import { Row, Col, Grid } from 'react-bootstrap';
-import Home from '../containers/Home';
 
 class Layout extends Component {
   render() {

@@ -4,7 +4,7 @@ import { StyleSheet, css } from 'aphrodite';
 const PodcastTile = (props) => {
   return (
     <div className={css(styles.tileWrapper)}>
-      <img className={css(styles.tileImage)} src={props.artwork['@2x']} />
+      <img className={css(styles.tileImage)} src={props.artwork['@2x']} alt='Podcast artwork' />
     </div>
   )
 };

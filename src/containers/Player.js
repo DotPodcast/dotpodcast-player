@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col, ProgressBar } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import ReactPlayer from 'react-player';
 import { actions } from '../reducers/player';
 import ProgressSeeker from '../components/ProgressSeeker';
@@ -10,8 +10,14 @@ class Player extends Component {
   ref = (player) => {
     this.player = player;
   }
+
   render() {
     const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate } = this.props.player;
+
+    if(loaded) {
+        console.debug('Duration', duration);
+    }
+
     return (
       <div className={css(styles.footerPlayer, this.props.active && styles.footerPlayerActive)}>
         <Row>
@@ -76,4 +82,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Player);
-

@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { actions } from '../reducers/search';
 import { searchEpisodes, searchPodcasts } from '../services/search';
 

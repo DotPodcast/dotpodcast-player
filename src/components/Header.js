@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Navbar, Nav, NavItem, FormGroup, FormControl } from 'react-bootstrap';
+import { Navbar, Nav, FormGroup, FormControl } from 'react-bootstrap';
 import logo from '../images/web-logo-dark.png';
 import { StyleSheet, css } from 'aphrodite';
 import { actions } from '../reducers/search';
@@ -11,8 +11,8 @@ class Header extends Component {
       <Navbar className={css(styles.header)} fluid inverse fixedTop>
         <Navbar.Header>
           <Navbar.Brand className={css(styles.icon)}>
-            <a href="#">
-              <img src={logo}/>
+            <a href="/">
+              <img src={logo} alt="Logo" />
             </a>
           </Navbar.Brand>
         </Navbar.Header>
@@ -72,4 +72,3 @@ const mapDispatchToProps = dispatch => {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
-

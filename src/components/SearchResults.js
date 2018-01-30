@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Col, Row } from 'react-bootstrap';
+import { Grid, Row } from 'react-bootstrap';
 import { StyleSheet, css } from 'aphrodite';
 
 class Search extends Component {
@@ -14,7 +14,7 @@ class Search extends Component {
             return (
               <Row key={idx} className={css(styles.resultRow)}>
                 <div className={css(styles.inline, styles.imageContainer)}>
-                  <img src={result._source.podcast.artwork['@1x']} width='100px' height='100px'/>
+                  <img src={result._source.podcast.artwork['@1x']} width='100px' height='100px' alt='Podcast artwork' />
                   <div className={css(styles.imageOverlay)}>
                     <div className={css(styles.playCircle)} onClick={() => this.props.onPlay(result._source.content_audio.url)}>▶</div>
                   </div>
