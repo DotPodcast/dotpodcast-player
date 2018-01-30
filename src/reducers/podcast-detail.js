@@ -41,6 +41,12 @@ const reducer = (state = defaultState, action) => {
         ...state,
         requesting: true
       };
+    case types.DETAIL_RETRIEVED:
+      return {
+        ...state,
+        requesting: false,
+        podcast: action.result.hits.hits[0]._source
+      };
     default:
       return state;
   }
