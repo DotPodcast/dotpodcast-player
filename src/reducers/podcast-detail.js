@@ -47,6 +47,12 @@ const reducer = (state = defaultState, action) => {
         requesting: false,
         podcast: action.result.hits.hits[0]._source
       };
+    case types.DETAIL_ERROR:
+      return {
+        ...state,
+        requesting: false,
+        error: action.error
+      }
     default:
       return state;
   }
