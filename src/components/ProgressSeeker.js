@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
 const ProgressSeeker = (props) => {
