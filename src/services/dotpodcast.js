@@ -1,7 +1,16 @@
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
 
-const getPreviewToken = (endpoint, itemID) => {
-  return axios.get()
+const getMediaUrl = (endpoint, itemID) => {
+  return axios.get(endpoint).then(
+    response => {
+      return response.data;
+    }
+  ).catch(
+    error => {
+      throw error;
+    }
+  );
 }
 
 const getEpisodeList = url => {
@@ -16,4 +25,4 @@ const getEpisodeList = url => {
   );
 }
 
-export { getPreviewToken, getEpisodeList };
+export { getMediaUrl, getEpisodeList };
