@@ -6,7 +6,6 @@ export const types = makeTypes([
   'DETAIL_ERROR'
 ]);
 
-
 export const actions = {
   detailRequested: (slug) => {
     return {
@@ -14,10 +13,10 @@ export const actions = {
       slug
     }
   },
-  detailRetrieved: (result) => {
+  detailRetrieved: (metadata) => {
     return {
       type: types.DETAIL_RETRIEVED,
-      result
+      metadata
     };
   },
   detailError: (error) => {
@@ -45,7 +44,7 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         requesting: false,
-        podcast: action.result.hits.hits[0]._source
+        podcast: action.metadata
       };
     case types.DETAIL_ERROR:
       return {

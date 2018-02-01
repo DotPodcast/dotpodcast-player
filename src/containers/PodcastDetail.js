@@ -24,13 +24,25 @@ class PodcastDetail extends Component {
                 <Col md={4}>Podcast name</Col>
                 <Col md={8}>{podcast.title}</Col>
               </Row>
+              <Row>
+                <Col md={4}>Author</Col>
+                <Col md={8}>{podcast.author.name}</Col>
+              </Row>
+              <Row>
+                <Col md={4}>Description</Col>
+                <Col md={8}>{podcast.description}</Col>
+              </Row>
+              <Row>
+                <Col md={4}>Website</Col>
+                <Col md={8}><a href={podcast.home_page_url} target="_blank">{podcast.home_page_url}</a></Col>
+              </Row>
             </Col>
 
             <Col md={6}>
               <img className={css(styles.artwork)} src={podcast.artwork['@2x']} alt='Podcast artwork' />
             </Col>
           </Row>
-          <EpisodeList feed={podcast.items_url} />
+          <EpisodeList podcast={podcast} />
         </div>
       );
     }

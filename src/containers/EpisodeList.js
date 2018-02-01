@@ -8,7 +8,7 @@ class EpisodeList extends Component {
   state = {}
 
   componentDidMount() {
-    this.props.getList(this.props.feed);
+    this.props.getList(this.props.podcast.items_url);
   }
 
   render() {
