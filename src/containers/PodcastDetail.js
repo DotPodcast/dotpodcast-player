@@ -3,6 +3,7 @@ import { Row, Col, Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { actions } from '../reducers/podcast-detail';
 import { StyleSheet, css } from 'aphrodite';
+import EpisodeList from './EpisodeList';
 
 class PodcastDetail extends Component {
   state = {};
@@ -16,18 +17,21 @@ class PodcastDetail extends Component {
       console.debug(podcast);
 
       return (
-        <Row>
-          <Col md={6}>
-            <Row>
-              <Col md={4}>Podcast name</Col>
-              <Col md={8}>{podcast.title}</Col>
-            </Row>
-          </Col>
+        <div>
+          <Row>
+            <Col md={6}>
+              <Row>
+                <Col md={4}>Podcast name</Col>
+                <Col md={8}>{podcast.title}</Col>
+              </Row>
+            </Col>
 
-          <Col md={6}>
-            <img className={css(styles.artwork)} src={podcast.artwork['@2x']} alt='Podcast artwork' />
-          </Col>
-        </Row>
+            <Col md={6}>
+              <img className={css(styles.artwork)} src={podcast.artwork['@2x']} alt='Podcast artwork' />
+            </Col>
+          </Row>
+          <EpisodeList feed={podcast.items_url} />
+        </div>
       );
     }
 
