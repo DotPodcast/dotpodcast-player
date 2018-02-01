@@ -4,8 +4,8 @@ import { actions } from '../reducers/media';
 
 export function* getMediaUrl(action) {
   try {
-    const results = yield call(getMediaUrlFromFeed, action.endpoint, action.itemID);
-    yield put(actions.contentRetrieved(results));
+    const result = yield call(getMediaUrlFromFeed, action.podcast, action.episode);
+    yield put(actions.mediaRetrieved(result));
   } catch(e) {
     yield put(actions.contentError(e));
   }

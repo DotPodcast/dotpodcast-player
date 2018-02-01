@@ -7,11 +7,11 @@ export const types = makeTypes([
 ]);
 
 export const actions = {
-  mediaRequested: (endpoint, itemID) => {
+  mediaRequested: (podcast, episode) => {
     return {
       type: types.MEDIA_REQUESTED,
-      endpoint,
-      itemID
+      podcast,
+      episode
     }
   },
   mediaRetrieved: (content) => {
