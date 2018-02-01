@@ -8,6 +8,7 @@
     "elasticsearch-browser": "^14.0.0",
     "history": "^4.7.2",
     "jsonwebtoken": "^8.1.1",
+    "md5": "^2.2.1",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.0",
     "react-dom": "^16.2.0",
