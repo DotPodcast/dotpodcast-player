@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router';
 import { Switch } from 'react-router-dom';
+import PrivateSwitch from '../components/PrivateSwitch';
 import { ConnectedRouter } from 'react-router-redux';
 import Layout from '../containers/Layout';
 
@@ -13,8 +14,10 @@ import LoginSplash from '../containers/LoginSplash';
 const InLayoutRouter = (props) => {
   return (
     <Layout>
-      <Route exact path="/" component={Home} />
-      <Route exact path="/:slug" component={PodcastDetail} />
+      <PrivateSwitch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/:slug" component={PodcastDetail} />
+      </PrivateSwitch>
     </Layout>
   )
 }
