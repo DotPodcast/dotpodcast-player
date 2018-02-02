@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
 
 const PodcastTile = (props) => {
   return (
-    <div className={css(styles.tileWrapper)}>
+    <Link to={`/${props.docId.replace(/\./g, '-')}`} className={css(styles.tileWrapper)}>
       <img className={css(styles.tileImage)} src={props.artwork['@2x']} alt='Podcast artwork' />
-    </div>
+    </Link>
   )
 };
 

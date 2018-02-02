@@ -20,6 +20,20 @@ const search = (query, options) => {
   })
 }
 
+export const getPodcastDetails = (slug) => {
+  return search({
+    query: {
+      match: {
+        docId: slug.replace(/-/g, '.')
+      }
+    }
+  },
+    {
+      index: 'podcasts',
+      type: 'podcast'
+    })
+}
+
 export const searchEpisodes = (text) => {
   return search({
     query: {
