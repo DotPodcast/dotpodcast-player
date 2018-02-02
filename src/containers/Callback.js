@@ -6,6 +6,7 @@ import {
   isUserSignedIn
 } from 'blockstack';
 import { actions } from '../reducers/user'
+import RibbonSplash from '../components/RibbonSplash';
 
 
 class Callback extends Component {
@@ -19,12 +20,9 @@ class Callback extends Component {
       return (<Redirect to="/" />);
     }
     return (
-      <div>
-        Loading User Data...
-        {'User is authed? '+this.props.isAuthenticated}
-        {'User is loading? '+this.props.loadingUser}
-        {'Username is:  '+this.props.username}
-      </div>
+      <RibbonSplash>
+        <h3>Loading User Data...</h3>
+      </RibbonSplash>
     );
   }
 }
@@ -32,8 +30,6 @@ class Callback extends Component {
 const mapStateToProps = state => {
   return {
     isAuthenticated: !!state.user.username && isUserSignedIn(),
-    loadingUser: state.user.loadingUser,
-    username: state.user.username,
   }
 }
 
