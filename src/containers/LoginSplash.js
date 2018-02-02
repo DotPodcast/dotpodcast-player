@@ -6,6 +6,7 @@ import {
 import dotPodcastLogo from '../images/app-icon-dotpodcast-192x192.png';
 import blockstackIcon from '../images/blockstack-app-icon.png';
 import { StyleSheet, css } from 'aphrodite';
+import RibbonSplash from '../components/RibbonSplash';
 
 class LoginSplash extends Component {
   handleLogin() {
@@ -13,57 +14,33 @@ class LoginSplash extends Component {
   }
   render() {
     return (
-      <div className={css(styles.loginContainer)}>
-        <div className={css(styles.content)}>
-          <div className={css(styles.inline)}>
-            <img className={css(styles.appLogo)} src={dotPodcastLogo} width={64} height={64}/>
-          </div>
-          <div className={css(styles.inline)}>
-            <h3>DOTPODCAST</h3>
-            <p>
-              Enabling listeners to search, subscribe, and support podcasters without being tracked or censored.
-            </p>
-            <button className={css(styles.loginButton)} onClick={this.handleLogin}>
-              <img className={css(styles.loginIcon)} src={blockstackIcon}/>Login with Blockstack</button>
-          </div>
+      <RibbonSplash>
+        <div className={css(styles.inline)}>
+          <img className={css(styles.appLogo)} src={dotPodcastLogo} alt=""/>
         </div>
-      </div>
+        <div className={css(styles.inline)}>
+          <h3>DOTPODCAST</h3>
+          <p>
+            Enabling listeners to search, subscribe, and support podcasters without being tracked or censored.
+          </p>
+          <button className={css(styles.loginButton)} onClick={this.handleLogin}>
+            <img className={css(styles.loginIcon)} alt="" src={blockstackIcon}/>Login with Blockstack</button>
+        </div>
+      </RibbonSplash>
     );
   }
 }
 
-const montserrat = {
-  fontFamily: 'Montserrat',
-  fontStyle: 'normal',
-  fontWeight: 'normal',
-  src: "local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v12/zhcz-_WihjSQC0oHJ9TCYAzyDMXhdD8sAj6OAJTFsBI.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2212, U+2215"
-};
-
-const defaultFonts = [montserrat, 'sans-serif'];
-
 const styles = StyleSheet.create({
-  loginContainer: {
-    position: 'fixed',
-    width: '100%',
-    top: '50%',
-    background: 'white',
-    padding: '80px 0',
-    textAlign: 'center',
-    transform: 'translateY(-50%)',
-  },
-  content: {
-    textAlign: 'left',
-    display: 'inline-block',
-    fontFamily: defaultFonts,
-    color: 'black',
-  },
   inline: {
     display: 'inline-block',
     verticalAlign: 'top',
   },
   appLogo: {
     marginTop: 16,
-    marginRight: 20
+    marginRight: 20,
+    width: 64,
+    height: 64,
   },
   loginIcon: {
     width: 32,
