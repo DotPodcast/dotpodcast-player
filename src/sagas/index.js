@@ -16,7 +16,7 @@ export default function* root() {
     takeLatest(searchTypes.SEARCH_REQUESTED, getEpisodes),
     takeLatest(searchTypes.SEARCH_REQUESTED, getPodcasts),
     takeLatest(podcastDetailTypes.DETAIL_REQUESTED, getPodcastDetails),
-    takeLatest(episodeListTypes.LIST_REQUESTED, getEpisodeList),
+    takeLatest(podcastDetailTypes.DETAIL_RETRIEVED, getEpisodeList),
     takeLatest(mediaTypes.MEDIA_REQUESTED, getMediaUrl),
     takeLatest(mediaTypes.MEDIA_RETRIEVED, playMedia),
     takeLatest('*', logger)

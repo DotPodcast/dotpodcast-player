@@ -14,7 +14,6 @@ class PodcastDetail extends Component {
   render() {
     if(this.props.podcast) {
       const podcast = this.props.podcast;
-      console.debug(podcast);
 
       return (
         <div>

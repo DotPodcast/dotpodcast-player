@@ -7,10 +7,6 @@ import EpisodeRow from '../containers/EpisodeRow';
 class EpisodeList extends Component {
   state = {}
 
-  componentDidMount() {
-    this.props.getList(this.props.podcast.items_url);
-  }
-
   render() {
     if(this.props.error) {
       return (
