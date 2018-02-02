@@ -1,0 +1,6 @@
+version: '2'
+services:
+  player:
+    build: .
+    ports:
+      - 80:80
