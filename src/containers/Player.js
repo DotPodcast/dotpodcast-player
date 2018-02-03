@@ -5,10 +5,23 @@ import ReactPlayer from 'react-player';
 import { actions } from '../reducers/player';
 import ProgressSeeker from '../components/ProgressSeeker';
 import { StyleSheet, css } from 'aphrodite';
+import ButtonRow from '../components/ButtonRow';
+import PlayButton from '../components/PlayButton';
+import GlyphButton from '../components/GlyphButton';
 
 class Player extends Component {
   ref = (player) => {
     this.player = player;
+  }
+
+  forwardTen = () => {
+    const newPosition = Math.min(this.player.getCurrentTime() + 10, this.player.getDuration());
+    this.player.seekTo(newPosition);
+  }
+
+  backwardTen = () => {
+    const newPosition = Math.max(this.player.getCurrentTime() - 10, 0);
+    this.player.seekTo(newPosition);
   }
 
   render() {
@@ -33,9 +46,13 @@ class Player extends Component {
             onProgress={this.props.updateProgress}
           />
           <Col xs={3}>
-            <input type="button" className={css(styles.playPause)} disabled={!url} value={playing ? 'Pause' : 'Play'} onClick={() => this.props.setPlaying(!playing)}/>
           </Col>
           <Col xs={6}>
+            <ButtonRow>
+              <GlyphButton icon="step-backward" onClick={this.backwardTen} />
+              <PlayButton playing={playing} onClick={() => this.props.setPlaying(!playing)} />
+              <GlyphButton icon="step-forward" onClick={this.forwardTen} />
+            </ButtonRow>
             <ProgressSeeker max={1} value={played} />
           </Col>
           <Col xs={3}>
@@ -53,7 +70,7 @@ const styles = StyleSheet.create({
     bottom: -100,
     left: 0,
     height: 100,
-    padding: '20px 50px',
+    padding: 20,
     backgroundColor: '#222',
     transition: '.2s',
   },
