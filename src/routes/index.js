@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Route } from 'react-router';
 import { Switch } from 'react-router-dom';
 import PrivateSwitch from '../components/PrivateSwitch';
 import { ConnectedRouter } from 'react-router-redux';
 import Layout from '../containers/Layout';
+import { actions } from '../reducers/startup';
 
 /* Route Components */
 import Home from '../containers/Home';
@@ -22,18 +24,29 @@ const InLayoutRouter = (props) => {
   )
 }
 
-const AppRouter = (props) => {
-  return (
-    <ConnectedRouter history={props.history}>
-      <div>
-        <Switch>
-          <Route exact path="/login" component={LoginSplash} />
-          <Route exact path="/callback" component={Callback} />
-          <Route path="/" component={InLayoutRouter} />
-        </Switch>
-      </div>
-    </ConnectedRouter>
-  )
+class AppRouter extends Component {
+  componentDidMount() {
+    this.props.startup();
+  }
+  render() {
+    return (
+      <ConnectedRouter history={this.props.history}>
+        <div>
+          <Switch>
+            <Route exact path="/login" component={LoginSplash} />
+            <Route exact path="/callback" component={Callback} />
+            <Route path="/" component={InLayoutRouter} />
+          </Switch>
+        </div>
+      </ConnectedRouter>
+    )
+  }
 };
 
-export default AppRouter;
+const mapDispatchToProps = dispatch => {
+  return {
+    startup: () => dispatch(actions.startup())
+  }
+}
+
+export default connect(undefined, mapDispatchToProps)(AppRouter);
