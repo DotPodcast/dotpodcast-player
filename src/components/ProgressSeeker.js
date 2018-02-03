@@ -15,7 +15,7 @@ const ProgressSeeker = (props) => {
 
 const styles = StyleSheet.create({
   progressArea: {
-    padding: 10,
+    paddingTop: 16,
   },
   progressShape: {
     height: 6,
