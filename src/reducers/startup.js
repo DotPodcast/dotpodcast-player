@@ -6,7 +6,6 @@ export const types = makeTypes([
 
 export const actions = {
   startup: () => {
-    console.log('starting');
     return {
       type: types.STARTUP
     };
