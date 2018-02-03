@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     padding: '80px 0',
     textAlign: 'center',
     transform: 'translateY(-50%)',
+    boxShadow: '0 0 17px #6d6d6d',
   },
   content: {
     textAlign: 'left',
