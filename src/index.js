@@ -14,7 +14,6 @@ import Layout from './containers/Layout';
 
 const styles = globalStyles.StyleSheet.create({
   globals: { '*body': {
-      paddingTop: 80,
       margin: 0,
       fontFamily: 'sans-serif',
       backgroundColor: '#262D30',
@@ -38,9 +37,7 @@ sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Layout>
-      <AppRoutes history={history}/>
-    </Layout>
+    <AppRoutes history={history}/>
   </Provider>
   , document.getElementById('root'));
 registerServiceWorker();
