@@ -3,7 +3,7 @@ services:
   player:
     build: .
     ports:
-      - 80:80
-      - 443:80
+      - 80:8080 # non-https redirection
+      - 443:80 # https traffic
     labels:
       - convox.port.443.protocol=https
