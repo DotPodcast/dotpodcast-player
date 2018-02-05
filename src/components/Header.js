@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Navbar, Nav, FormGroup, FormControl } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, FormGroup, FormControl } from 'react-bootstrap';
 import logo from '../images/web-logo-dark.png';
 import { StyleSheet, css } from 'aphrodite';
 import { actions } from '../reducers/search';
+import {
+  isUserSignedIn,
+  signUserOut,
+} from 'blockstack';
 
 class Header extends Component {
+  handleLogout() {
+    signUserOut(`${window.location.origin}/login`)
+  }
   render() {
     return (
       <Navbar className={css(styles.header)} fluid inverse fixedTop>
@@ -16,19 +23,24 @@ class Header extends Component {
             </a>
           </Navbar.Brand>
         </Navbar.Header>
-        <Nav pullRight>
-          <Navbar.Form>
-            <FormGroup>
-              <FormControl
-                className={css(styles.searchInput)}
-                type="text"
-                placeholder="Search"
-                value={this.props.searchText}
-                onInput={(evt) => this.props.updateSearch(evt.target.value)}
-              />
-            </FormGroup>
-          </Navbar.Form>
-        </Nav>
+        <Navbar.Collapse>
+          {this.props.isAuthenticated && <Nav pullRight>
+            <NavItem onClick={this.handleLogout}>Log Out</NavItem>
+          </Nav>}
+          <Nav pullRight>
+            <Navbar.Form>
+              <FormGroup>
+                <FormControl
+                  className={css(styles.searchInput)}
+                  type="text"
+                  placeholder="Search"
+                  value={this.props.searchText}
+                  onInput={(evt) => this.props.updateSearch(evt.target.value)}
+                />
+              </FormGroup>
+            </Navbar.Form>
+          </Nav>
+        </Navbar.Collapse>
       </Navbar>
     );
   }
@@ -60,7 +72,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    searchText: state.search.text
+    searchText: state.search.text,
+    isAuthenticated: !!state.user.username && isUserSignedIn(),
   }
 }
 const mapDispatchToProps = dispatch => {
