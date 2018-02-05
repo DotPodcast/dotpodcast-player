@@ -34,11 +34,18 @@ jobs:
   deploy-job:
     docker:
       - image: circleci/node:7.10
-    working_directory: /tmp/  
+    working_directory: /tmp/player/
     steps:
+      - checkout
+      - run:
+          name: download convox CLI
+          command: curl -Ls https://convox.com/install/linux.zip > /tmp/convox.zip
+      - run:
+          name: install Convox CLI
+          command: sudo unzip /tmp/convox.zip -d /usr/local/bin
       - run:
           name: Deploy via Convox
-          command: convox deploy --app dotpodcast-player --rack dotpodcast/dotpodcast
+          command: convox deploy --app player --rack dotpodcast/dotpodcast
 
 workflows:
   version: 2
@@ -51,3 +58,4 @@ workflows:
           filters:
             branches:
               only: master
+
