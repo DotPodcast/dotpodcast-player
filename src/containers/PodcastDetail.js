@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Alert } from 'react-bootstrap';
+import { Grid, Row, Col, Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { actions } from '../reducers/podcast-detail';
 import { StyleSheet, css } from 'aphrodite';
@@ -16,7 +16,7 @@ class PodcastDetail extends Component {
       const podcast = this.props.podcast;
 
       return (
-        <div>
+        <Grid fluid>
           <Row>
             <Col md={6}>
               <Row>
@@ -42,16 +42,20 @@ class PodcastDetail extends Component {
             </Col>
           </Row>
           <EpisodeList podcast={podcast} />
-        </div>
+        </Grid>
       );
     }
 
     if(this.props.error) {
       console.log(this.props.error);
-      return (<Alert bsStyle="danger">{this.props.error.message}</Alert>)
+      return (
+        <Grid fluid>
+          <Alert bsStyle="danger">{this.props.error.message}</Alert>
+        </Grid>
+      )
     }
 
-    return (<div>Loading</div>);
+    return (<Grid fluid><center>Loading</center></Grid>);
   }
 }
 
