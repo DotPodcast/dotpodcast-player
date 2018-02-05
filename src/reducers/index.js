@@ -5,6 +5,7 @@ import playerReducer from './player';
 import searchReducer from './search';
 import podcastDetailReducer from './podcast-detail';
 import episodeListReducer from './episode-list';
+import subscriptionListReducer from './subscription-list';
 import userReducer from './user';
 
 const dotpodcastPlayer = combineReducers({
@@ -13,7 +14,8 @@ const dotpodcastPlayer = combineReducers({
   search: searchReducer,
   user: userReducer,
   podcastDetail: podcastDetailReducer,
-  episodeList: episodeListReducer
+  episodeList: episodeListReducer,
+  subscriptionList: subscriptionListReducer
 });
 
 export default dotpodcastPlayer;
