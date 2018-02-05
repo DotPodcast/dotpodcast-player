@@ -1,27 +1,27 @@
 import makeTypes from '../utils/makeTypes'
 
 export const types = makeTypes([
-  'DETAIL_REQUESTED',
-  'DETAIL_RETRIEVED',
-  'DETAIL_ERROR'
+  'PODCAST_REQUESTED',
+  'PODCAST_RETRIEVED',
+  'PODCAST_ERROR'
 ]);
 
 export const actions = {
   detailRequested: (slug) => {
     return {
-      type: types.DETAIL_REQUESTED,
+      type: types.PODCAST_REQUESTED,
       slug
     }
   },
   detailRetrieved: (metadata) => {
     return {
-      type: types.DETAIL_RETRIEVED,
+      type: types.PODCAST_RETRIEVED,
       metadata
     };
   },
   detailError: (error) => {
     return {
-      type: types.DETAIL_ERROR,
+      type: types.PODCAST_ERROR,
       error
     }
   }
@@ -35,18 +35,18 @@ const defaultState = {
 
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
-    case types.DETAIL_REQUESTED:
+    case types.PODCAST_REQUESTED:
       return {
         ...state,
         requesting: true
       };
-    case types.DETAIL_RETRIEVED:
+    case types.PODCAST_RETRIEVED:
       return {
         ...state,
         requesting: false,
         podcast: action.metadata
       };
-    case types.DETAIL_ERROR:
+    case types.PODCAST_ERROR:
       return {
         ...state,
         requesting: false,

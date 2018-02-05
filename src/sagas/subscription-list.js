@@ -1,6 +1,10 @@
 import { put, call } from 'redux-saga/effects';
-import { getSubscriptionList as getSubscriptionListFromStorage } from '../services/subscriptions';
-import { actions } from '../reducers/episode-list';
+import {
+  getSubscriptionList as getSubscriptionListFromStorage,
+  addSubscription as addSubscriptionInStorage,
+  removeSubscription as removeSubscriptionInStorage
+} from '../services/subscriptions';
+import { actions } from '../reducers/subscription-list';
 
 export function* getSubscriptionList(action) {
   try {
@@ -8,5 +12,25 @@ export function* getSubscriptionList(action) {
     yield put(actions.listRetrieved(results));
   } catch(e) {
     yield put(actions.listError(e));
+  }
+}
+
+export function* addSubscription(action) {
+  try {
+    const result = yield call(addSubscriptionInStorage, action.username, action.feedURL);
+
+    yield put(actions.addComplete(action.feedURL, result));
+  } catch(e) {
+    yield put(actions.addError(action.feedURL, e));
+  }
+}
+
+export function* removeSubscription(action) {
+  try {
+    const result = yield call(removeSubscriptionInStorage, action.username, action.id);
+
+    yield put(actions.removeComplete(action.id, result));
+  } catch(e) {
+    yield put(actions.removeError(action.id, e));
   }
 }

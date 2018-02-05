@@ -16,12 +16,18 @@ class SubscribedPodcastList extends Component {
     if(this.props.podcasts) {
       const renderedList = this.props.podcasts.map(
         (podcast) => (
-          <Alert bsStyle='info'>{podcast.name}</Alert>
+          <Alert bsStyle='info'>{podcast.title}</Alert>
         )
       )
 
+      if(renderedList.length) {
+        return (
+          <Grid><h2>Subscribed podcasts</h2>{renderedList}</Grid>
+        )
+      }
+
       return (
-        <Grid>{renderedList}</Grid>
+        <Grid><center>You are not yet subscribed to any podcasts.</center></Grid>
       )
     }
 
@@ -38,7 +44,7 @@ const mapStateToProps = state => {
     podcasts: state.subscriptionList.podcasts,
     requesting: state.subscriptionList.requesting,
     error: state.subscriptionList.error,
-    userID: state.user.username
+    username: state.user.username
   }
 }
 

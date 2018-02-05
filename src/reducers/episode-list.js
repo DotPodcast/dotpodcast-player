@@ -1,27 +1,27 @@
 import makeTypes from '../utils/makeTypes'
 
 export const types = makeTypes([
-  'LIST_REQUESTED',
-  'LIST_RETRIEVED',
-  'LIST_ERROR'
+  'EPISODES_REQUESTED',
+  'EPISODES_RETRIEVED',
+  'EPISODES_ERROR'
 ]);
 
 export const actions = {
   listRequested: (url) => {
     return {
-      type: types.LIST_REQUESTED,
+      type: types.EPISODES_REQUESTED,
       url
     }
   },
   listRetrieved: (results) => {
     return {
-      type: types.LIST_RETRIEVED,
+      type: types.EPISODES_RETRIEVED,
       results
     };
   },
   listError: (error) => {
     return {
-      type: types.LIST_ERROR,
+      type: types.EPISODES_ERROR,
       error
     }
   }
@@ -36,19 +36,19 @@ const defaultState = {
 
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
-    case types.LIST_REQUESTED:
+    case types.EPISODES_REQUESTED:
       return {
         ...state,
         requesting: true
       };
-    case types.LIST_RETRIEVED:
+    case types.EPISODES_RETRIEVED:
       return {
         ...state,
         requesting: false,
         episodes: action.results.items,
         paginator: action.results.meta
       };
-    case types.LIST_ERROR:
+    case types.EPISODES_ERROR:
       return {
         ...state,
         requesting: false,
