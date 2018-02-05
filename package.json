@@ -37,6 +37,8 @@
     "postcss-loader": "2.0.8",
     "promise": "8.0.1",
     "raf": "3.4.0",
+    "jsonwebtoken": "^8.1.1",
+    "md5": "^2.2.1",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.0",
     "react-dev-utils": "^5.0.0",

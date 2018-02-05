@@ -2,14 +2,10 @@ import React, { Component} from 'react';
 import { Table, Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { actions } from '../reducers/episode-list';
-import EpisodeRow from '../components/EpisodeRow';
+import EpisodeRow from '../containers/EpisodeRow';
 
 class EpisodeList extends Component {
   state = {}
-
-  componentDidMount() {
-    this.props.getList(this.props.feed);
-  }
 
   render() {
     if(this.props.error) {
