@@ -44,7 +44,7 @@ jobs:
           command: sudo unzip /tmp/convox.zip -d /usr/local/bin
       - run:
           name: Deploy via Convox
-          command: convox deploy --app dotpodcast-player --rack dotpodcast/dotpodcast
+          command: convox deploy --app player --rack dotpodcast/dotpodcast
 
 workflows:
   version: 2
