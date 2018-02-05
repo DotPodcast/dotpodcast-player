@@ -57,5 +57,5 @@ workflows:
             - build-job
           filters:
             branches:
-              only: develop
+              only: master
 
