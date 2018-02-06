@@ -5,11 +5,13 @@ import { Row, Col, Grid } from 'react-bootstrap';
 import EpisodeList from '../components/SearchResults';
 import PodcastTileList from '../components/PodcastTileList';
 import PodcastTile from '../components/PodcastTile';
+import SubscribedPodcastList from '../containers/SubscribedPodcastList';
 
 class Home extends Component {
   render() {
     return (
       <Grid fluid>
+        <SubscribedPodcastList />
         <Row>
           <Col xs={12}>
             <p>

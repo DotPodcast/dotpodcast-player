@@ -3,6 +3,8 @@ import { Grid, Row, Col, Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { actions } from '../reducers/podcast-detail';
 import { StyleSheet, css } from 'aphrodite';
+import SubscribeButton from './SubscribeButton';
+import UnsubscribeButton from './UnsubscribeButton';
 import EpisodeList from './EpisodeList';
 
 class PodcastDetail extends Component {
@@ -11,9 +13,25 @@ class PodcastDetail extends Component {
   componentDidMount() {
     this.props.getDetails(this.props.match.params.slug);
   }
+
   render() {
     if(this.props.podcast) {
       const podcast = this.props.podcast;
+      let button = null;
+
+      if(this.props.podcast) {
+        if(this.props.subscription && this.props.subscription.meta_url == this.props.podcast.meta_url) {
+          button = <UnsubscribeButton podcast={podcast} id={this.props.subscription.id} />
+        } else if (this.props.subscriptionRequesting) {
+          button = <p>Getting subscription info</p>
+        } else if (this.props.subscriptionRequested && !this.props.subscription) {
+          button = <SubscribeButton podcast={podcast} />
+        } else if (this.props.subscriptionError) {
+          button = <p className='text-danger'>{this.props.subscriptionError.message}</p>
+        } else {
+          button = <p>Will check for subscription in a moment</p>
+        }
+      }
 
       return (
         <Grid fluid>
@@ -35,6 +53,11 @@ class PodcastDetail extends Component {
                 <Col md={4}>Website</Col>
                 <Col md={8}><a href={podcast.home_page_url} target="_blank">{podcast.home_page_url}</a></Col>
               </Row>
+              <Row>
+                <Col mdOffset={4} md={8}>
+                  {button}
+                </Col>
+              </Row>
             </Col>
 
             <Col md={6}>
@@ -47,7 +70,6 @@ class PodcastDetail extends Component {
     }
 
     if(this.props.error) {
-      console.log(this.props.error);
       return (
         <Grid fluid>
           <Alert bsStyle="danger">{this.props.error.message}</Alert>
@@ -71,7 +93,11 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     podcast: state.podcastDetail.podcast,
-    error: state.podcastDetail.error
+    error: state.podcastDetail.error,
+    subscription: state.subscriptionDetail.subscription,
+    subscriptionRequested: state.subscriptionDetail.requested,
+    subscriptionError: state.subscriptionDetail.error,
+    subscriptionRequesting: state.subscriptionDetail.requesting
   }
 }
 
