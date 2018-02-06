@@ -13,7 +13,6 @@ const getSubscriptionList = (username) => {
     }
   ).then(
     buffer => {
-      console.log('BUFFER', typeof(buffer), buffer)
       return JSON.parse(buffer)
     }
   )
@@ -63,8 +62,6 @@ const addSubscription = (username, feedURL) => {
           {...subscription, ...subscriptionResult}
         ]
 
-        console.log('PUT', subscriptions)
-
         return putFile(
           FILENAME,
           JSON.stringify(subscriptions),
@@ -80,8 +77,6 @@ const addSubscription = (username, feedURL) => {
         const subscriptions = [
           {...subscription, ...subscriptionResult}
         ]
-
-        console.log('POST', subscriptions)
 
         return putFile(
           FILENAME,
@@ -100,10 +95,7 @@ const addSubscription = (username, feedURL) => {
         sub => getSubscriptionList().then(
           buffer => put(buffer, sub)
         ).catch(
-          (err) => {
-            console.error(err)
-            return post(sub)
-          }
+          () => post(sub)
         )
       )
     }
