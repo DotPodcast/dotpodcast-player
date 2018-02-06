@@ -3,7 +3,7 @@ import { Button, Glyphicon } from 'react-bootstrap';
 
 const miniPlayButton = function(props) {
   const dispatch = () => {
-    props.action(props.podcast, props.episode);
+    props.action(props.username, props.podcast, props.episode);
   }
 
   return (
