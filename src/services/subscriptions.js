@@ -90,6 +90,7 @@ const addSubscription = (username, feedURL) => {
       }
 
       return registerSubscription(
+        username,
         podcast.data.subscription_url
       ).then(
         sub => getSubscriptionList().then(

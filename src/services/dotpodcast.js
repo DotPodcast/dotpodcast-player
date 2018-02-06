@@ -17,7 +17,7 @@ const getEpisodeList = url => {
   );
 }
 
-const subscribe = (endpoint, preview = false) => {
+const subscribe = (username, endpoint, preview = false) => {
   return axios.post(
     endpoint,
     {
@@ -25,13 +25,13 @@ const subscribe = (endpoint, preview = false) => {
       app_url: APP_URL,
       token_kind: preview ? 'preview' : 'download',
       activity: preview ? 'listen' : 'subscribe',
-      subscriber_hash: md5(new Date().getTime().toString()),
+      subscriber_hash: md5(username),
       app_logo: 'https://player.dotpodcast.org/img/logo.svg'
     }
   ).then(response => response.data)
 }
 
-const getMediaUrl = (podcast, episode) => {
+const getMediaUrl = (username, podcast, episode) => {
   const makeToken = (subscriberHash, subscriberSecret) => {
     const now = new Date().getTime();
 
@@ -74,7 +74,7 @@ const getMediaUrl = (podcast, episode) => {
     ).then(response => response.data)
   }
 
-  return getSubscription(null, {meta_url: podcast.meta_url}).then(
+  return getSubscription(username, {meta_url: podcast.meta_url}).then(
     (subscription) => {
       if(subscription) {
         return download(
@@ -83,7 +83,7 @@ const getMediaUrl = (podcast, episode) => {
         )
       }
 
-      return subscribe(podcast.subscription_url, true).then(
+      return subscribe(username, podcast.subscription_url, true).then(
         subscription => preview(subscription.preview_secret)
       )
     }

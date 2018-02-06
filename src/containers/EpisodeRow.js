@@ -9,7 +9,7 @@ class EpisodeRow extends Component {
     return (
       <tr>
         <td>
-          <MiniPlayButton url={this.props.episode.content_audio.url} podcast={this.props.podcast} episode={this.props.episode} action={this.props.requestMedia} />
+          <MiniPlayButton username={this.props.username} url={this.props.episode.content_audio.url} podcast={this.props.podcast} episode={this.props.episode} action={this.props.requestMedia} />
         </td>
         <td>
           <Link to='/'>{this.props.episode.title}</Link>
@@ -22,14 +22,17 @@ class EpisodeRow extends Component {
 
 const mapStateToProps = state => {
   return {
-    podcast: state.podcastDetail.podcast
+    podcast: state.podcastDetail.podcast,
+    username: state.user.username
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    requestMedia: (podcast, episode) => {
-      dispatch(actions.mediaRequested(podcast, episode));
+    requestMedia: (username, podcast, episode) => {
+      dispatch(
+        actions.mediaRequested(username, podcast, episode)
+      );
     }
   }
 }
