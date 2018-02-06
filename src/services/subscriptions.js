@@ -1,17 +1,11 @@
 import { getFile, putFile } from 'blockstack';
+import { subscribe as registerSubscription } from './dotpodcast';
 import Guid from 'guid';
 import axios from 'axios';
 
 const FILENAME = 'subscriptions.json';
-let subscriptions = null;
 
 const getSubscriptionList = (username) => {
-  if(subscriptions !== null) {
-    return new Promise(
-      (resolve) => resolve(subscriptions)
-    )
-  }
-
   return getFile(
     FILENAME,
     {
@@ -19,8 +13,8 @@ const getSubscriptionList = (username) => {
     }
   ).then(
     buffer => {
-      subscriptions = JSON.parse(buffer);
-      return subscriptions;
+      console.log('BUFFER', typeof(buffer), buffer)
+      return JSON.parse(buffer)
     }
   )
 }
@@ -63,8 +57,13 @@ const addSubscription = (username, feedURL) => {
         id: Guid.create()
       }
 
-      const put = (buffer) => {
-        subscriptions = [...JSON.parse(buffer), subscription]
+      const put = (existingSubscriptions, subscriptionResult) => {
+        const subscriptions = [
+          ...existingSubscriptions,
+          {...subscription, ...subscriptionResult}
+        ]
+
+        console.log('PUT', subscriptions)
 
         return putFile(
           FILENAME,
@@ -77,12 +76,16 @@ const addSubscription = (username, feedURL) => {
         )
       }
 
-      const post = () => {
-        subscriptions = [subscription]
+      const post = (subscriptionResult) => {
+        const subscriptions = [
+          {...subscription, ...subscriptionResult}
+        ]
+
+        console.log('POST', subscriptions)
 
         return putFile(
           FILENAME,
-          JSON.stringify([subscription]),
+          JSON.stringify(subscriptions),
           {
             encrypt: true
           }
@@ -91,10 +94,17 @@ const addSubscription = (username, feedURL) => {
         )
       }
 
-      return getSubscriptionList().then(
-        buffer => post()
-      ).catch(
-        () => post()
+      return registerSubscription(
+        podcast.data.subscription_url
+      ).then(
+        sub => getSubscriptionList().then(
+          buffer => put(buffer, sub)
+        ).catch(
+          (err) => {
+            console.error(err)
+            return post(sub)
+          }
+        )
       )
     }
   )
@@ -103,8 +113,8 @@ const addSubscription = (username, feedURL) => {
 const removeSubscription = (username, id) => {
   return getSubscriptionList().then(
     buffer => {
-      subscriptions = buffer.filter(
-        (subscription) => subscription.id !== id
+      const subscriptions = buffer.filter(
+        subscription => subscription.id !== id
       )
 
       return putFile(
