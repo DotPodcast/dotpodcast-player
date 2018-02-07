@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route } from 'react-router';
 import { Switch } from 'react-router-dom';
-import PrivateSwitch from '../components/PrivateSwitch';
+import AuthGate from './AuthGate';
+import { PersistGate } from 'redux-persist/integration/react';
 import { ConnectedRouter } from 'react-router-redux';
 import Layout from '../containers/Layout';
 import { actions } from '../reducers/startup';
@@ -12,15 +13,23 @@ import Home from '../containers/Home';
 import PodcastDetail from '../containers/PodcastDetail';
 import Callback from '../containers/Callback';
 import LoginSplash from '../containers/LoginSplash';
+import RibbonSplash from '../components/RibbonSplash';
 
 const InLayoutRouter = (props) => {
+  console.log('persistor: ', props.persistor)
   return (
-    <Layout>
-      <PrivateSwitch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/:slug" component={PodcastDetail} />
-      </PrivateSwitch>
-    </Layout>
+    <AuthGate>
+      <PersistGate
+        loading={<RibbonSplash>Loading app data...</RibbonSplash>}
+        persistor={props.persistor}>
+        <Layout>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/:slug" component={PodcastDetail} />
+          </Switch>
+        </Layout>
+      </PersistGate>
+    </AuthGate>
   )
 }
 
@@ -29,13 +38,14 @@ class AppRouter extends Component {
     this.props.startup();
   }
   render() {
+    console.log('persistor: ', this.props.persistor)
     return (
       <ConnectedRouter history={this.props.history}>
         <div>
           <Switch>
             <Route exact path="/login" component={LoginSplash} />
             <Route exact path="/callback" component={Callback} />
-            <Route path="/" component={InLayoutRouter} />
+            <Route path="/" render={props => <InLayoutRouter {...props} persistor={this.props.persistor}/>} />
           </Switch>
         </div>
       </ConnectedRouter>

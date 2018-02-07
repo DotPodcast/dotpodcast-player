@@ -9,7 +9,7 @@ import subscriptionListReducer from './subscription-list';
 import subscriptionDetailReducer from './subscription-detail';
 import userReducer from './user';
 
-const dotpodcastPlayer = combineReducers({
+const rootReducer = combineReducers({
   player: playerReducer,
   router: routerReducer,
   search: searchReducer,
@@ -20,4 +20,4 @@ const dotpodcastPlayer = combineReducers({
   subscriptionDetail: subscriptionDetailReducer
 });
 
-export default dotpodcastPlayer;
+export default rootReducer;
