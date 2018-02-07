@@ -21,11 +21,11 @@ const configureStore = (history, rootReducer, rootSaga) => {
     applyMiddleware(routerMiddleware),
     applyMiddleware(sagaMiddleware)
   );
-  const persistor = persistStore(store);
+  const startPersistor = () => persistStore(store);
 
   sagaMiddleware.run(rootSaga);
 
-  return { store, persistor };
+  return { store, startPersistor };
 }
 
 export default configureStore;

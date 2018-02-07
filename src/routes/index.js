@@ -16,12 +16,11 @@ import LoginSplash from '../containers/LoginSplash';
 import RibbonSplash from '../components/RibbonSplash';
 
 const InLayoutRouter = (props) => {
-  console.log('persistor: ', props.persistor)
   return (
     <AuthGate>
       <PersistGate
         loading={<RibbonSplash>Loading app data...</RibbonSplash>}
-        persistor={props.persistor}>
+        persistor={props.startPersistor()}>
         <Layout>
           <Switch>
             <Route exact path="/" component={Home} />
@@ -38,14 +37,13 @@ class AppRouter extends Component {
     this.props.startup();
   }
   render() {
-    console.log('persistor: ', this.props.persistor)
     return (
       <ConnectedRouter history={this.props.history}>
         <div>
           <Switch>
             <Route exact path="/login" component={LoginSplash} />
             <Route exact path="/callback" component={Callback} />
-            <Route path="/" render={props => <InLayoutRouter {...props} persistor={this.props.persistor}/>} />
+            <Route path="/" render={props => <InLayoutRouter {...props} startPersistor={this.props.startPersistor}/>} />
           </Switch>
         </div>
       </ConnectedRouter>

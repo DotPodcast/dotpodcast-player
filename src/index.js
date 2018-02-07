@@ -23,11 +23,11 @@ globalStyles.css(styles.globals);
 
 
 const history = createHistory();
-let { store, persistor } = configureStore(history, rootReducer, rootSaga);
+let { store, startPersistor } = configureStore(history, rootReducer, rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
-    <AppRoutes history={history} persistor={persistor}/>
+    <AppRoutes history={history} startPersistor={startPersistor}/>
   </Provider>
   , document.getElementById('root'));
 registerServiceWorker();
