@@ -1,5 +1,5 @@
 import { put, call } from 'redux-saga/effects';
-import { getSubscription as getSubscriptionInList } from '../services/subscriptions';
+import { findSubscription as getSubscriptionInList } from '../services/subscriptions';
 import { actions } from '../reducers/subscription-detail';
 
 export function* getSubscriptionByID(action) {
