@@ -20,7 +20,7 @@ const InLayoutRouter = (props) => {
     <AuthGate>
       <PersistGate
         loading={<RibbonSplash>Loading app data...</RibbonSplash>}
-        persistor={props.startPersistor()}>
+        persistor={props.userLoaded && props.startPersistor()}>
         <Layout>
           <Switch>
             <Route exact path="/" component={Home} />
@@ -43,7 +43,7 @@ class AppRouter extends Component {
           <Switch>
             <Route exact path="/login" component={LoginSplash} />
             <Route exact path="/callback" component={Callback} />
-            <Route path="/" render={props => <InLayoutRouter {...props} startPersistor={this.props.startPersistor}/>} />
+            <Route path="/" render={props => <InLayoutRouter {...props} userLoaded={this.props.userLoaded} startPersistor={this.props.startPersistor}/>} />
           </Switch>
         </div>
       </ConnectedRouter>
@@ -51,10 +51,16 @@ class AppRouter extends Component {
   }
 };
 
+const mapStateToProps = state => {
+  return {
+    userLoaded: !!state.user.profile
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     startup: () => dispatch(actions.startup())
   }
 }
 
-export default connect(undefined, mapDispatchToProps)(AppRouter);
+export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);
