@@ -8,6 +8,7 @@ import episodeListReducer from './episode-list';
 import subscriptionListReducer from './subscription-list';
 import subscriptionDetailReducer from './subscription-detail';
 import userReducer from './user';
+import inboxReducer from './inbox';
 
 const dotpodcastPlayer = combineReducers({
   player: playerReducer,
@@ -17,7 +18,8 @@ const dotpodcastPlayer = combineReducers({
   podcastDetail: podcastDetailReducer,
   episodeList: episodeListReducer,
   subscriptionList: subscriptionListReducer,
-  subscriptionDetail: subscriptionDetailReducer
+  subscriptionDetail: subscriptionDetailReducer,
+  inbox: inboxReducer
 });
 
 export default dotpodcastPlayer;

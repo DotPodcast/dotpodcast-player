@@ -7,8 +7,8 @@ const miniPlayButton = function(props) {
   }
 
   return (
-    <Button bsStyle="primary">
-      <Glyphicon glyph="play" onClick={dispatch} />
+    <Button bsStyle="primary" onClick={dispatch}>
+      <Glyphicon glyph="play" />
     </Button>
   )
 }

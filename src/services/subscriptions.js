@@ -125,6 +125,7 @@ const addSubscription = (username, url) => {
               // subscription info to the list of subscribed podcasts
               let updatedSubscriptions = {...subscriptions}
               updatedSubscriptions[id] = { // Create a dict of key info for the podcast
+                id: id,
                 title: feed.data.title,
                 artwork: feed.data.artwork,
                 meta_url: feed.data.meta_url,

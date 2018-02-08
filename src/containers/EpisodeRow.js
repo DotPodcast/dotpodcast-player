@@ -19,10 +19,8 @@ class EpisodeRow extends Component {
   }
 }
 
-
 const mapStateToProps = state => {
   return {
-    podcast: state.podcastDetail.podcast,
     username: state.user.username
   }
 }
