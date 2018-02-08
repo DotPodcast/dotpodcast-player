@@ -13,7 +13,7 @@ const getSubscriptionList = (username) => {
     }
   ).then(
     buffer => {
-      return JSON.parse(buffer)
+      return buffer ? JSON.parse(buffer) : []
     }
   )
 }
