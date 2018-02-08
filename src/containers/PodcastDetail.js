@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col, Alert } from 'react-bootstrap';
+import { Grid, Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { actions } from '../reducers/podcast-detail';
 import { StyleSheet, css } from 'aphrodite';
@@ -20,7 +20,7 @@ class PodcastDetail extends Component {
       let button = null;
 
       if(this.props.podcast) {
-        if(this.props.subscription && this.props.subscription.meta_url == this.props.podcast.meta_url) {
+        if(this.props.subscription && this.props.subscription.meta_url === this.props.podcast.meta_url) {
           button = <UnsubscribeButton podcast={podcast} id={this.props.subscription.id} />
         } else if (this.props.subscriptionRequesting) {
           button = <p>Getting subscription info</p>
@@ -34,36 +34,19 @@ class PodcastDetail extends Component {
       }
 
       return (
-        <Grid fluid>
-          <Row>
-            <Col md={6}>
-              <Row>
-                <Col md={4}>Podcast name</Col>
-                <Col md={8}>{podcast.title}</Col>
-              </Row>
-              <Row>
-                <Col md={4}>Author</Col>
-                <Col md={8}>{podcast.author.name}</Col>
-              </Row>
-              <Row>
-                <Col md={4}>Description</Col>
-                <Col md={8}>{podcast.description}</Col>
-              </Row>
-              <Row>
-                <Col md={4}>Website</Col>
-                <Col md={8}><a href={podcast.home_page_url} target="_blank">{podcast.home_page_url}</a></Col>
-              </Row>
-              <Row>
-                <Col mdOffset={4} md={8}>
-                  {button}
-                </Col>
-              </Row>
-            </Col>
-
-            <Col md={6}>
+        <Grid>
+          <div className={css(styles.headerContainer)}>
+            <div className={css(styles.imageContainer)}>
               <img className={css(styles.artwork)} src={podcast.artwork['@2x']} alt='Podcast artwork' />
-            </Col>
-          </Row>
+            </div>
+            <div className={css(styles.detailContainer)}>
+                <div className={css(styles.title)}>{podcast.title}</div>
+                <div className={css(styles.author)}>{podcast.author.name}</div>
+                <div><a href={podcast.home_page_url} target="_blank">{podcast.home_page_url}</a></div>
+                <p className={css(styles.description)}>{podcast.description_text}</p>
+                {button}
+            </div>
+          </div>
           <EpisodeList podcast={podcast} />
         </Grid>
       );
@@ -82,13 +65,33 @@ class PodcastDetail extends Component {
 }
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    display: 'flex',
+    marginBottom: 40,
+  },
+  imageContainer: {
+    width: 300,
+    minWidth: 200,
+  },
   artwork: {
-    width: '300px',
-    float: 'right',
     marginRight: '15px',
-    maxWidth: '100%'
-  }
-})
+    width: '100%'
+  },
+  detailContainer: {
+    marginLeft: 30,
+  },
+  title: {
+    fontSize: 28,
+  },
+  author: {
+    color: '#bbb',
+    fontStyle: 'italic',
+  },
+  description: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
+});
 
 const mapStateToProps = state => {
   return {
