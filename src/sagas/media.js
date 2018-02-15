@@ -16,7 +16,7 @@ export function* getMediaUrl(action) {
       )
     )
   } catch(e) {
-    yield put(mediaActions.contentError(e));
+    yield put(mediaActions.mediaError(e));
   }
 }
 
