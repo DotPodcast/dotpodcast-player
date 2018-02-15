@@ -18,7 +18,7 @@ const getSubscriptionList = (username) => {
       decrypt: true
     }
   ).then(
-    buffer => buffer ? JSON.parse(buffer) : {}
+    buffer => buffer ? JSON.parse(buffer) : []
   )
 }
 
