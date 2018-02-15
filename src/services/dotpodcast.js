@@ -1,7 +1,7 @@
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import md5 from 'md5';
-import { getSubscription } from './subscriptions';
+import { findSubscription } from './subscriptions';
 
 const APP_URL = 'https://yetunpublished.dotpodcast.co'
 
@@ -74,7 +74,7 @@ const getMediaUrl = (username, podcast, episode) => {
     ).then(response => response.data)
   }
 
-  return getSubscription(username, {meta_url: podcast.meta_url}).then(
+  return findSubscription(username, {meta_url: podcast.meta_url}).then(
     (subscription) => {
       if(subscription) {
         return download(
@@ -90,4 +90,36 @@ const getMediaUrl = (username, podcast, episode) => {
   )
 }
 
-export { getMetadata, getEpisodeList, subscribe, getMediaUrl };
+const getEpisodes = (username, subscription) => {
+  return findSubscription(username, {id: subscription.id}).then(
+    sub => {
+      const playedEpisodes = sub.played_episodes || []
+
+      return axios.get(sub.items_url).then(
+        response => {
+          return response.data.items.filter(
+            episode => {
+              const played = playedEpisodes.find(
+                ep => ep.id === episode.id
+              )
+
+              if(played) {
+                return false
+              }
+
+              return true
+            }
+          )
+        }
+      )
+    }
+  )
+}
+
+export {
+  getMetadata,
+  getEpisodeList,
+  subscribe,
+  getMediaUrl,
+  getEpisodes
+};

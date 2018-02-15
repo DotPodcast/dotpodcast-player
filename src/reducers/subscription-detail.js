@@ -8,15 +8,17 @@ export const types = makeTypes([
 ]);
 
 export const actions = {
-  detailRequestedByID: (id) => {
+  detailRequestedByID: (username, id) => {
     return {
       type: types.SUBSCRIPTION_REQUESTED_BY_ID,
+      username,
       id
     }
   },
-  detailRequestedByURL: (url) => {
+  detailRequestedByURL: (username, url) => {
     return {
       type: types.SUBSCRIPTION_REQUESTED_BY_URL,
+      username,
       url
     }
   },

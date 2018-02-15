@@ -17,7 +17,7 @@ class EpisodeList extends Component {
     if(this.props.episodes) {
       const renderedList = this.props.episodes.map(
         (episode) => (
-          <EpisodeRow episode={episode} />
+          <EpisodeRow podcast={this.props.podcast} episode={episode} />
         )
       )
 
@@ -48,6 +48,7 @@ const mapStateToProps = state => {
   return {
     episodes: state.episodeList.episodes,
     requesting: state.episodeList.requesting,
+    podcast: state.podcastDetail.podcast,
     error: state.episodeList.error
   }
 }
