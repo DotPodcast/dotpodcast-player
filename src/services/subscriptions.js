@@ -54,113 +54,101 @@ const saveSubscription = (username, id, feed) => {
   )
 }
 
-const addSubscription = (username, url) => {
+const addSubscription = async (username, url) => {
   // Record a new subscription against a podcast's meta feed URL
 
   // Start off by getting the most up-to-date metadata for the feed,
   // from the podcast host
+  const feed = await axios.get(url);
 
-  return axios.get(url).then(
-    feed => {
-      // Get the list of subscriptions, so we can add to the dict
-      // in a moment
+  // Get the list of subscriptions, so we can add to the dict
+  // in a moment
+  const subscriptions = await getSubscriptionList(username);
 
-      return getSubscriptionList(username).then(
-        subscriptions => {
-          // Check if the podcast is already subscribed
-          let found = false
+  // Check if the podcast is already subscribed
+  let existingSubscriptionId;
 
-          Object.keys(subscriptions).forEach(
-            id => {
-              if(found) {
-                return
-              }
+  Object.keys(subscriptions).forEach(
+    id => {
+      if(existingSubscriptionId) {
+        return
+      }
 
-              // Compare the subscription's feed meta URL with the one
-              // specified in the feed. If they match, we've found the
-              // subscription
-              const subscription = subscriptions[id]
-              if(subscription.meta_url === feed.data.meta_url) {
-                found = id
-              }
-            }
-          )
-
-          if(found) {
-            // The user is already subscribed to the podcast. Update the
-            // subscription, changing the `updated` date to teh current time
-            return getSubscription(username, found).then(
-              subscription => {
-                let updatedSubscriptions = {...subscriptions}
-                updatedSubscriptions[found] = {
-                  ...updatedSubscriptions[found],
-                  ...feed.data
-                }
-
-                return putFile(
-                  INDEX_FILENAME,
-                  JSON.stringify(updatedSubscriptions),
-                  {
-                    encrypt: true
-                  }
-                ).then(
-                  () => {
-                    // Save the updated subscription to the file named with
-                    // the subscription ID
-                    return saveSubscription(username, found, feed.data)
-                  }
-                )
-              }
-            )
-          }
-
-          // The user is not already subscribed
-
-          // Register the subscription with the hosting company
-          return registerSubscription(username, feed.data.subscription_url).then(
-            response => {
-              const id = Guid.create().value // Create a new ID for the subscription
-
-              // The user is not yet subscribed to the podcast. Add the new
-              // subscription info to the list of subscribed podcasts
-              let updatedSubscriptions = {...subscriptions}
-              updatedSubscriptions[id] = { // Create a dict of key info for the podcast
-                id: id,
-                title: feed.data.title,
-                artwork: feed.data.artwork,
-                meta_url: feed.data.meta_url,
-                items_url: feed.data.items_url,
-                added: new Date().getTime()
-              }
-
-              // Save this updated list back to the index file
-              return putFile(
-                INDEX_FILENAME,
-                JSON.stringify(updatedSubscriptions),
-                {
-                  encrypt: true
-                }
-              ).then(
-                () => {
-                  // Save the new subscription to a file, using the new
-                  // subscription ID to generate a hashed filename
-                  return saveSubscription(
-                    username,
-                    id,
-                    {
-                      ...feed.data,
-                      ...response
-                    }
-                  )
-                }
-              )
-            }
-          )
-        }
-      )
+      // Compare the subscription's feed meta URL with the one
+      // specified in the feed. If they match, we've found the
+      // subscription
+      const subscription = subscriptions[id]
+      if(subscription.meta_url === feed.data.meta_url) {
+        existingSubscriptionId = id
+      }
     }
   )
-}
+
+  if(existingSubscriptionId) {
+
+    // The user is already subscribed to the podcast. Update the
+    // subscription, changing the `updated` date to the current time
+    let updatedSubscriptions = { ...subscriptions };
+
+    updatedSubscriptions[existingSubscriptionId] = {
+      ...updatedSubscriptions[existingSubscriptionId],
+      ...feed.data
+    };
+
+    await putFile(
+      INDEX_FILENAME,
+      JSON.stringify(updatedSubscriptions),
+      {
+        encrypt: true
+      }
+    );
+
+    // Save the updated subscription to the file named with
+    // the subscription ID
+    return saveSubscription(username, existingSubscriptionId, feed.data)
+  }
+
+  // The user is not already subscribed
+
+  // Register the subscription with the hosting company
+  const response = await registerSubscription(username, feed.data.subscription_url)
+
+  const id = Guid.create().value // Create a new ID for the subscription
+
+  // The user is not yet subscribed to the podcast. Add the new
+  // subscription info to the list of subscribed podcasts
+  let updatedSubscriptions = {
+    ...subscriptions,
+    [id]: {
+      id: id,
+      title: feed.data.title,
+      artwork: feed.data.artwork,
+      meta_url: feed.data.meta_url,
+      items_url: feed.data.items_url,
+      added: Date.now(),
+    },
+  };
+
+  // Save this updated list back to the index file
+  await putFile(
+    INDEX_FILENAME,
+    JSON.stringify(updatedSubscriptions),
+    {
+      encrypt: true
+    }
+  );
+
+  // Save the new subscription to a file, using the new
+  // subscription ID to generate a hashed filename
+  return saveSubscription(
+    username,
+    id,
+    {
+      ...feed.data,
+      ...response
+    }
+  )
+};
 
 const findSubscription = (username, options) => {
   // Find a specific subscription by ID, or by feed URL
