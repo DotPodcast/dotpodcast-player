@@ -13,6 +13,10 @@ class PodcastDetail extends Component {
     this.props.getDetails(this.props.match.params.slug);
   }
 
+  componentWillUnmount() {
+    this.props.closePodcast();
+  }
+
   render() {
     if(this.props.detail.requesting || !this.props.detail.podcast) {
       return (<Grid fluid><center>Loading</center></Grid>);
@@ -84,7 +88,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getDetails: (slug) => {
       dispatch(actions.detailRequested(slug));
-    }
+    },
+    closePodcast: () => dispatch(actions.detailClosed())
   }
 }
 

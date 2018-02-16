@@ -3,7 +3,8 @@ import makeTypes from '../utils/makeTypes'
 export const types = makeTypes([
   'PODCAST_REQUESTED',
   'PODCAST_RETRIEVED',
-  'PODCAST_ERROR'
+  'PODCAST_ERROR',
+  'PODCAST_CLOSED',
 ]);
 
 export const actions = {
@@ -11,7 +12,7 @@ export const actions = {
     return {
       type: types.PODCAST_REQUESTED,
       slug
-    }
+    };
   },
   detailRetrieved: (metadata) => {
     return {
@@ -23,8 +24,13 @@ export const actions = {
     return {
       type: types.PODCAST_ERROR,
       error
-    }
-  }
+    };
+  },
+  detailClosed: () => {
+    return {
+      type: types.PODCAST_CLOSED,
+    };
+  },
 }
 
 const defaultState = {
@@ -37,9 +43,7 @@ const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case types.PODCAST_REQUESTED:
       return {
-        ...state,
-        podcast: null,
-        error: null,
+        ...defaultState,
         requesting: true
       };
     case types.PODCAST_RETRIEVED:
@@ -53,6 +57,10 @@ const reducer = (state = defaultState, action) => {
         ...state,
         requesting: false,
         error: action.error
+      }
+    case types.PODCAST_CLOSED:
+      return {
+        ...defaultState
       }
     default:
       return state;
