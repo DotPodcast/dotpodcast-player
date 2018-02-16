@@ -3,9 +3,8 @@ import { Grid, Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { actions } from '../reducers/podcast-detail';
 import { StyleSheet, css } from 'aphrodite';
-import SubscribeButton from './SubscribeButton';
-import UnsubscribeButton from './UnsubscribeButton';
 import EpisodeList from './EpisodeList';
+import SubscriptionChoice from './SubscriptionChoice';
 
 class PodcastDetail extends Component {
   state = {};
@@ -14,53 +13,42 @@ class PodcastDetail extends Component {
     this.props.getDetails(this.props.match.params.slug);
   }
 
+  componentWillUnmount() {
+    this.props.closePodcast();
+  }
+
   render() {
-    if(this.props.podcast) {
-      const podcast = this.props.podcast;
-      let button = null;
-
-      if(this.props.podcast) {
-        if(this.props.subscription && this.props.subscription.meta_url === this.props.podcast.meta_url) {
-          button = <UnsubscribeButton podcast={podcast} id={this.props.subscription.id} />
-        } else if (this.props.subscriptionRequesting) {
-          button = <p>Getting subscription info</p>
-        } else if (this.props.subscriptionRequested && !this.props.subscription) {
-          button = <SubscribeButton podcast={podcast} />
-        } else if (this.props.subscriptionError) {
-          button = <p className='text-danger'>{this.props.subscriptionError.message}</p>
-        } else {
-          button = <p>Will check for subscription in a moment</p>
-        }
-      }
-
-      return (
-        <Grid>
-          <div className={css(styles.headerContainer)}>
-            <div className={css(styles.imageContainer)}>
-              <img className={css(styles.artwork)} src={podcast.artwork['@2x']} alt='Podcast artwork' />
-            </div>
-            <div className={css(styles.detailContainer)}>
-                <div className={css(styles.title)}>{podcast.title}</div>
-                <div className={css(styles.author)}>{podcast.author.name}</div>
-                <div><a href={podcast.home_page_url} target="_blank">{podcast.home_page_url}</a></div>
-                <p className={css(styles.description)}>{podcast.description_text}</p>
-                {button}
-            </div>
-          </div>
-          <EpisodeList podcast={podcast} />
-        </Grid>
-      );
+    if(this.props.detail.requesting || !this.props.detail.podcast) {
+      return (<Grid fluid><center>Loading</center></Grid>);
     }
 
-    if(this.props.error) {
+    if(this.props.detail.error) {
       return (
         <Grid fluid>
-          <Alert bsStyle="danger">{this.props.error.message}</Alert>
+          <Alert bsStyle="danger">{this.props.detail.error.message}</Alert>
         </Grid>
       )
     }
 
-    return (<Grid fluid><center>Loading</center></Grid>);
+    const podcast = this.props.detail.podcast;
+    return (
+            <Grid>
+            <div className={css(styles.headerContainer)}>
+            <div className={css(styles.imageContainer)}>
+            <img className={css(styles.artwork)} src={podcast.artwork['@2x']} alt='Podcast artwork' />
+            </div>
+            <div className={css(styles.detailContainer)}>
+            <div className={css(styles.title)}>{podcast.title}</div>
+            <div className={css(styles.author)}>{podcast.author.name}</div>
+            <div><a href={podcast.home_page_url} target="_blank">{podcast.home_page_url}</a></div>
+            <p className={css(styles.description)}>{podcast.description_text}</p>
+            <SubscriptionChoice podcast={podcast} />
+            </div>
+            </div>
+            <EpisodeList podcast={podcast} />
+            </Grid>
+    );
+
   }
 }
 
@@ -95,12 +83,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    podcast: state.podcastDetail.podcast,
-    error: state.podcastDetail.error,
-    subscription: state.subscriptionDetail.subscription,
-    subscriptionRequested: state.subscriptionDetail.requested,
-    subscriptionError: state.subscriptionDetail.error,
-    subscriptionRequesting: state.subscriptionDetail.requesting
+    detail: state.podcastDetail,
   }
 }
 
@@ -108,7 +91,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getDetails: (slug) => {
       dispatch(actions.detailRequested(slug));
-    }
+    },
+    closePodcast: () => dispatch(actions.detailClosed())
   }
 }
 

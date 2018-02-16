@@ -75,10 +75,8 @@ const styles = StyleSheet.create({
   }
 });
 
-
 const mapStateToProps = state => {
   return {
-    podcast: state.podcastDetail.podcast,
     username: state.user.username
   }
 }
