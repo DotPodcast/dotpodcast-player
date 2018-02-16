@@ -4,6 +4,8 @@ import md5 from 'md5';
 import { findSubscription } from './subscriptions';
 
 const APP_URL = 'https://yetunpublished.dotpodcast.co'
+const APP_NAME = 'dotpodcast_alpha'
+const APP_LOGO = 'https://player.dotpodcast.org/img/logo.svg'
 
 const getMetadata = url => {
   return axios.get(url).then(
@@ -18,57 +20,55 @@ const getEpisodeList = url => {
 }
 
 const subscribe = (username, endpoint, preview = false) => {
+  if(preview) {
+    return axios.post(
+      endpoint,
+      {
+        app_name: APP_NAME,
+        app_url: APP_URL,
+        app_logo: APP_LOGO,
+        token_kind: 'preview',
+        activity: 'listen'
+      }
+    ).then(response => response.data)
+  }
+
   return axios.post(
     endpoint,
     {
-      app_name: 'dotpodcast_alpha',
-      app_url: APP_URL,
-      token_kind: preview ? 'preview' : 'download',
-      activity: preview ? 'listen' : 'subscribe',
-      subscriber_hash: md5(username),
-      app_logo: 'https://player.dotpodcast.org/img/logo.svg'
+      app_name: APP_NAME,
+      app_logo: APP_LOGO,
+      token_kind: 'download',
+      activity: 'subscribe',
+      subscriber_hash: md5(username)
     }
   ).then(response => response.data)
 }
 
 const getMediaUrl = (username, podcast, episode) => {
-  const makeToken = (subscriberHash, subscriberSecret) => {
+  const makeToken = (subscriberToken, subscriberSecret) => {
     const now = new Date().getTime();
 
     return jwt.sign(
       {
-          iss: 'dotpodcast_alpha',
+          iss: APP_URL,
           iat: now,
           exp: now + 60000,
           aud: 'ph.dotpodcast.co',
-          sub: subscriberHash,
+          sub: subscriberToken,
           content_id: episode.id
       },
       subscriberSecret
     )
   }
 
-  const download = (subscriberHash, subscriberSecret) => {
+  const download = (subscriberToken, subscriberSecret) => {
     return axios.get(
       episode.content_audio.url,
       {
         params: {
-          jwt: makeToken(subscriberHash, subscriberSecret),
-          kind: 'dl',
-          sub: subscriberHash
-        }
-      }
-    ).then(response => response.data)
-  }
-
-  const preview = (secret) => {
-    return axios.get(
-      episode.content_audio.url,
-      {
-        params: {
-          jwt: makeToken(APP_URL, secret),
-          kind: 'prv',
-          sub: APP_URL
+          jwt: makeToken(subscriberToken, subscriberSecret),
+          sub: subscriberToken
         }
       }
     ).then(response => response.data)
@@ -78,13 +78,16 @@ const getMediaUrl = (username, podcast, episode) => {
     (subscription) => {
       if(subscription) {
         return download(
-          subscription.subscriber_hash,
+          subscription.subscriber_token,
           subscription.subscriber_secret
         )
       }
 
       return subscribe(username, podcast.subscription_url, true).then(
-        subscription => preview(subscription.preview_secret)
+        subscription => download(
+          subscription.preview_token,
+          subscription.preview_secret
+        )
       )
     }
   )
