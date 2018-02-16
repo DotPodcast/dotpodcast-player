@@ -38,6 +38,8 @@ const reducer = (state = defaultState, action) => {
     case types.PODCAST_REQUESTED:
       return {
         ...state,
+        podcast: null,
+        error: null,
         requesting: true
       };
     case types.PODCAST_RETRIEVED:
