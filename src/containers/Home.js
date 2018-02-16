@@ -11,7 +11,6 @@ class Home extends Component {
   render() {
     return (
       <Grid fluid>
-        {this.props.username && <Inbox />}
         <Row>
           <Col xs={12}>
             <p>
