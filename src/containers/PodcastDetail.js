@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { actions } from '../reducers/podcast-detail';
 import { StyleSheet, css } from 'aphrodite';
 import EpisodeList from './EpisodeList';
+import SubscriptionChoice from './SubscriptionChoice';
 
 class PodcastDetail extends Component {
   state = {};
@@ -11,6 +12,7 @@ class PodcastDetail extends Component {
   componentDidMount() {
     this.props.getDetails(this.props.match.params.slug);
   }
+
   render() {
     if(this.props.podcast) {
       const podcast = this.props.podcast;
@@ -35,6 +37,11 @@ class PodcastDetail extends Component {
                 <Col md={4}>Website</Col>
                 <Col md={8}><a href={podcast.home_page_url} target="_blank">{podcast.home_page_url}</a></Col>
               </Row>
+              <Row>
+                <Col mdOffset={4} md={8}>
+                  <SubscriptionChoice podcast={podcast} />
+                </Col>
+              </Row>
             </Col>
 
             <Col md={6}>
@@ -47,7 +54,6 @@ class PodcastDetail extends Component {
     }
 
     if(this.props.error) {
-      console.log(this.props.error);
       return (
         <Grid fluid>
           <Alert bsStyle="danger">{this.props.error.message}</Alert>

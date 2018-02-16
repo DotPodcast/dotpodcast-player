@@ -5,11 +5,13 @@ import { Row, Col, Grid } from 'react-bootstrap';
 import EpisodeList from '../components/SearchResults';
 import PodcastTileList from '../components/PodcastTileList';
 import PodcastTile from '../components/PodcastTile';
+import Inbox from '../containers/Inbox';
 
 class Home extends Component {
   render() {
     return (
       <Grid fluid>
+        {this.props.username && <Inbox />}
         <Row>
           <Col xs={12}>
             <p>
@@ -33,6 +35,7 @@ class Home extends Component {
 
 const mapStateToProps = state => {
   return {
+    username: state.user.username,
     searchText: state.search.text,
     podcastResults: state.search.podcastResults,
     episodeResults: state.search.episodeResults,
