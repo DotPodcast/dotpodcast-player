@@ -13,55 +13,59 @@ class PodcastDetail extends Component {
     this.props.getDetails(this.props.match.params.slug);
   }
 
+  componentWillUnmount() {
+    this.props.closePodcast();
+  }
+
   render() {
-    if(this.props.podcast) {
-      const podcast = this.props.podcast;
-
-      return (
-        <Grid fluid>
-          <Row>
-            <Col md={6}>
-              <Row>
-                <Col md={4}>Podcast name</Col>
-                <Col md={8}>{podcast.title}</Col>
-              </Row>
-              <Row>
-                <Col md={4}>Author</Col>
-                <Col md={8}>{podcast.author.name}</Col>
-              </Row>
-              <Row>
-                <Col md={4}>Description</Col>
-                <Col md={8}>{podcast.description}</Col>
-              </Row>
-              <Row>
-                <Col md={4}>Website</Col>
-                <Col md={8}><a href={podcast.home_page_url} target="_blank">{podcast.home_page_url}</a></Col>
-              </Row>
-              <Row>
-                <Col mdOffset={4} md={8}>
-                  <SubscriptionChoice podcast={podcast} />
-                </Col>
-              </Row>
-            </Col>
-
-            <Col md={6}>
-              <img className={css(styles.artwork)} src={podcast.artwork['@2x']} alt='Podcast artwork' />
-            </Col>
-          </Row>
-          <EpisodeList podcast={podcast} />
-        </Grid>
-      );
+    if(this.props.detail.requesting || !this.props.detail.podcast) {
+      return (<Grid fluid><center>Loading</center></Grid>);
     }
 
-    if(this.props.error) {
+    if(this.props.detail.error) {
       return (
         <Grid fluid>
-          <Alert bsStyle="danger">{this.props.error.message}</Alert>
+          <Alert bsStyle="danger">{this.props.detail.error.message}</Alert>
         </Grid>
       )
     }
 
-    return (<Grid fluid><center>Loading</center></Grid>);
+    const podcast = this.props.detail.podcast;
+    return (
+      <Grid fluid>
+        <Row>
+          <Col md={6}>
+            <Row>
+              <Col md={4}>Podcast name</Col>
+              <Col md={8}>{podcast.title}</Col>
+            </Row>
+            <Row>
+              <Col md={4}>Author</Col>
+              <Col md={8}>{podcast.author.name}</Col>
+            </Row>
+            <Row>
+              <Col md={4}>Description</Col>
+              <Col md={8}>{podcast.description}</Col>
+            </Row>
+            <Row>
+              <Col md={4}>Website</Col>
+              <Col md={8}><a href={podcast.home_page_url} target="_blank">{podcast.home_page_url}</a></Col>
+            </Row>
+            <Row>
+              <Col mdOffset={4} md={8}>
+                <SubscriptionChoice podcast={podcast} />
+              </Col>
+            </Row>
+          </Col>
+
+          <Col md={6}>
+            <img className={css(styles.artwork)} src={podcast.artwork['@2x']} alt='Podcast artwork' />
+          </Col>
+        </Row>
+        <EpisodeList podcast={podcast} />
+      </Grid>
+    );
+
   }
 }
 
@@ -76,8 +80,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    podcast: state.podcastDetail.podcast,
-    error: state.podcastDetail.error
+    detail: state.podcastDetail,
   }
 }
 
@@ -85,7 +88,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getDetails: (slug) => {
       dispatch(actions.detailRequested(slug));
-    }
+    },
+    closePodcast: () => dispatch(actions.detailClosed())
   }
 }
 
