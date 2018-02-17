@@ -1,7 +1,8 @@
 import React, { Component} from 'react';
-import { Table, Alert } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { actions } from '../reducers/episode-list';
+import { StyleSheet, css } from 'aphrodite';
 import EpisodeRow from '../containers/EpisodeRow';
 
 class EpisodeList extends Component {
@@ -17,22 +18,24 @@ class EpisodeList extends Component {
     if(this.props.episodes) {
       const renderedList = this.props.episodes.map(
         (episode) => (
-          <EpisodeRow episode={episode} />
+          <EpisodeRow podcast={this.props.podcast} episode={episode} />
         )
       )
 
       return (
-        <Table striped hover>
+        <table className={css(styles.table)}>
           <thead>
             <tr>
-              <th width="16">&nbsp;</th>
-              <th>Episode title</th>
+              <th className={css(styles.header)}></th>
+              <th className={css(styles.header)}>Title</th>
+              <th className={css(styles.header)}>Release Date</th>
+              <th className={css(styles.header)}>Duration</th>
             </tr>
           </thead>
           <tbody>
             {renderedList}
           </tbody>
-        </Table>
+        </table>
       )
     }
 
@@ -42,12 +45,23 @@ class EpisodeList extends Component {
 
     return (<div>Loading...</div>)
   }
-}
+};
+
+const styles = StyleSheet.create({
+  table: {
+    width: '100%',
+  },
+  header: {
+    paddingBottom: 7,
+    color: '#bbb',
+  },
+});
 
 const mapStateToProps = state => {
   return {
     episodes: state.episodeList.episodes,
     requesting: state.episodeList.requesting,
+    podcast: state.podcastDetail.podcast,
     error: state.episodeList.error
   }
 }

@@ -9,7 +9,9 @@ import { actions } from '../reducers/subscription-list';
 export function* getSubscriptionList(action) {
   try {
     const results = yield call(getSubscriptionListFromStorage, action.data.username);
-    yield put(actions.listRetrieved(results));
+    yield put(actions.listRetrieved(
+      Object.values(results)
+    ));
   } catch(e) {
     yield put(actions.listError(e));
   }

@@ -11,13 +11,14 @@ import Layout from './containers/Layout';
 import configureStore from './reducers/configureStore';
 
 const styles = globalStyles.StyleSheet.create({
-  globals: { '*body': {
+  globals: {
+    '*body': {
       margin: 0,
       fontFamily: 'sans-serif',
       backgroundColor: '#262D30',
       color: '#ddd',
-    }
-  }
+    },
+  },
 });
 globalStyles.css(styles.globals);
 

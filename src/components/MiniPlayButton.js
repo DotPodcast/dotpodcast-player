@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Glyphicon } from 'react-bootstrap';
+import GlyphButton from './GlyphButton';
 
 const miniPlayButton = function(props) {
   const dispatch = () => {
@@ -7,9 +7,7 @@ const miniPlayButton = function(props) {
   }
 
   return (
-    <Button bsStyle="primary">
-      <Glyphicon glyph="play" onClick={dispatch} />
-    </Button>
+    <GlyphButton icon="play" onClick={dispatch} />
   )
 }
 

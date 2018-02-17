@@ -7,6 +7,7 @@ import dotPodcastLogo from '../images/app-icon-dotpodcast-192x192.png';
 import blockstackIcon from '../images/blockstack-app-icon.png';
 import { StyleSheet, css } from 'aphrodite';
 import RibbonSplash from '../components/RibbonSplash';
+import MobileWarning from '../components/MobileWarning';
 
 class LoginSplash extends Component {
   handleLogin() {
@@ -14,19 +15,22 @@ class LoginSplash extends Component {
   }
   render() {
     return (
-      <RibbonSplash>
-        <div className={css(styles.inline)}>
-          <img className={css(styles.appLogo)} src={dotPodcastLogo} alt=""/>
-        </div>
-        <div className={css(styles.inline)}>
-          <h3>DOTPODCAST</h3>
-          <p>
-            Enabling listeners to search, subscribe, and support podcasters without being tracked or censored.
-          </p>
-          <button className={css(styles.loginButton)} onClick={this.handleLogin}>
-            <img className={css(styles.loginIcon)} alt="" src={blockstackIcon}/>Login with Blockstack</button>
-        </div>
-      </RibbonSplash>
+      <div>
+        <MobileWarning />
+        <RibbonSplash>
+          <div className={css(styles.inline)}>
+            <img className={css(styles.appLogo)} src={dotPodcastLogo} alt=""/>
+          </div>
+          <div className={css(styles.inline)}>
+            <h3>DOTPODCAST</h3>
+            <p>
+              Enabling listeners to search, subscribe, and support podcasters without being tracked or censored.
+            </p>
+            <button className={css(styles.loginButton)} onClick={this.handleLogin}>
+              <img className={css(styles.loginIcon)} alt="" src={blockstackIcon}/>Login with Blockstack</button>
+          </div>
+        </RibbonSplash>
+      </div>
     );
   }
 }
