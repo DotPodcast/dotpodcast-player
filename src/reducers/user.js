@@ -4,6 +4,7 @@ export const types = makeTypes([
   'USER_LOGIN_CALLBACK',
   'USER_DETAILS_LOADED',
   'USER_DETAILS_FAILED',
+  'USER_BYPASSED_LOGIN'
 ]);
 
 export const actions = {
@@ -24,9 +25,15 @@ export const actions = {
       error,
     };
   },
+  bypassedLogin: () => {
+    return {
+      type: types.USER_BYPASSED_LOGIN,
+    }
+  }
 };
 
 const defaultState = {
+  anonymous: false,
   loadingUser: false,
   appPrivateKey: '',
   authResponseToken: '',
@@ -55,6 +62,13 @@ const reducer = (state = defaultState, action) => {
         loadingUser: false,
         error: action.error,
       };
+    case types.USER_BYPASSED_LOGIN:
+      return {
+        ...state,
+        anonymous: true,
+        loadingUser: false,
+        error: null
+      }
     default:
       return state;
   }

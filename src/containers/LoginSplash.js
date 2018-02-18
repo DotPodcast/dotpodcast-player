@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
 import {
   redirectToSignIn,
 } from 'blockstack';
+import { actions } from '../reducers/user';
 import dotPodcastLogo from '../images/app-icon-dotpodcast-192x192.png';
 import blockstackIcon from '../images/blockstack-app-icon.png';
 import { StyleSheet, css } from 'aphrodite';
 import RibbonSplash from '../components/RibbonSplash';
 import MobileWarning from '../components/MobileWarning';
 
-class LoginSplash extends Component {
+class LoginSplash extends Component {  
   handleLogin() {
     redirectToSignIn(`${window.location.origin}/callback`);
   }
+
   render() {
+    if (this.props.userIsAnonymous)
+      return (<Redirect to="/"/>)
+    
     return (
       <div>
         <MobileWarning />
@@ -28,6 +34,13 @@ class LoginSplash extends Component {
             </p>
             <button className={css(styles.loginButton)} onClick={this.handleLogin}>
               <img className={css(styles.loginIcon)} alt="" src={blockstackIcon}/>Login with Blockstack</button>
+          </div>
+          <hr/>
+          <div>
+            <span className={css(styles.small)}>
+            We require BlockStack so your data is owned by you and safe from prying eyes. If you would like to browse with limited functionality, 
+            you may <a href="javascript:void(null);" onClick={this.props.bypassLogin}>continue anonymously</a>.
+            </span>
           </div>
         </RibbonSplash>
       </div>
@@ -72,7 +85,23 @@ const styles = StyleSheet.create({
     ':focus': {
       outline: 'none',
     }
-  }
+  },
+  small: { fontSize: '85%' }
 });
 
-export default connect()(LoginSplash);
+const mapStateToProps = state => {
+  return {
+    userIsAnonymous: !!state.user.anonymous
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    bypassLogin: () => {
+      dispatch(actions.bypassedLogin());
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginSplash);
+

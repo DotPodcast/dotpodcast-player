@@ -10,12 +10,20 @@ const BlockstackStorage = {
     }
   },
   getItem: (key) => {
-    return getFile(key, { decrypt: true }).then((data) => {
-      return JSON.parse(data);
-    });
+    try {
+      return getFile(key, { decrypt: true }).then((data) => {
+        return JSON.parse(data);
+      });
+    } catch(e) {
+      return Promise.reject(e);
+    }
   },
   removeItem: (key) => {
-    return deleteFile(key);
+    try {
+      return deleteFile(key);
+    } catch(e) {
+      return Promise.reject(e);
+    }
   },
 };
 

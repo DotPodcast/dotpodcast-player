@@ -52,8 +52,8 @@ class AppRouter extends Component {
 };
 
 const mapStateToProps = state => {
-  return {
-    userLoaded: !!state.user.profile
+  return { 
+    userLoaded: !!state.user.profile || state.user.anonymous
   }
 }
 

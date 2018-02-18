@@ -7,6 +7,11 @@ import {
 } from 'blockstack';
 
 const AuthGate = (props) => {
+  if (props.userIsAnonymous) {
+    // no auth if the user has chosen to be anonymous
+    return props.children;
+  }
+
   if(!isUserSignedIn()) {
     return <Redirect to="/login"/>;
   }
@@ -16,7 +21,8 @@ const AuthGate = (props) => {
 
 const mapStateToProps = state => {
   return {
-    userLoaded: !!state.user.profile
+    userIsAnonymous: !!state.user.anonymous,
+    userLoaded: !!state.user.profile 
   }
 }
 
