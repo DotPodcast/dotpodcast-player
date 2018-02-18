@@ -9,7 +9,6 @@ import dotPodcastLogo from '../images/app-icon-dotpodcast-192x192.png';
 import blockstackIcon from '../images/blockstack-app-icon.png';
 import { StyleSheet, css } from 'aphrodite';
 import RibbonSplash from '../components/RibbonSplash';
-import MobileWarning from '../components/MobileWarning';
 
 class LoginSplash extends Component {  
   handleLogin() {
@@ -22,7 +21,6 @@ class LoginSplash extends Component {
     
     return (
       <div>
-        <MobileWarning />
         <RibbonSplash>
           <div className={css(styles.inline)}>
             <img className={css(styles.appLogo)} src={dotPodcastLogo} alt=""/>
