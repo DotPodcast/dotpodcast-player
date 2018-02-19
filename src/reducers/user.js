@@ -44,6 +44,9 @@ const reducer = (state = defaultState, action) => {
         loadingUser: true,
       };
     case types.USER_DETAILS_LOADED:
+      console.log("USER");
+      console.log(action.data);
+
       return {
         ...state,
         loadingUser: false,
