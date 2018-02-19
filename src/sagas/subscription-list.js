@@ -19,7 +19,7 @@ export function* getSubscriptionList(action) {
 
 export function* addSubscription(action) {
   try {
-    const result = yield call(addSubscriptionInStorage, action.username, action.feedURL);
+    const result = yield call(addSubscriptionInStorage, action.username, action.userPublicKey, action.feedURL);
 
     yield put(actions.addComplete(action.feedURL, result));
   } catch(e) {

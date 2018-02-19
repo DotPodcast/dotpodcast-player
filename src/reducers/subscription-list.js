@@ -31,10 +31,11 @@ export const actions = {
       error
     }
   },
-  addRequested: (username, feedURL) => {
+  addRequested: (username, userPublicKey, feedURL) => {
     return {
       type: types.SUBSCRIPTIONS_ADD_REQUESTED,
       username,
+      userPublicKey,
       feedURL
     }
   },
