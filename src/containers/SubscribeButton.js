@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { actions } from '../reducers/subscription-list';
+import { anonymousSubscribeAlert } from '../utils/alerts'
 
 class SubscribeButton extends Component {
   render() {
@@ -29,6 +30,11 @@ class SubscribeButton extends Component {
   }
 
   subscribe = () => {
+    if (this.props.userIsAnonymous) {
+      anonymousSubscribeAlert();
+      return
+    }
+
     this.props.addPodcast(
       this.props.username,
       this.props.podcast.meta_url
@@ -39,6 +45,7 @@ class SubscribeButton extends Component {
 const mapStateToProps = state => {
   return {
     username: state.user.username,
+    userIsAnonymous: state.user.anonymous,
     error: state.subscriptionList.error,
     feedURL: state.subscriptionList.feedURL,
     requesting: state.subscriptionList.requesting,
