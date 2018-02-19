@@ -29,7 +29,7 @@ class Callback extends Component {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: isUserSignedIn(),
+    isAuthenticated: !!state.user.publicKey && isUserSignedIn(),
   }
 }
 

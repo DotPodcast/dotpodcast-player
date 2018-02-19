@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     searchText: state.search.text,
-    isAuthenticated: isUserSignedIn(),
+    isAuthenticated: !!state.user.publicKey && isUserSignedIn(),
   }
 }
 const mapDispatchToProps = dispatch => {
