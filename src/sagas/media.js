@@ -6,7 +6,7 @@ import { actions as playerActions } from '../reducers/player';
 
 export function* getMediaUrl(action) {
   try {
-    const result = yield call(getMediaUrlFromFeed, action.username, action.podcast, action.episode);
+    const result = yield call(getMediaUrlFromFeed, action.username, action.userPublicKey, action.podcast, action.episode);
     yield put(
       mediaActions.mediaRetrieved(
         action.username,

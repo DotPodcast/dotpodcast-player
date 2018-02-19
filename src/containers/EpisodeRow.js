@@ -20,7 +20,7 @@ class EpisodeRow extends Component {
     if (this.props.userIsAnonymous) {
       anonymousPlayAlert();
     }
-    this.props.requestMedia(username, podcast, episode);
+    this.props.requestMedia(username, this.props.userPublicKey, podcast, episode);
   }
 
   render() {
@@ -87,15 +87,16 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     userIsAnonymous: state.user.anonymous,
-    username: state.user.username
+    username: state.user.username,
+    userPublicKey: state.user.publicKey,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    requestMedia: (username, podcast, episode) => {
+    requestMedia: (username, userPublicKey, podcast, episode) => {
       dispatch(
-        actions.mediaRequested(username, podcast, episode)
+        actions.mediaRequested(username, userPublicKey, podcast, episode)
       );
     }
   }

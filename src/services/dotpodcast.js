@@ -45,7 +45,7 @@ const subscribe = (username, userPublicKey, endpoint, preview = false) => {
   ).then(response => response.data)
 }
 
-const getMediaUrl = (username, podcast, episode) => {
+const getMediaUrl = (username, userPublicKey, podcast, episode) => {
   const makeToken = (subscriberToken, subscriberSecret) => {
     const now = new Date().getTime();
 
@@ -83,7 +83,7 @@ const getMediaUrl = (username, podcast, episode) => {
         )
       }
 
-      return subscribe(username, podcast.subscription_url, true).then(
+      return subscribe(username, userPublicKey, podcast.subscription_url, true).then(
         subscription => download(
           subscription.preview_token,
           subscription.preview_secret
