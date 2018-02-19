@@ -8,17 +8,15 @@ import moment from 'moment';
 
 
 class EpisodeRow extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleMediaRequest = this.handleMediaRequest.bind(this);
+  constructor() {
+    super();
 
     this.state = {
       hovering: false,
     };
   }
 
-  handleMediaRequest(username, podcast, episode) {
+  handleMediaRequest = (username, podcast, episode) => {
     if (this.props.userIsAnonymous) {
       anonymousPlayAlert(this.props.userIsAnonymous);
     }
