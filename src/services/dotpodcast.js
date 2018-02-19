@@ -19,7 +19,7 @@ const getEpisodeList = url => {
   );
 }
 
-const subscribe = (username, endpoint, preview = false) => {
+const subscribe = (username, userPublicKey, endpoint, preview = false) => {
   if(preview) {
     return axios.post(
       endpoint,
@@ -40,7 +40,7 @@ const subscribe = (username, endpoint, preview = false) => {
       app_logo: APP_LOGO,
       token_kind: 'download',
       activity: 'subscribe',
-      subscriber_hash: md5(username)
+      subscriber_hash: md5(userPublicKey)
     }
   ).then(response => response.data)
 }
