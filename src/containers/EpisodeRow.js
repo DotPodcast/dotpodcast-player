@@ -18,7 +18,7 @@ class EpisodeRow extends Component {
 
   handleMediaRequest = (username, podcast, episode) => {
     if (this.props.userIsAnonymous) {
-      anonymousPlayAlert(this.props.userIsAnonymous);
+      anonymousPlayAlert();
     }
     this.props.requestMedia(username, podcast, episode);
   }
