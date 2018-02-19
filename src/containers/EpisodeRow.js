@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MiniPlayButton from '../components/MiniPlayButton';
+import { anonymousPlayAlert } from '../utils/alerts'
 import { actions } from '../reducers/media';
 import { connect } from 'react-redux';
 import { StyleSheet, css } from 'aphrodite';
@@ -14,6 +15,14 @@ class EpisodeRow extends Component {
       hovering: false,
     };
   }
+
+  handleMediaRequest = (username, podcast, episode) => {
+    if (this.props.userIsAnonymous) {
+      anonymousPlayAlert();
+    }
+    this.props.requestMedia(username, this.props.userPublicKey, podcast, episode);
+  }
+
   render() {
     let durationText = '';
     if(this.props.episode.content_audio) {
@@ -31,7 +40,7 @@ class EpisodeRow extends Component {
               url={this.props.episode.content_audio.url}
               podcast={this.props.podcast}
               episode={this.props.episode}
-              action={this.props.requestMedia}
+              action={this.handleMediaRequest}
             />
           </div>
         </td>
@@ -77,15 +86,17 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    username: state.user.username
+    userIsAnonymous: state.user.anonymous,
+    username: state.user.username,
+    userPublicKey: state.user.publicKey,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    requestMedia: (username, podcast, episode) => {
+    requestMedia: (username, userPublicKey, podcast, episode) => {
       dispatch(
-        actions.mediaRequested(username, podcast, episode)
+        actions.mediaRequested(username, userPublicKey, podcast, episode)
       );
     }
   }

@@ -3,14 +3,12 @@ import { connect } from 'react-redux';
 import { StyleSheet, css } from 'aphrodite';
 import Header from '../components/Header';
 import FooterPlayer from '../containers/Player';
-import MobileWarning from '../components/MobileWarning';
 
 class Layout extends Component {
   render() {
     return (
       <div className={css(styles.layoutContainer, !!this.props.itemToPlay && styles.playerActive)}>
         <Header />
-        <MobileWarning />
 
         {this.props.children}
 

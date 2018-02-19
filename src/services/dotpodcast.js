@@ -19,7 +19,7 @@ const getEpisodeList = url => {
   );
 }
 
-const subscribe = (username, endpoint, preview = false) => {
+const subscribe = (username, userPublicKey, endpoint, preview = false) => {
   if(preview) {
     return axios.post(
       endpoint,
@@ -40,12 +40,12 @@ const subscribe = (username, endpoint, preview = false) => {
       app_logo: APP_LOGO,
       token_kind: 'download',
       activity: 'subscribe',
-      subscriber_hash: md5(username)
+      subscriber_hash: md5(userPublicKey)
     }
   ).then(response => response.data)
 }
 
-const getMediaUrl = (username, podcast, episode) => {
+const getMediaUrl = (username, userPublicKey, podcast, episode) => {
   const makeToken = (subscriberToken, subscriberSecret) => {
     const now = new Date().getTime();
 
@@ -83,7 +83,7 @@ const getMediaUrl = (username, podcast, episode) => {
         )
       }
 
-      return subscribe(username, podcast.subscription_url, true).then(
+      return subscribe(username, userPublicKey, podcast.subscription_url, true).then(
         subscription => download(
           subscription.preview_token,
           subscription.preview_secret

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Navbar, Nav, NavItem, FormGroup, FormControl } from 'react-bootstrap';
 import logo from '../images/web-logo-dark.png';
 import { StyleSheet, css } from 'aphrodite';
@@ -18,9 +19,9 @@ class Header extends Component {
       <Navbar className={css(styles.header)} fluid inverse fixedTop>
         <Navbar.Header>
           <Navbar.Brand className={css(styles.icon)}>
-            <a href="/">
+            <Link to="/">
               <img src={logo} alt="Logo" />
-            </a>
+            </Link>
           </Navbar.Brand>
         </Navbar.Header>
         <Navbar.Collapse>
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     searchText: state.search.text,
-    isAuthenticated: !!state.user.username && isUserSignedIn(),
+    isAuthenticated: !!state.user.publicKey && isUserSignedIn(),
   }
 }
 const mapDispatchToProps = dispatch => {
