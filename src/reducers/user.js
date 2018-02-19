@@ -1,4 +1,5 @@
 import makeTypes from '../utils/makeTypes';
+import { decodeToken } from 'jsontokens'
 
 export const types = makeTypes([
   'USER_LOGIN_CALLBACK',
@@ -36,6 +37,7 @@ const defaultState = {
   anonymous: false,
   loadingUser: false,
   appPrivateKey: '',
+  publicKey: '',
   authResponseToken: '',
   hubUrl: '',
   coreSessionToken: null,
@@ -55,6 +57,7 @@ const reducer = (state = defaultState, action) => {
         ...state,
         loadingUser: false,
         ...action.data,
+        publicKey: decodeToken(action.data.authResponseToken).payload.public_keys[0]
       };
     case types.USER_DETAILS_FAILED:
       return {

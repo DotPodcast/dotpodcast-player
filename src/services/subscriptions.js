@@ -58,7 +58,7 @@ const saveSubscription = (username, id, feed) => {
   )
 }
 
-const addSubscription = async (username, url) => {
+const addSubscription = async (username, userPublicKey, url) => {
   // Record a new subscription against a podcast's meta feed URL
 
   // Start off by getting the most up-to-date metadata for the feed,
@@ -115,7 +115,7 @@ const addSubscription = async (username, url) => {
   // The user is not already subscribed
 
   // Register the subscription with the hosting company
-  const response = await registerSubscription(username, feed.data.subscription_url)
+  const response = await registerSubscription(username, userPublicKey, feed.data.subscription_url)
 
   const id = Guid.create().value // Create a new ID for the subscription
 

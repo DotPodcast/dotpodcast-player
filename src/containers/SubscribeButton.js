@@ -37,6 +37,7 @@ class SubscribeButton extends Component {
 
     this.props.addPodcast(
       this.props.username,
+      this.props.userPublicKey,
       this.props.podcast.meta_url
     );
   }
@@ -46,6 +47,7 @@ const mapStateToProps = state => {
   return {
     username: state.user.username,
     userIsAnonymous: state.user.anonymous,
+    userPublicKey: state.user.publicKey,
     error: state.subscriptionList.error,
     feedURL: state.subscriptionList.feedURL,
     requesting: state.subscriptionList.requesting,
@@ -55,8 +57,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addPodcast: (username, feedURL) => {
-      dispatch(actions.addRequested(username, feedURL));
+    addPodcast: (username, userPublicKey, feedURL) => {
+      dispatch(actions.addRequested(username, userPublicKey, feedURL));
     }
   }
 }
