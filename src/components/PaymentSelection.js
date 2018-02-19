@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import Dropdown from './Dropdown';
 import QRCode from 'qrcode.react';
 import { Modal } from 'react-bootstrap';
+import RadioGroup from './RadioGroup';
+import exchangeRatesService from '../services/exchange-rate';
 
 const paymentMethods = {
   bitcoin: {
@@ -17,31 +18,54 @@ const paymentMethods = {
   bitcoinCash: {
     key: 'bitcoinCash',
     humanReadable: 'Bitcoin Cash',
-    currency: 'BCC',
+    currency: 'BCH',
     // icon: bitcoinIcon,
     uriGenerator: (address, amount) => {
       return `bitcoincash:${address}?amount=${amount}`
     },
   },
+  ethereum: {
+    key: 'ethereum',
+    humanReadable: 'Ethereum',
+    currency: 'ETH',
+    // icon: bitcoinIcon,
+    uriGenerator: (address, amount) => {
+      return `ethereum:${address}?value=${amount}`
+    },
+  },
 };
 
+const niceList = (list) => {
+  return list.concat(list.splice(-2, 2).join(' and ')).join(', ');
+}
+
 class PaymentSelection extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
+    const availableMethods = this.getPaymentOptions(props);
+
     this.state = {
-      selectedMethod: '',
-      amount: '',
+      availableMethods,
+      selectedMethod: availableMethods.length > 1 ? '' : availableMethods[0].currency,
+      selectedAmount: 0,
+      rates: {},
     };
+  }
+
+  componentDidMount() {
+    exchangeRatesService.getRates(this.state.availableMethods.map((method) => method.currency)).then((rates) => {
+      this.setState({rates});
+    });
   }
 
   getPaymentOptions(props) {
     const acceptedMethods = [];
-    if('bitcoin' in props) {
-      acceptedMethods.push({ ...paymentMethods.bitcoin, address: props.bitcoin });
-    }
-    if('bitcoinCash' in props) {
-      acceptedMethods.push({ ...paymentMethods.bitcoinCash, address: props.bitcoinCash });
-    }
+    Object.keys(paymentMethods).forEach((method) => {
+      if(method in props) {
+        acceptedMethods.push({ ...paymentMethods[method], address: props[paymentMethods[method].key]});
+      }
+    });
 
     return acceptedMethods;
   }
@@ -49,55 +73,110 @@ class PaymentSelection extends Component {
   renderAmountPrompt() {
     return (
       <div>
-        How much would you like to pay? <input onChange={(e) => this.setState({amount: e.target.value})} /> {paymentMethods[this.state.selectedMethod].currency}
+        <RadioGroup
+          size={60}
+          options={[{ value: 2, label: '$2' }, { value: 5, label: '$5' }, { value: 8, label: '$8' }]}
+          onChange={(value) => this.setState({selectedAmount: value})}/>
       </div>
     );
   }
 
   renderPayment() {
-    if(this.state.selectedMethod === 'bitcoin') {
-      return this.renderBitcoinPayment()
-    } else if(this.state.selectedMethod === 'bitcoin') {
-      return this.renderBitcoinCashPayment()
+    let amount;
+
+    let content;
+
+    if(this.state.rates[this.state.selectedMethod]) {
+      amount = this.state.selectedAmount * this.state.rates[this.state.selectedMethod];
     }
+    if(this.state.selectedMethod === 'BTC') {
+      content = this.renderBitcoinPayment(amount);
+    } else if(this.state.selectedMethod === 'BCH') {
+      content = this.renderBitcoinCashPayment(amount);
+    } else if(this.state.selectedMethod === 'ZEC') {
+      content = this.renderZcashPayment(amount);
+    } else if(this.state.selectedMethod === 'ETH') {
+      content = this.renderEthereumPayment(amount);
+    }
+    return (
+      <div>
+        {content}
+        <div className={css(styles.disclaimer)}>
+          Conversion rates are approximate and provided by <a href="https://www.cryptocompare.com/" rel="noopener noreferrer" target="_blank">CryptoCompare</a>
+        </div>
+      </div>);
   }
-  renderBitcoinPayment() {
-    const uri = paymentMethods.bitcoin.uriGenerator(this.props.bitcoin, this.state.amount);
+  renderBitcoinPayment(amount) {
+    const uri = paymentMethods.bitcoin.uriGenerator(this.props.bitcoin, amount);
     return (
       <div className={css(styles.paymentContainer)}>
         <div className={css(styles.qrContainer)}>
-          <QRCode value={uri} />
+          <QRCode value={uri} size={256} level='M'/>
         </div>
         <a href={uri}>Or click here to use your native wallet app</a>
       </div>
     )
   }
 
-  renderBitcoinCashPayment() {
+  renderBitcoinCashPayment(amount) {
+    const uri = paymentMethods.bitcoinCash.uriGenerator(this.props.bitcoinCash, amount);
     return (
-      <a href={paymentMethods.bitcoin.uriGenerator(this.props.bitcoin, this.state.amount)}>Click here to use your native wallet app</a>
+      <div className={css(styles.paymentContainer)}>
+        <div className={css(styles.qrContainer)}>
+          <QRCode value={uri} size={256} level='M'/>
+        </div>
+        <a href={uri}>Click here to use your native wallet app</a>
+      </div>
     )
   }
 
-  render() {
-    const paymentOptions = this.getPaymentOptions(this.props);
+  renderZcashPayment(amount) {
+    const uri = paymentMethods.zcash.uriGenerator(this.props.zcash, amount);
     return (
-      <Modal show={this.props.show}>
+      <div className={css(styles.paymentContainer)}>
+        <div className={css(styles.qrContainer)}>
+          <QRCode value={uri} size={256} level='M'/>
+        </div>
+        <a href={uri}>Click here to use your native wallet app</a>
+      </div>
+    )
+  }
+
+  renderEthereumPayment(amount) {
+    const uri = paymentMethods.ethereum.uriGenerator(this.props.ethereum, amount);
+    return (
+      <div className={css(styles.paymentContainer)}>
+        <div className={css(styles.qrContainer)}>
+          <QRCode value={uri} size={256} level='M'/>
+        </div>
+        <a href={uri}>Click here to use your native wallet app</a>
+      </div>
+    )
+  }
+
+  renderMethodPrompt() {
+    return (
+      <div>
+        <RadioGroup
+          size={45}
+          options={this.state.availableMethods.map(o => ({value: o.currency, label: o.currency}))}
+          onChange={(value) => this.setState({selectedMethod: value})}/>
+      </div>
+    );
+
+  }
+
+  render() {
+    return (
+      <Modal show={this.props.show} onHide={this.props.onHide}>
         <Modal.Body>
           <div className={css(styles.container)}>
-            <p>
-              This podcast accepts payments in the form of {paymentOptions.map(o => o.humanReadable).join(', ')}.
+            <p style={{textAlign: 'center'}}>
+              This podcast accepts payments in the form of {niceList(this.state.availableMethods.map(o => o.humanReadable))}.
             </p>
-            <div>
-              How would you like to pay?
-              <Dropdown
-                options={paymentOptions.map(o => ({value: o.key, text: o.humanReadable}))}
-                value={this.state.selectedMethod}
-                onChange={val => this.setState({selectedMethod: val})}
-              />
-            </div>
-            {this.state.selectedMethod && this.renderAmountPrompt()}
-            {this.state.selectedMethod && this.state.amount && this.renderPayment()}
+            {this.renderAmountPrompt()}
+            {!!this.state.selectedAmount && this.state.availableMethods.length > 1 && this.renderMethodPrompt()}
+            {!!this.state.selectedAmount && this.state.selectedMethod && this.renderPayment()}
           </div>
         </Modal.Body>
       </Modal>
@@ -117,6 +196,11 @@ const styles = StyleSheet.create({
   qrContainer: {
     marginBottom: 20,
   },
+  disclaimer: {
+    marginTop: 25,
+    textAlign: 'center',
+    fontStyle: 'italic',
+  }
 });
 
 export default PaymentSelection;

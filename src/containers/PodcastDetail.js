@@ -5,6 +5,7 @@ import { actions } from '../reducers/podcast-detail';
 import { StyleSheet, css } from 'aphrodite';
 import EpisodeList from './EpisodeList';
 import SubscriptionChoice from './SubscriptionChoice';
+import TipButton from '../components/TipButton';
 
 class PodcastDetail extends Component {
   state = {};
@@ -32,23 +33,23 @@ class PodcastDetail extends Component {
 
     const podcast = this.props.detail.podcast;
     return (
-            <Grid>
-            <div className={css(styles.headerContainer)}>
-            <div className={css(styles.imageContainer)}>
+      <Grid>
+        <div className={css(styles.headerContainer)}>
+          <div className={css(styles.imageContainer)}>
             <img className={css(styles.artwork)} src={podcast.artwork['@2x']} alt='Podcast artwork' />
-            </div>
-            <div className={css(styles.detailContainer)}>
+          </div>
+          <div className={css(styles.detailContainer)}>
             <div className={css(styles.title)}>{podcast.title}</div>
             <div className={css(styles.author)}>{podcast.author.name}</div>
             <div><a href={podcast.home_page_url} target="_blank">{podcast.home_page_url}</a></div>
+            <TipButton ethereum='0x7cB57B5A97eAbe94205C07890BE4c1aD31E486A8' bitcoinCash='asdf' bitcoin='1PM9pbqiaeHk6ujgpkjdFPCPHKE4UHj7UD' />
             <p className={css(styles.description)}>{podcast.description_text}</p>
             <SubscriptionChoice podcast={podcast} />
-            </div>
-            </div>
-            <EpisodeList podcast={podcast} />
-            </Grid>
+          </div>
+        </div>
+        <EpisodeList podcast={podcast} />
+      </Grid>
     );
-
   }
 }
 
