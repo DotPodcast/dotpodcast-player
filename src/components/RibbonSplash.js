@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     boxShadow: '0 0 17px #6d6d6d',
   },
   content: {
+    margin: '10px',
     textAlign: 'left',
     display: 'inline-block',
     fontFamily: defaultFonts,

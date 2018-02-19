@@ -11,7 +11,11 @@ const getSubscriptionList = (username) => {
   // Return the list of subscribed podcasts from the index file.
   // The returned JSON is a dict, keyed by subscription ID, containing
   // enough info to render a simple list of subscribed podcasts
-
+  
+  if (!username) {
+    return Promise.resolve(() => [])
+  }
+  
   return getFile(
     INDEX_FILENAME,
     {
