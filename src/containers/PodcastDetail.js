@@ -42,7 +42,9 @@ class PodcastDetail extends Component {
             <div className={css(styles.title)}>{podcast.title}</div>
             <div className={css(styles.author)}>{podcast.author.name}</div>
             <div><a href={podcast.home_page_url} target="_blank">{podcast.home_page_url}</a></div>
-            <TipButton ethereum='0x7cB57B5A97eAbe94205C07890BE4c1aD31E486A8' bitcoinCash='asdf' bitcoin='1PM9pbqiaeHk6ujgpkjdFPCPHKE4UHj7UD' />
+            {(podcast.ethereumAddress || podcast.bitcoinCashAddress || podcast.bitcoinAddress) &&
+              <TipButton ethereum={podcast.ethereumAddress} bitcoinCash={podcast.bitcoinCashAddress} bitcoin={podcast.bitcoinAddress} />
+            }
             <p className={css(styles.description)}>{podcast.description_text}</p>
             <SubscriptionChoice podcast={podcast} />
           </div>
