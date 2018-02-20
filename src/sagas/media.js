@@ -21,7 +21,11 @@ export function* getMediaUrl(action) {
 }
 
 export function* playMedia(action) {
-  yield put(playerActions.playUrl(action.content.url));
+  console.log("play media action");
+  console.log(action);
+  yield put(playerActions.playUrl(
+    action.content.url, action.podcast.title, action.episode.title, action.podcast.artwork['@1x'])
+  );
 
   yield put(
     mediaActions.mediaPlaying(

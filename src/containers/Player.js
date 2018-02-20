@@ -25,8 +25,8 @@ class Player extends Component {
   }
 
   render() {
-    const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate } = this.props.player;
-
+    const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate, trackMetadata } = this.props.player;
+    
     if(loaded) {
         console.debug('Duration', duration);
     }
@@ -46,6 +46,7 @@ class Player extends Component {
             onProgress={this.props.updateProgress}
           />
           <Col xs={3}>
+            <img src={trackMetadata.image_url} width="56" height="56"></img>
           </Col>
           <Col xs={6}>
             <ButtonRow>

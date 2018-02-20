@@ -7,10 +7,13 @@ export const types = makeTypes([
 ]);
 
 export const actions = {
-  playUrl: (url) => {
+  playUrl: (url, title, episode, image_url) => {
     return {
       type: types.PLAY_URL,
-      url
+      url,
+      title,
+      episode,
+      image_url
     }
   },
   setPlaying: (isPlaying) => {
@@ -39,8 +42,8 @@ const defaultState = {
   loop: false,
   trackMetadata: {
     title: '',
-    podcast: '',
-    image: '',
+    episode: '',
+    image_url: '',
   },
 };
 
@@ -50,6 +53,11 @@ const player = (state = defaultState, action) => {
       return {
         ...state,
         url: action.url,
+        trackMetadata: {
+          title: action.title,
+          episode: action.episode,
+          image_url: action.image_url
+        },
         played: 0,
         loaded: 0,
         playing: true
