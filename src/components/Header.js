@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ProtocolPrompt from '../components/ProtocolPrompt';
 import { Navbar, Nav, NavItem, FormGroup, FormControl } from 'react-bootstrap';
 import logo from '../images/web-logo-dark.png';
 import { StyleSheet, css } from 'aphrodite';
@@ -15,33 +16,36 @@ class Header extends Component {
   }
   render() {
     return (
-      <Navbar className={css(styles.header)} fluid inverse fixedTop>
-        <Navbar.Header>
-          <Navbar.Brand className={css(styles.icon)}>
-            <a href="/">
-              <img src={logo} alt="Logo" />
-            </a>
-          </Navbar.Brand>
-        </Navbar.Header>
-        <Navbar.Collapse>
-          {this.props.isAuthenticated && <Nav pullRight>
-            <NavItem onClick={this.handleLogout}>Log Out</NavItem>
-          </Nav>}
-          <Nav pullRight>
-            <Navbar.Form>
-              <FormGroup>
-                <FormControl
-                  className={css(styles.searchInput)}
-                  type="text"
-                  placeholder="Search"
-                  value={this.props.searchText}
-                  onInput={(evt) => this.props.updateSearch(evt.target.value)}
-                />
-              </FormGroup>
-            </Navbar.Form>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+      <div>
+        <Navbar className={css(styles.header)} fluid inverse fixedTop>
+          <Navbar.Header>
+            <Navbar.Brand className={css(styles.icon)}>
+              <a href="/">
+                <img src={logo} alt="Logo" />
+              </a>
+            </Navbar.Brand>
+          </Navbar.Header>
+          <Navbar.Collapse>
+            {this.props.isAuthenticated && <Nav pullRight>
+              <NavItem onClick={this.handleLogout}>Log Out</NavItem>
+            </Nav>}
+            <Nav pullRight>
+              <Navbar.Form>
+                <FormGroup>
+                  <FormControl
+                    className={css(styles.searchInput)}
+                    type="text"
+                    placeholder="Search"
+                    value={this.props.searchText}
+                    onInput={(evt) => this.props.updateSearch(evt.target.value)}
+                  />
+                </FormGroup>
+              </Navbar.Form>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+        <ProtocolPrompt />
+      </div>
     );
   }
 };
