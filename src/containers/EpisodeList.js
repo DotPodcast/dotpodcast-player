@@ -61,7 +61,6 @@ const mapStateToProps = state => {
   return {
     episodes: state.episodeList.episodes,
     requesting: state.episodeList.requesting,
-    podcast: state.podcastDetail.podcast,
     error: state.episodeList.error
   }
 }

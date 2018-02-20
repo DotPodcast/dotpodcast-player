@@ -14,6 +14,7 @@ class EpisodeRow extends Component {
       hovering: false,
     };
   }
+
   render() {
     let durationText = '';
     if(this.props.episode.content_audio) {
