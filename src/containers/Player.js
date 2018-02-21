@@ -9,6 +9,7 @@ import { StyleSheet, css } from 'aphrodite';
 import ButtonRow from '../components/ButtonRow';
 import PlayButton from '../components/PlayButton';
 import GlyphButton from '../components/GlyphButton';
+import VolumeControl from '../components/VolumeControl';
 
 class Player extends Component {
   ref = (player) => {
@@ -42,7 +43,7 @@ class Player extends Component {
             muted={muted}
             loop={loop}
             ref={this.ref}
-            onProgress={this.props.updateProgress}
+            onProgress={(progress) => !this.props.player.seeking && this.props.updateProgress(progress)}
             onDuration={this.props.setDuration}
           />
           <Col xs={3}>
@@ -53,8 +54,28 @@ class Player extends Component {
               <PlayButton playing={playing} onClick={() => this.props.setPlaying(!playing)} />
               <GlyphButton icon="step-forward" onClick={this.forwardTen} />
             </ButtonRow>
-            <ProgressSeeker max={1} value={played} playedSeconds={toReadableTime(playedSeconds)} duration={toReadableTime(duration)}/>
+            <div className={css(styles.progressContainer)}>
+              <ProgressSeeker
+                max={1}
+                value={played}
+                knobShowing={true}
+                beforeValue={toReadableTime(duration * played)}
+                afterValue={toReadableTime(duration)}
+                onStartChange={() => this.props.setSeeking(true)}
+                onChange={(val) => this.props.setPosition(val)}
+                onCompleteChange={(val) => {
+                  this.props.setSeeking(false);
+                  this.player.seekTo(val);
+                }}
+              />
+            </div>
           </Col>
+          <VolumeControl
+            volume={volume}
+            muted={muted}
+            onMuteToggle={() => this.props.setMuteValue(!muted)}
+            onVolumeChange={(volume) => this.props.setVolume(volume)}
+          />
           <Col xs={3}>
           </Col>
         </Row>
@@ -83,7 +104,10 @@ const styles = StyleSheet.create({
     color: '#aaa',
     borderRadius: 15,
     outline: 'none'
-  }
+  },
+  progressContainer: {
+    paddingTop: 16,
+  },
 })
 
 const mapStateToProps = (state) => {
@@ -93,9 +117,13 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    setMuteValue: (newMuteValue) => dispatch(actions.setMuteValue(newMuteValue)),
+    setVolume: (volume) => dispatch(actions.setVolume(volume)),
     setPlaying: (isPlaying) => dispatch(actions.setPlaying(isPlaying)),
     setDuration: (duration) => dispatch(actions.setDuration(duration)),
-    updateProgress: (progress) => dispatch(actions.updateProgress(progress))
+    updateProgress: (progress) => dispatch(actions.updateProgress(progress)),
+    setSeeking: (seeking) => dispatch(actions.setSeeking(seeking)),
+    setPosition: (position) => dispatch(actions.setPosition(position)),
   };
 };
 
