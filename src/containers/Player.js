@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
+import { toReadableTime } from '../utils/time';
 import ReactPlayer from 'react-player';
 import { actions } from '../reducers/player';
 import ProgressSeeker from '../components/ProgressSeeker';
@@ -25,11 +26,9 @@ class Player extends Component {
   }
 
   render() {
-    const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate } = this.props.player;
+    const { url, playing, volume, muted, loop, played, playedSeconds, loaded, duration, playbackRate } = this.props.player;
 
-    if(loaded) {
-        console.debug('Duration', duration);
-    }
+    const displayDuration = toReadableTime(duration * 1000);
 
     return (
       <div className={css(styles.footerPlayer, this.props.active && styles.footerPlayerActive)}>
@@ -44,6 +43,7 @@ class Player extends Component {
             loop={loop}
             ref={this.ref}
             onProgress={this.props.updateProgress}
+            onDuration={this.props.setDuration}
           />
           <Col xs={3}>
           </Col>
@@ -53,7 +53,7 @@ class Player extends Component {
               <PlayButton playing={playing} onClick={() => this.props.setPlaying(!playing)} />
               <GlyphButton icon="step-forward" onClick={this.forwardTen} />
             </ButtonRow>
-            <ProgressSeeker max={1} value={played} />
+            <ProgressSeeker max={1} value={played} playedSeconds={toReadableTime(playedSeconds)} duration={toReadableTime(duration)}/>
           </Col>
           <Col xs={3}>
           </Col>
@@ -94,6 +94,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setPlaying: (isPlaying) => dispatch(actions.setPlaying(isPlaying)),
+    setDuration: (duration) => dispatch(actions.setDuration(duration)),
     updateProgress: (progress) => dispatch(actions.updateProgress(progress))
   };
 };
