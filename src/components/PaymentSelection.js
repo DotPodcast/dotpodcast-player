@@ -4,6 +4,7 @@ import QRCode from 'qrcode.react';
 import { Modal } from 'react-bootstrap';
 import RadioGroup from './RadioGroup';
 import exchangeRatesService from '../services/exchange-rate';
+import noPayment from '../images/no-payment.jpg';
 
 const paymentMethods = {
   bitcoin: {
@@ -67,6 +68,10 @@ class PaymentSelection extends Component {
       }
     });
 
+    if(acceptedMethods.length === 0 && props.placeholder === true) {
+      acceptedMethods.push({ ...paymentMethods.bitcoin });
+    }
+
     return acceptedMethods;
   }
 
@@ -85,6 +90,10 @@ class PaymentSelection extends Component {
     let amount;
 
     let content;
+
+    if(this.props.placeholder) {
+      return this.renderPaymentPlaceholder(this.state.selectedAmount);
+    }
 
     if(this.state.rates[this.state.selectedMethod]) {
       amount = this.state.selectedAmount * this.state.rates[this.state.selectedMethod];
@@ -154,6 +163,30 @@ class PaymentSelection extends Component {
     )
   }
 
+  generateEmailLink() {
+    let subject = `$${this.state.selectedAmount} donation for ${this.props.podcastName}`
+    let toAddress = this.props.podcastEmail;
+    let ccAddress = 'info@dotpodcast.co';
+    let body = `Hey there!
+
+I love your podcast and I just tried to donate $${this.state.selectedAmount} to you through the DotPodcast App (http://player.dotpodcast.co/),
+ but you don't have any payment methods set up yet. If you want to start accepting payments through the DotPodcast App, send an email to Bill
+ and Jonathan at info@dotpodcast.co for help!`
+    return `mailto:${toAddress}?subject=${subject}&cc=${ccAddress}&body=${body}`;
+  }
+
+  renderPaymentPlaceholder(amount) {
+    return (
+      <div className={css(styles.paymentContainer)}>
+        <div className={css(styles.qrContainer)}>
+          <img src={noPayment} />
+        </div>
+        <p> Whoops! Looks like this podcaster hasn't set up any payment methods yet.</p>
+        <p> <a href={this.generateEmailLink()} target="_blank">Send them an email</a> letting them know you just tried to pay them ${amount}.</p>
+      </div>
+    )
+  }
+
   renderMethodPrompt() {
     return (
       <div>
@@ -165,6 +198,7 @@ class PaymentSelection extends Component {
     );
 
   }
+
 
   render() {
     return (
