@@ -43,12 +43,9 @@ class Header extends Component {
           </Navbar.Form>
         </Nav>
         <Navbar.Collapse>
-          
           {this.props.isAuthenticated && <Nav>
-            <NavItem><Link to="/" className={css(styles.link)}>Home</Link></NavItem>
-          </Nav>}
-          {this.props.isAuthenticated && <Nav>
-            <NavItem onClick={this.handleLogout}>Log Out</NavItem>
+              <NavItem componentClass={Link} href="/" to="/" active={window.location.pathname === '/'}>Home</NavItem>
+              <NavItem onClick={this.handleLogout}>Log Out</NavItem>
           </Nav>}
           {!this.props.isAuthenticated && <Nav>
             <NavItem onClick={this.handleLogin}>Login</NavItem>
