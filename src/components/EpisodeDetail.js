@@ -4,7 +4,7 @@ import { StyleSheet, css } from 'aphrodite';
 const EpisodeDetail = (props) => {
   return (
     <div className={css(styles.episodeDetail, props.active && styles.episodeDetailActive)}>
-      {props.children}
+      <div className={css(styles.inner)}>{props.children}</div>
     </div>
   );
 };
@@ -12,7 +12,6 @@ const EpisodeDetail = (props) => {
 const styles = StyleSheet.create({
   episodeDetail: {
     position: 'fixed',
-    padding: 20,
     backgroundColor: '#222',
     transition: '.2s',
     zIndex: 10,
@@ -29,6 +28,14 @@ const styles = StyleSheet.create({
   episodeDetailActive: {
     bottom: 100,
     boxShadow: '0 0 10px black'
+  },
+  inner: {
+    padding: 20,
+    '@media (min-width: 720px)': {
+      overflowY: 'scroll',
+      height: 'calc(100vh - 504px)',
+      position: 'relative'
+    }
   }
 });
 

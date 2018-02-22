@@ -136,19 +136,23 @@ const styles = StyleSheet.create({
   meta: {
     float: 'left',
     width: '25%',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    display: 'flex'
   },
   playerMeta: {
-    display: 'none',
-    float: 'left',
-    marginLeft: 10,
-    transition: '.2s',
-    '@media (min-width: 960px)': {
-      display: 'block'
+    order: 1,
+    paddingLeft: 10,
+    transition: '.4s',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    maxHeight: 56,
+    '@media (max-width: 959px)': {
+      display: 'none'
     }
   },
   hiddenMeta: {
-    transform: 'translate(0, -40vw) scale(2, 2)',
+    transform: 'translate(0, -100vh) scale(2, 2)',
     opacity: 0
   },
   artwork: {
@@ -158,8 +162,8 @@ const styles = StyleSheet.create({
     transitionDelay: '.1s',
     width: 56,
     height: 56,
-    display: 'block',
-    float: 'left'
+    display: 'table-cell',
+    order: 1
   },
   largerArtwork: {
     '@media (min-width: 720px)': {
