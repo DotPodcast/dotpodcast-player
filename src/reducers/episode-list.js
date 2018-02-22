@@ -28,7 +28,7 @@ export const actions = {
 }
 
 const defaultState = {
-  episodes: null,
+  episodes: [],
   paginator: null,
   requesting: false,
   error: null
@@ -45,7 +45,7 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         requesting: false,
-        episodes: action.results.items,
+        episodes: [...state.episodes, ...action.results.items],
         paginator: action.results.meta
       };
     case types.EPISODES_ERROR:
