@@ -7,6 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { ConnectedRouter } from 'react-router-redux';
 import Layout from '../containers/Layout';
 import { actions } from '../reducers/startup';
+import { actions as behaviorsActions } from '../reducers/behaviors';
 
 /* Route Components */
 import Home from '../containers/Home';
@@ -37,6 +38,10 @@ const InLayoutRouter = (props) => {
 class AppRouter extends Component {
   componentDidMount() {
     this.props.startup();
+    window.addEventListener('touchstart', function onFirstTouch() {
+      this.props.touchDetected();
+      window.removeEventListener('touchstart', onFirstTouch, false)
+    }.bind(this), false);
   }
   render() {
     return (
@@ -61,7 +66,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    startup: () => dispatch(actions.startup())
+    startup: () => dispatch(actions.startup()),
+    touchDetected: () => dispatch(behaviorsActions.userTouched()),
   }
 }
 

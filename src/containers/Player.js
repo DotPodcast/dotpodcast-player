@@ -70,13 +70,13 @@ class Player extends Component {
               />
             </div>
           </Col>
+          <Col xs={3}>
           <VolumeControl
             volume={volume}
             muted={muted}
             onMuteToggle={() => this.props.setMuteValue(!muted)}
             onVolumeChange={(volume) => this.props.setVolume(volume)}
           />
-          <Col xs={3}>
           </Col>
         </Row>
       </div>

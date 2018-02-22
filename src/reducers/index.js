@@ -10,6 +10,7 @@ import subscriptionDetailReducer from './subscription-detail';
 import userReducer from './user';
 import inboxReducer from './inbox';
 import podtoReducer from './podto';
+import behaviorsReducer from './behaviors';
 
 const rootReducer = combineReducers({
   player: playerReducer,
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
   subscriptionList: subscriptionListReducer,
   subscriptionDetail: subscriptionDetailReducer,
   inbox: inboxReducer,
-  podto: podtoReducer
+  podto: podtoReducer,
+  behaviors: behaviorsReducer,
 });
 
 export default rootReducer;
