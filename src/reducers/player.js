@@ -4,16 +4,19 @@ export const types = makeTypes([
   'PLAY_URL',
   'SET_PLAYING',
   'UPDATE_PROGRESS',
+  'SHOW_EPISODE',
+  'HIDE_EPISODE'
 ]);
 
 export const actions = {
-  playUrl: (url, title, episode, image_url) => {
+  playUrl: (url, title, episode, image_url, description) => {
     return {
       type: types.PLAY_URL,
       url,
       title,
       episode,
-      image_url
+      image_url,
+      description
     }
   },
   setPlaying: (isPlaying) => {
@@ -28,6 +31,16 @@ export const actions = {
       progress
     }
   },
+  showDetail: () => {
+    return {
+      type: types.SHOW_EPISODE
+    }
+  },
+  hideDetail: () => {
+    return {
+      type: types.HIDE_EPISODE
+    }
+  }
 }
 
 const defaultState = {
@@ -44,7 +57,9 @@ const defaultState = {
     title: '',
     episode: '',
     image_url: '',
+    description: ''
   },
+  detailsVisible: false
 };
 
 const player = (state = defaultState, action) => {
@@ -56,7 +71,8 @@ const player = (state = defaultState, action) => {
         trackMetadata: {
           title: action.title,
           episode: action.episode,
-          image_url: action.image_url
+          image_url: action.image_url,
+          description: action.description
         },
         played: 0,
         loaded: 0,
@@ -71,6 +87,16 @@ const player = (state = defaultState, action) => {
       return {
         ...state,
         ...action.progress
+      }
+    case types.SHOW_EPISODE:
+      return {
+        ...state,
+        detailsVisible: true
+      }
+    case types.HIDE_EPISODE:
+      return {
+        ...state,
+        detailsVisible: false
       }
     default:
       return state;
