@@ -18,9 +18,11 @@ class EpisodeList extends Component {
 
     if(this.props.episodes) {
       const renderedList = this.props.episodes.map(
-        (episode, idx) => (
-          <EpisodeRow key={idx} podcast={this.props.podcast} episode={episode} />
-        )
+        (episode, idx) => {
+          if(episode.content_audio) {
+            return (<EpisodeRow key={idx} podcast={this.props.podcast} episode={episode} />)
+          }
+        }
       )
 
       return (
