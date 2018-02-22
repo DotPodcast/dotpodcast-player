@@ -7,7 +7,7 @@ class Inbox extends Component {
   state = {}
 
   componentDidMount() {
-    this.props.getInbox(this.props.username)
+    this.props.getInbox(this.props.userPublicKey)
   }
 
   render() {
@@ -33,15 +33,15 @@ const sortEpisodes = episodes => {
 
 const mapStateToProps = state => {
   return {
-    username: state.user.username,
-    episodes: sortEpisodes(state.inbox.episodes)
+    userPublicKey: state.user.publicKey,
+    episodes: state.inbox.episodes
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    getInbox: function(username) {
-      dispatch(actions.inboxRequested(username))
+    getInbox: function(userPublicKey) {
+      dispatch(actions.fetchRequested(userPublicKey))
     }
   }
 }

@@ -1,31 +1,31 @@
-import { put, call } from 'redux-saga/effects';
+import { put, call, all } from 'redux-saga/effects';
 import { getSubscriptionList as getSubscriptionListInStorage } from '../services/subscriptions';
 import { getEpisodes } from '../services/dotpodcast';
 import { actions } from '../reducers/inbox';
 
-export function* prepareFetchQueue(action) {
-  try {
-    const results = yield call(getSubscriptionListInStorage, action.username)
-    const fetchedList = []
-
-    for(let id in results) {
-      try {
-        yield put(actions.fetchRequested(results[id]))
-      } catch(e) {
-        yield put(actions.inboxError(e))
-      }
-    }
-  } catch(e) {
-    yield put(actions.subscriptionListError(e))
-  }
-}
-
 export function* fetchEpisodes(action) {
   try {
-    const results = yield call(getEpisodes, action.username, action.subscription)
+    const subscriptions = yield call(getSubscriptionListInStorage, action.userPublicKey);
+    const subscriptionArray = Object.values(subscriptions);
 
-    yield put(actions.fetchComplete(action.subscription, results))
-  } catch(e) {
+    const subscriptionEpisodes = yield all(
+      subscriptionArray.map(s => call(getEpisodes, action.userPublicKey, s))
+    )
+
+    // subscriptionEpisodes is a nested array of podcasts and we need to
+    // return an array of each episode in the form of: { episode: {}, podcast: {} }
+
+    const episodes = subscriptionEpisodes.map((item, index) => {
+      return item.map(e => {
+        return {
+          podcast: subscriptionArray[index],
+          episode: e
+        }
+      });
+    });
+
+    yield put(actions.fetchComplete([].concat(...episodes)))
+  }  catch(e) {
     yield put(actions.fetchError(e))
   }
 }

@@ -38,8 +38,7 @@ export default function* root() {
     takeLatest(mediaTypes.MEDIA_REQUESTED, getMediaUrl),
     takeLatest(mediaTypes.MEDIA_RETRIEVED, playMedia),
     takeLatest(mediaTypes.MEDIA_PLAYING, savePlaying),
-    takeLatest(inboxTypes.INBOX_REQUESTED, prepareFetchQueue),
-    takeEvery(inboxTypes.INBOX_FETCH_REQUESTED, fetchEpisodes),
+    takeLatest(inboxTypes.INBOX_FETCH_REQUESTED, fetchEpisodes),
     takeLatest(podtoTypes.PODTO_PODCAST_REQUESTED, getPodcastDetailsFromWeb),
     takeLatest(podtoTypes.PODTO_PODCAST_RETRIEVED, getEpisodeList),
     takeLatest('*', logger)
