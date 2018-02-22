@@ -13,13 +13,6 @@ class Home extends Component {
       <Grid fluid>
         <Row>
           <Col xs={12}>
-            <p>
-              <input type="button" className="btn btn-primary" value="Load Test Audio" onClick={() => { this.props.playEpisode('http://www.sample-videos.com/audio/mp3/crowd-cheering.mp3') }}/>
-            </p>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
             {this.props.searchText && <span>{this.props.podcastResults.total} podcasts found.</span>}
             <PodcastTileList>
               {this.props.podcastResults.hits.map((podcast, idx) => <PodcastTile key={idx} {...podcast._source}/>)}

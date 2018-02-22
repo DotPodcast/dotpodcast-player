@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import ProtocolPrompt from '../components/ProtocolPrompt';
 import { Navbar, Nav, NavItem, FormGroup, FormControl } from 'react-bootstrap';
 import logo from '../images/web-logo-dark.png';
 import { StyleSheet, css } from 'aphrodite';
@@ -13,20 +15,22 @@ class Header extends Component {
   handleLogout() {
     signUserOut(`${window.location.origin}/login`)
   }
+
+  handleLogin() {
+    window.location = '/login';
+  }
+
   render() {
     return (
-      <Navbar className={css(styles.header)} fluid inverse fixedTop>
-        <Navbar.Header>
-          <Navbar.Brand className={css(styles.icon)}>
-            <a href="/">
-              <img src={logo} alt="Logo" />
-            </a>
-          </Navbar.Brand>
-        </Navbar.Header>
-        <Navbar.Collapse>
-          {this.props.isAuthenticated && <Nav pullRight>
-            <NavItem onClick={this.handleLogout}>Log Out</NavItem>
-          </Nav>}
+      <div>
+        <Navbar className={css(styles.header)} fluid inverse fixedTop>
+          <Navbar.Header>
+            <Navbar.Brand className={css(styles.icon)}>
+              <Link to="/">
+                <img src={logo} alt="Logo" />
+              </Link>
+            </Navbar.Brand>
+          </Navbar.Header>
           <Nav pullRight>
             <Navbar.Form>
               <FormGroup>
@@ -40,8 +44,18 @@ class Header extends Component {
               </FormGroup>
             </Navbar.Form>
           </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+          <Navbar.Collapse>
+            {this.props.isAuthenticated && <Nav>
+                <NavItem componentClass={Link} href="/" to="/" active={window.location.pathname === '/'}>Home</NavItem>
+                <NavItem onClick={this.handleLogout}>Log Out</NavItem>
+            </Nav>}
+            {!this.props.isAuthenticated && <Nav>
+              <NavItem onClick={this.handleLogin}>Login</NavItem>
+            </Nav>}
+          </Navbar.Collapse>
+        </Navbar>
+        <ProtocolPrompt />
+      </div>
     );
   }
 };
@@ -67,13 +81,14 @@ const styles = StyleSheet.create({
       color: '#111',
       width: 300,
     }
-  }
+  },
+  link: {"color":"#9d9d9d"}
 });
 
 const mapStateToProps = state => {
   return {
     searchText: state.search.text,
-    isAuthenticated: !!state.user.username && isUserSignedIn(),
+    isAuthenticated: !!state.user.publicKey && isUserSignedIn(),
   }
 }
 const mapDispatchToProps = dispatch => {

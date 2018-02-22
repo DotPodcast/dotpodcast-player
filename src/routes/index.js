@@ -10,7 +10,8 @@ import { actions } from '../reducers/startup';
 
 /* Route Components */
 import Home from '../containers/Home';
-import PodcastDetail from '../containers/PodcastDetail';
+import PodcastWrapper from '../containers/PodcastWrapper';
+import Subscribe from '../containers/Subscribe';
 import Callback from '../containers/Callback';
 import LoginSplash from '../containers/LoginSplash';
 import RibbonSplash from '../components/RibbonSplash';
@@ -24,7 +25,8 @@ const InLayoutRouter = (props) => {
         <Layout>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/:slug" component={PodcastDetail} />
+            <Route exact path="/subscribe" component={Subscribe} />
+            <Route exact path="/:slug" component={PodcastWrapper} />
           </Switch>
         </Layout>
       </PersistGate>
@@ -52,8 +54,8 @@ class AppRouter extends Component {
 };
 
 const mapStateToProps = state => {
-  return {
-    userLoaded: !!state.user.profile
+  return { 
+    userLoaded: !!state.user.profile || state.user.anonymous
   }
 }
 

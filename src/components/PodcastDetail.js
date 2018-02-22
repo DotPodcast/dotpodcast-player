@@ -1,37 +1,14 @@
 import React, { Component } from 'react';
-import { Grid, Alert } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import { actions } from '../reducers/podcast-detail';
-import { StyleSheet, css } from 'aphrodite';
-import EpisodeList from './EpisodeList';
-import SubscriptionChoice from './SubscriptionChoice';
+import { Grid } from 'react-bootstrap';
+import EpisodeList from '../containers/EpisodeList';
+import SubscriptionChoice from '../containers/SubscriptionChoice';
 import TipButton from '../components/TipButton';
+import { StyleSheet, css } from 'aphrodite';
 
 class PodcastDetail extends Component {
-  state = {};
-
-  componentDidMount() {
-    this.props.getDetails(this.props.match.params.slug);
-  }
-
-  componentWillUnmount() {
-    this.props.closePodcast();
-  }
-
   render() {
-    if(this.props.detail.requesting || !this.props.detail.podcast) {
-      return (<Grid fluid><center>Loading</center></Grid>);
-    }
+    const podcast = this.props.podcast;
 
-    if(this.props.detail.error) {
-      return (
-        <Grid fluid>
-          <Alert bsStyle="danger">{this.props.detail.error.message}</Alert>
-        </Grid>
-      )
-    }
-
-    const podcast = this.props.detail.podcast;
     return (
       <Grid>
         <div className={css(styles.headerContainer)}>
@@ -53,7 +30,7 @@ class PodcastDetail extends Component {
         </div>
         <EpisodeList podcast={podcast} />
       </Grid>
-    );
+    )
   }
 }
 
@@ -86,19 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
-  return {
-    detail: state.podcastDetail,
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    getDetails: (slug) => {
-      dispatch(actions.detailRequested(slug));
-    },
-    closePodcast: () => dispatch(actions.detailClosed())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PodcastDetail);
+export default PodcastDetail;
