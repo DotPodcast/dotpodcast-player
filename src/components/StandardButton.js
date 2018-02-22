@@ -11,11 +11,13 @@ const StandardButton = (props) => {
 
 const styles = StyleSheet.create({
   button: {
-    marginTop: 10,
-    padding: 0,
-    paddingRight: 10,
+    paddingTop: 4,
+    paddingBottom: 4,
+    paddingLeft: 20,
+    paddingRight: 20,
     borderRadius: 8,
     border: 'none',
+    color: 'black',
     backgroundColor: '#cecece',
     transition: '.1s',
     boxShadow: '0 0 5px #666',

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { actions } from '../reducers/episode-list';
 import { StyleSheet, css } from 'aphrodite';
 import EpisodeRow from '../containers/EpisodeRow';
+import StandardButton from '../components/StandardButton';
 
 class EpisodeList extends Component {
   state = {}
@@ -34,6 +35,7 @@ class EpisodeList extends Component {
           </thead>
           <tbody>
             {renderedList}
+            {!!this.props.paginator && !!this.props.paginator.next_url && <tr><td colspan="4" className={css(styles.loadMore)}><StandardButton onClick={() => this.props.getList(this.props.paginator.next_url)}>Load More Episodes</StandardButton></td></tr>}
           </tbody>
         </table>
       )
@@ -55,12 +57,17 @@ const styles = StyleSheet.create({
     paddingBottom: 7,
     color: '#bbb',
   },
+  loadMore: {
+    textAlign: 'center',
+    padding: 20,
+  },
 });
 
 const mapStateToProps = state => {
   return {
     episodes: state.episodeList.episodes,
     requesting: state.episodeList.requesting,
+    paginator: state.episodeList.paginator,
     error: state.episodeList.error
   }
 }
@@ -69,7 +76,7 @@ const mapDispatchToProps = dispatch => {
   return {
     getList: (url) => {
       dispatch(actions.listRequested(url));
-    }
+    },
   }
 }
 
