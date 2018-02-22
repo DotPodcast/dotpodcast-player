@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import ProtocolPrompt from '../components/ProtocolPrompt';
 import { Navbar, Nav, NavItem, FormGroup, FormControl } from 'react-bootstrap';
 import logo from '../images/web-logo-dark.png';
 import { StyleSheet, css } from 'aphrodite';
@@ -14,44 +15,47 @@ class Header extends Component {
   handleLogout() {
     signUserOut(`${window.location.origin}/login`)
   }
-  
+
   handleLogin() {
     window.location = '/login';
   }
 
   render() {
     return (
-      <Navbar className={css(styles.header)} fluid inverse fixedTop>
-        <Navbar.Header>
-          <Navbar.Brand className={css(styles.icon)}>
-            <Link to="/">
-              <img src={logo} alt="Logo" />
-            </Link>
-          </Navbar.Brand>
-        </Navbar.Header>
-        <Nav pullRight>
-          <Navbar.Form>
-            <FormGroup>
-              <FormControl
-                className={css(styles.searchInput)}
-                type="text"
-                placeholder="Search"
-                value={this.props.searchText}
-                onInput={(evt) => this.props.updateSearch(evt.target.value)}
-              />
-            </FormGroup>
-          </Navbar.Form>
-        </Nav>
-        <Navbar.Collapse>
-          {this.props.isAuthenticated && <Nav>
-              <NavItem componentClass={Link} href="/" to="/" active={window.location.pathname === '/'}>Home</NavItem>
-              <NavItem onClick={this.handleLogout}>Log Out</NavItem>
-          </Nav>}
-          {!this.props.isAuthenticated && <Nav>
-            <NavItem onClick={this.handleLogin}>Login</NavItem>
-          </Nav>}
-        </Navbar.Collapse>
-      </Navbar>
+      <div>
+        <Navbar className={css(styles.header)} fluid inverse fixedTop>
+          <Navbar.Header>
+            <Navbar.Brand className={css(styles.icon)}>
+              <Link to="/">
+                <img src={logo} alt="Logo" />
+              </Link>
+            </Navbar.Brand>
+          </Navbar.Header>
+          <Nav pullRight>
+            <Navbar.Form>
+              <FormGroup>
+                <FormControl
+                  className={css(styles.searchInput)}
+                  type="text"
+                  placeholder="Search"
+                  value={this.props.searchText}
+                  onInput={(evt) => this.props.updateSearch(evt.target.value)}
+                />
+              </FormGroup>
+            </Navbar.Form>
+          </Nav>
+          <Navbar.Collapse>
+            {this.props.isAuthenticated && <Nav>
+                <NavItem componentClass={Link} href="/" to="/" active={window.location.pathname === '/'}>Home</NavItem>
+                <NavItem onClick={this.handleLogout}>Log Out</NavItem>
+            </Nav>}
+            {!this.props.isAuthenticated && <Nav>
+              <NavItem onClick={this.handleLogin}>Login</NavItem>
+            </Nav>}
+          </Navbar.Collapse>
+        </Navbar>
+        <ProtocolPrompt />
+      </div>
     );
   }
 };
