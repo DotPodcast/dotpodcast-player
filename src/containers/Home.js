@@ -11,6 +11,7 @@ class Home extends Component {
   render() {
     return (
       <Grid fluid>
+        <Inbox />
         <Row>
           <Col xs={12}>
             {this.props.searchText && <span>{this.props.podcastResults.total} podcasts found.</span>}

@@ -64,12 +64,21 @@ const reducer = (state = defaultState, action) => {
         fetching: true
       }
     case types.INBOX_FETCH_COMPLETE:
+      const existingEpisodeIds = state.episodes.map(x => x.episode.id);
+      const episodesToAdd = action.episodes.map(
+        (incomingEpisode) => {
+          if (!existingEpisodeIds.some((id) => incomingEpisode.id === id)) {
+            return incomingEpisode;
+          }
+        }
+      ).filter(x => x !== undefined);
+
       return {
         ...state,
         fetching: false,
         episodes: [
           ...state.episodes,
-          ...action.episodes.map(
+          ...episodesToAdd.map(
             ep => {
               return {
                 episode: ep,
