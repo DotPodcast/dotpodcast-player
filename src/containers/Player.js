@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
+import { toReadableTime } from '../utils/time';
 import ReactPlayer from 'react-player';
 import { actions } from '../reducers/player';
 import ProgressSeeker from '../components/ProgressSeeker';
@@ -9,6 +10,7 @@ import { StyleSheet, css } from 'aphrodite';
 import ButtonRow from '../components/ButtonRow';
 import PlayButton from '../components/PlayButton';
 import GlyphButton from '../components/GlyphButton';
+import VolumeControl from '../components/VolumeControl';
 
 class Player extends Component {
   ref = (player) => {
@@ -34,11 +36,13 @@ class Player extends Component {
   }
 
   render() {
-    const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate, trackMetadata } = this.props.player;
+    const { url, playing, volume, muted, loop, played, playedSeconds, loaded, duration, playbackRate, trackMetadata } = this.props.player;
 
     if(loaded) {
         console.debug('Duration', duration);
     }
+
+    const displayDuration = toReadableTime(duration * 1000);
 
     const detail = (
       <div>
@@ -62,7 +66,8 @@ class Player extends Component {
             muted={muted}
             loop={loop}
             ref={this.ref}
-            onProgress={this.props.updateProgress}
+            onProgress={(progress) => !this.props.player.seeking && this.props.updateProgress(progress)}
+            onDuration={this.props.setDuration}
           />
           <div className={css(styles.meta)} onClick={this.toggleModal}>
             <img className={css(styles.artwork, this.props.player.detailsVisible && styles.largerArtwork)} src={trackMetadata.image_url}></img>
@@ -77,8 +82,21 @@ class Player extends Component {
               <PlayButton playing={playing} onClick={() => this.props.setPlaying(!playing)} />
               <GlyphButton icon="step-forward" onClick={this.forwardTen} />
             </ButtonRow>
-
-            <ProgressSeeker max={1} value={played} />
+            <div className={css(styles.progressContainer)}>
+                <ProgressSeeker
+                max={1}
+                value={played}
+                knobShowing={true}
+                beforeValue={toReadableTime(duration * played)}
+                afterValue={toReadableTime(duration)}
+                onStartChange={() => this.props.setSeeking(true)}
+                onChange={(val) => this.props.setPosition(val)}
+                onCompleteChange={(val) => {
+                  this.props.setSeeking(false);
+                  this.player.seekTo(val);
+                }}
+              />
+            </div>
           </div>
         </div>
         <EpisodeDetail active={this.props.player.detailsVisible}>
@@ -150,7 +168,10 @@ const styles = StyleSheet.create({
   },
   detailHeader: {
     marginTop: 0
-  }
+  },
+  progressContainer: {
+    paddingTop: 16,
+  },
 })
 
 const mapStateToProps = (state) => {
@@ -160,10 +181,15 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    setMuteValue: (newMuteValue) => dispatch(actions.setMuteValue(newMuteValue)),
+    setVolume: (volume) => dispatch(actions.setVolume(volume)),
     setPlaying: (isPlaying) => dispatch(actions.setPlaying(isPlaying)),
     updateProgress: (progress) => dispatch(actions.updateProgress(progress)),
     showDetail: () => dispatch(actions.showDetail()),
     hideDetail: () => dispatch(actions.hideDetail()),
+    setDuration: (duration) => dispatch(actions.setDuration(duration)),
+    setSeeking: (seeking) => dispatch(actions.setSeeking(seeking)),
+    setPosition: (position) => dispatch(actions.setPosition(position)),
   };
 };
 
