@@ -26,10 +26,15 @@ class Inbox extends Component {
   }
 }
 
+const sortEpisodes = episodes => {
+  return episodes.sort((a,b) => {return (a.podcast.title > b.podcast.title) ? 1 : ((b.podcast.title > a.podcast.title) ? -1 : 0)})
+    .sort((a,b) => {return (a.episode.date_published > b.episode.date_published) ? 1 : ((b.episode.date_published > a.episode.date_published) ? -1 : 0)})
+}
+
 const mapStateToProps = state => {
   return {
     username: state.user.username,
-    episodes: state.inbox.episodes
+    episodes: sortEpisodes(state.inbox.episodes)
   }
 }
 
