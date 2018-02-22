@@ -6,6 +6,7 @@ import { types as startupTypes } from '../reducers/startup';
 import { types as subscriptionListTypes } from '../reducers/subscription-list';
 import { types as subscriptionDetailTypes } from '../reducers/subscription-detail';
 import { types as inboxTypes } from '../reducers/inbox';
+import { types as podtoTypes } from '../reducers/podto';
 import { getEpisodes, getPodcasts } from './search';
 import { getPodcastDetails } from './podcast-detail';
 import { getEpisodeList } from './episode-list';
@@ -15,6 +16,7 @@ import { getMediaUrl, playMedia, savePlaying } from './media';
 import { prepareFetchQueue, fetchEpisodes } from './inbox';
 import { types as userTypes } from '../reducers/user';
 import { handleLoginCallback, getUserData } from './login';
+import { getPodcastDetails as getPodcastDetailsFromWeb } from './podto';
 
 function* logger(action) {
   yield call(console.log, action);
@@ -38,6 +40,8 @@ export default function* root() {
     takeLatest(mediaTypes.MEDIA_PLAYING, savePlaying),
     takeLatest(inboxTypes.INBOX_REQUESTED, prepareFetchQueue),
     takeEvery(inboxTypes.INBOX_FETCH_REQUESTED, fetchEpisodes),
+    takeLatest(podtoTypes.PODTO_PODCAST_REQUESTED, getPodcastDetailsFromWeb),
+    takeLatest(podtoTypes.PODTO_PODCAST_RETRIEVED, getEpisodeList),
     takeLatest('*', logger)
   ];
 };
