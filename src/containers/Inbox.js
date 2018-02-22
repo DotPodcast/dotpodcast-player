@@ -18,7 +18,10 @@ class Inbox extends Component {
     )
 
     return (
-      <ul>{children}</ul>
+      <div>
+        <h3>Listening Queue ({this.props.episodes.length})</h3>
+        <ul>{children}</ul>
+      </div>
     )
   }
 }

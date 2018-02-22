@@ -68,7 +68,7 @@ const reducer = (state = defaultState, action) => {
         ...state,
         fetching: false,
         episodes: [
-          ...state.episodes,
+          ...state.episodes.filter(x => x.podcast.id !== action.podcast.id),
           ...action.episodes.map(
             ep => {
               return {
