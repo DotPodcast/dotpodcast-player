@@ -12,7 +12,7 @@ const ButtonRow = (props) => {
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    flexDirecation: 'row',
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },

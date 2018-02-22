@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Grid } from 'react-bootstrap';
 import EpisodeList from '../containers/EpisodeList';
 import SubscriptionChoice from '../containers/SubscriptionChoice';
+import TipButton from '../components/TipButton';
 import { StyleSheet, css } from 'aphrodite';
 
 class PodcastDetail extends Component {
@@ -18,6 +19,11 @@ class PodcastDetail extends Component {
             <div className={css(styles.title)}>{podcast.title}</div>
             <div className={css(styles.author)}>{podcast.author.name}</div>
             <div><a href={podcast.home_page_url} target="_blank">{podcast.home_page_url}</a></div>
+            {(podcast.ethereumAddress || podcast.bitcoinCashAddress || podcast.bitcoinAddress) ?
+              <TipButton ethereum={podcast.ethereumAddress} bitcoinCash={podcast.bitcoinCashAddress} bitcoin={podcast.bitcoinAddress} />
+                :
+              <TipButton placeholder={true} podcastName={podcast.title}/>
+            }
             <p className={css(styles.description)}>{podcast.description_text}</p>
             <SubscriptionChoice podcast={podcast} />
           </div>
