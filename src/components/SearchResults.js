@@ -16,7 +16,7 @@ class Search extends Component {
                 <div className={css(styles.inline, styles.imageContainer)}>
                   <img src={result._source.podcast.artwork['@1x']} width='100px' height='100px' alt='Podcast artwork' />
                   <div className={css(styles.imageOverlay)}>
-                    <div className={css(styles.playCircle)} onClick={() => this.props.onPlay(result._source.content_audio.url)}>▶</div>
+                    <div className={css(styles.playCircle)} onClick={() => this.props.onPlay(this.props.userPublicKey, result._source.podcast, result._source)}>▶</div>
                   </div>
                 </div>
                 <div className={css(styles.inline, styles.rowText)}>

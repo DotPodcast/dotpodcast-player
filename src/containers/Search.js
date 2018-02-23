@@ -5,8 +5,8 @@ import { Row, Col, Grid } from 'react-bootstrap';
 import SearchResults from '../components/SearchResults';
 import PodcastTileList from '../components/PodcastTileList';
 import PodcastTile from '../components/PodcastTile';
-import { actions as playerActions } from '../reducers/player';
 import { actions as searchActions } from '../reducers/search';
+import { actions as mediaActions } from '../reducers/media';
 
 class Search extends Component {
   componentDidMount() {
@@ -25,7 +25,7 @@ class Search extends Component {
             <PodcastTileList>
               {this.props.podcastResults.hits.map((podcast, idx) => <PodcastTile key={idx} {...podcast._source}/>)}
             </PodcastTileList>
-            <SearchResults onPlay={this.props.playEpisode} results={this.props.episodeResults} searchText={this.props.searchText}/>
+            <SearchResults onPlay={this.props.playEpisode} results={this.props.episodeResults} userPublicKey={this.props.userPublicKey} searchText={this.props.searchText}/>
           </Col>
         </Row>
       </Grid>
@@ -36,6 +36,7 @@ class Search extends Component {
 const mapStateToProps = state => {
   return {
     searchText: state.search.text,
+    userPublicKey: state.user.publicKey,
     podcastResults: state.search.podcastResults,
     episodeResults: state.search.episodeResults,
   }
@@ -43,8 +44,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    playEpisode: (url) => {
-      dispatch(playerActions.playUrl(url));
+    playEpisode: (userPublicKey, podcast, episode) => {
+      dispatch(mediaActions.mediaRequested(null, userPublicKey, podcast, episode));    
     },
     updateSearch: (text) => dispatch(searchActions.updateQuery(text)),
   }
