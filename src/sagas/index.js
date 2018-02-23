@@ -10,7 +10,7 @@ import { types as podtoTypes } from '../reducers/podto';
 import { types as episodeListTypes } from '../reducers/episode-list';
 import { getEpisodes, getPodcasts } from './search';
 import { getPodcastDetails } from './podcast-detail';
-import { getEpisodeList } from './episode-list';
+import { getEpisodeList, getEpisodeListFromPodTo } from './episode-list';
 import { getSubscriptionList, addSubscription, removeSubscription } from './subscription-list';
 import { getSubscriptionByID, getSubscriptionByURL } from './subscription-detail';
 import { getMediaUrl, playMedia, savePlaying } from './media';
@@ -42,7 +42,7 @@ export default function* root() {
     takeLatest(mediaTypes.MEDIA_PLAYING, savePlaying),
     takeLatest(inboxTypes.INBOX_FETCH_REQUESTED, fetchEpisodes),
     takeLatest(podtoTypes.PODTO_PODCAST_REQUESTED, getPodcastDetailsFromWeb),
-    takeLatest(podtoTypes.PODTO_PODCAST_RETRIEVED, getEpisodeList),
+    takeLatest(podtoTypes.PODTO_PODCAST_RETRIEVED, getEpisodeListFromPodTo),
     takeLatest('*', logger)
   ];
 };
