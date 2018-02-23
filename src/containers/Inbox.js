@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { actions } from '../reducers/inbox';
 import { StyleSheet, css } from 'aphrodite';
 import EpisodeRow from '../containers/EpisodeRow';
+import moment from 'moment';
 
 class Inbox extends Component {
   state = {}
@@ -18,18 +19,42 @@ class Inbox extends Component {
       <div className={css(styles.container)}>
         <h4>Your Subscriptions</h4>
         <hr />
-        {this.props.subscriptions.map(item => {
+        {this.props.subscriptions.map(({podcast, episodes}, idx) => {
           return(
-            <table className={css(styles.table)}>
-                <tr>
-                  <td colspan="4" className={css(styles.title)}>{item.podcast.title} ({item.episodes.length} New)</td>
-                </tr>
-                {item.episodes.map(e => {
-                    return(!!e.content_audio && <EpisodeRow podcast={item.podcast} episode={e} />)
-                  }
-                )}
-            </table>);
-          }
+            <Grid className={css(styles.subscriptionRow)} key={idx} fluid>
+              <Row className={(css(styles.headerRow))}>
+                <Col xs={2} smHidden mdHidden lgHidden>
+                  {podcast.artwork['@1x'] && <img src={podcast.artwork['@1x']} width='100%' height='100%'/>}
+                </Col>
+                <Col xs={10} sm={12}>
+                  <span className={css(styles.podcastTitle)}>{podcast.title} ({episodes.length} New)</span>
+                </Col>
+              </Row>
+              <Row>
+                <Col xsHidden sm={3}>
+                    <div className={css(styles.artContainer)}>
+                      {podcast.artwork['@2x'] && <img src={podcast.artwork['@2x']} width='100%' height='100%'/>}
+                    </div>
+                </Col>
+                <Col xs={12} sm={9}>
+                  <Grid fluid>
+                    <Row>
+                      <Col xs={1} className={css(styles.header)}></Col>
+                      <Col xs={8} sm={5} className={css(styles.header)}>Title</Col>
+                      <Col xsHidden sm={4} className={css(styles.header)}>Release Date</Col>
+                      <Col xs={3} smHidden mdHidden lgHidden className={css(styles.header)}>Release Date</Col>
+                      <Col xsHidden sm={2} className={css(styles.header)}>Duration</Col>
+                    </Row>
+                    {episodes.map((e, idx) => {
+                      return(!!e.content_audio && <EpisodeRow  key={idx} podcast={podcast} episode={e} />);
+                    }
+                    )}
+                  </Grid>
+                </Col>
+              </Row>
+            </Grid>
+          );
+        }
         )}
       </div>
     )
@@ -44,6 +69,16 @@ const styles = StyleSheet.create({
   container: {
     margin: 10
   },
+  podcastTitle: {
+    fontSize: 18,
+  },
+  headerRow: {
+    marginBottom: 20,
+  },
+  header: {
+    paddingBottom: 7,
+    color: '#bbb',
+  },
   table: {
     width: '100%',
     marginBottom: 20
@@ -52,9 +87,17 @@ const styles = StyleSheet.create({
     paddingBottom: 7,
     color: '#bbb',
   },
+  subscriptionRow: {
+    marginTop: 20,
+    marginBottom: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
   title: {
     fontSize: 16
-  }
+  },
+  artContainer: {
+  },
 });
 
 const mapStateToProps = state => {
