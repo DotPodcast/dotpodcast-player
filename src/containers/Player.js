@@ -84,19 +84,28 @@ class Player extends Component {
             </ButtonRow>
             <div className={css(styles.progressContainer)}>
                 <ProgressSeeker
-                max={1}
-                value={played}
-                knobShowing={true}
-                beforeValue={toReadableTime(duration * played)}
-                afterValue={toReadableTime(duration)}
-                onStartChange={() => this.props.setSeeking(true)}
-                onChange={(val) => this.props.setPosition(val)}
-                onCompleteChange={(val) => {
-                  this.props.setSeeking(false);
-                  this.player.seekTo(val);
-                }}
-              />
+                  max={1}
+                  value={played}
+                  knobShowing={true}
+                  beforeValue={toReadableTime(duration * played)}
+                  afterValue={toReadableTime(duration)}
+                  onStartChange={() => this.props.setSeeking(true)}
+                  onChange={(val) => this.props.setPosition(val)}
+                  onCompleteChange={(val) => {
+                    this.props.setSeeking(false);
+                    this.player.seekTo(val);
+                  }}
+                />
             </div>
+          </div>
+          
+          <div className={css(styles.volumeContainer)}>
+            <VolumeControl
+              volume={volume}
+              muted={muted}
+              onMuteToggle={() => this.props.setMuteValue(!muted)}
+              onVolumeChange={(volume) => this.props.setVolume(volume)}
+            />
           </div>
         </div>
         <EpisodeDetail active={this.props.player.detailsVisible}>
@@ -125,7 +134,8 @@ const styles = StyleSheet.create({
   },
   controls: {
     width: '50%',
-    margin: '0 auto 25%'
+    float: 'left',
+    margin: '0 auto'
   },
   playPause: {
     backgroundColor: '#333',
@@ -176,6 +186,11 @@ const styles = StyleSheet.create({
   progressContainer: {
     paddingTop: 16,
   },
+  volumeContainer: {
+    float: 'right',
+    width: '15%',
+    marginLeft: '10%'
+  }
 })
 
 const mapStateToProps = (state) => {
