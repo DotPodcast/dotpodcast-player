@@ -31,6 +31,7 @@ export default function* root() {
     takeLatest(userTypes.USER_LOGIN_CALLBACK, handleLoginCallback),
     takeLatest(podcastDetailTypes.PODCAST_REQUESTED, getPodcastDetails),
     takeLatest(episodeListTypes.EPISODES_REQUESTED, getEpisodeList),
+    takeLatest(episodeListTypes.MORE_EPISODES_REQUESTED, getEpisodeList),
     takeLatest(subscriptionDetailTypes.SUBSCRIPTION_REQUESTED_BY_URL, getSubscriptionByURL),
     takeLatest(userTypes.USER_DETAILS_LOADED, getSubscriptionList),
     takeLatest(subscriptionListTypes.SUBSCRIPTIONS_ADD_REQUESTED, addSubscription),

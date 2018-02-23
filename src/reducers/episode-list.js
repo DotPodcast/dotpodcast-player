@@ -3,13 +3,20 @@ import makeTypes from '../utils/makeTypes'
 export const types = makeTypes([
   'EPISODES_REQUESTED',
   'EPISODES_RETRIEVED',
-  'EPISODES_ERROR'
+  'EPISODES_ERROR',
+  'MORE_EPISODES_REQUESTED',
 ]);
 
 export const actions = {
   listRequested: (url) => {
     return {
       type: types.EPISODES_REQUESTED,
+      url
+    }
+  },
+  moreEpisodesRequested: (url) => {
+    return {
+      type:types.MORE_EPISODES_REQUESTED,
       url
     }
   },
@@ -24,7 +31,7 @@ export const actions = {
       type: types.EPISODES_ERROR,
       error
     }
-  }
+  },
 }
 
 const defaultState = {
@@ -39,8 +46,14 @@ const reducer = (state = defaultState, action) => {
     case types.EPISODES_REQUESTED:
       return {
         ...state,
-        requesting: true
+        episodes: [],
+        requesting: true,
       };
+    case types.MORE_EPISODES_REQUESTED:
+      return {
+        ...state,
+        requesting: true,
+      }
     case types.EPISODES_RETRIEVED:
       return {
         ...state,

@@ -37,7 +37,7 @@ class EpisodeList extends Component {
           </thead>
           <tbody>
             {renderedList}
-            {!!this.props.paginator && !!this.props.paginator.next_url && <tr><td colspan="4" className={css(styles.loadMore)}><StandardButton onClick={() => this.props.getList(this.props.paginator.next_url)}>Load More Episodes</StandardButton></td></tr>}
+            {!!this.props.paginator && !!this.props.paginator.next_url && <tr><td colspan="4" className={css(styles.loadMore)}><StandardButton onClick={() => this.props.getMore(this.props.paginator.next_url)}>Load More Episodes</StandardButton></td></tr>}
           </tbody>
         </table>
       )
@@ -76,8 +76,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getList: (url) => {
-      dispatch(actions.listRequested(url));
+    getMore: (url) => {
+      dispatch(actions.moreEpisodesRequested(url));
     },
   }
 }
