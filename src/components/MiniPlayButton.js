@@ -3,7 +3,7 @@ import GlyphButton from './GlyphButton';
 
 const miniPlayButton = function(props) {
   const dispatch = () => {
-    props.action(props.username, props.podcast, props.episode);
+    props.action(props.podcast, props.episode);
   }
 
   return (
