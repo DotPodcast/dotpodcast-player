@@ -48,13 +48,15 @@ const subscribe = (username, userPublicKey, endpoint, preview = false) => {
 const getMediaUrl = (username, userPublicKey, podcast, episode) => {
   const makeToken = (subscriberToken, subscriberSecret) => {
     const now = new Date().getTime();
+    const ex = /https?:\/\/([^\/]+)/;
+    const host = podcast.meta_url.match(ex);
 
     return jwt.sign(
       {
           iss: APP_URL,
           iat: now,
           exp: now + 60000,
-          aud: 'ph.dotpodcast.co',
+          aud: host[1],
           sub: subscriberToken,
           content_id: episode.id
       },
