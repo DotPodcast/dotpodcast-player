@@ -7,6 +7,7 @@ import { types as subscriptionListTypes } from '../reducers/subscription-list';
 import { types as subscriptionDetailTypes } from '../reducers/subscription-detail';
 import { types as inboxTypes } from '../reducers/inbox';
 import { types as podtoTypes } from '../reducers/podto';
+import { types as episodeListTypes } from '../reducers/episode-list';
 import { getEpisodes, getPodcasts } from './search';
 import { getPodcastDetails } from './podcast-detail';
 import { getEpisodeList } from './episode-list';
@@ -29,7 +30,7 @@ export default function* root() {
     takeLatest(searchTypes.SEARCH_REQUESTED, getPodcasts),
     takeLatest(userTypes.USER_LOGIN_CALLBACK, handleLoginCallback),
     takeLatest(podcastDetailTypes.PODCAST_REQUESTED, getPodcastDetails),
-    takeLatest(podcastDetailTypes.PODCAST_RETRIEVED, getEpisodeList),
+    takeLatest(episodeListTypes.EPISODES_REQUESTED, getEpisodeList),
     takeLatest(subscriptionDetailTypes.SUBSCRIPTION_REQUESTED_BY_URL, getSubscriptionByURL),
     takeLatest(userTypes.USER_DETAILS_LOADED, getSubscriptionList),
     takeLatest(subscriptionListTypes.SUBSCRIPTIONS_ADD_REQUESTED, addSubscription),
@@ -38,8 +39,7 @@ export default function* root() {
     takeLatest(mediaTypes.MEDIA_REQUESTED, getMediaUrl),
     takeLatest(mediaTypes.MEDIA_RETRIEVED, playMedia),
     takeLatest(mediaTypes.MEDIA_PLAYING, savePlaying),
-    takeLatest(inboxTypes.INBOX_REQUESTED, prepareFetchQueue),
-    takeEvery(inboxTypes.INBOX_FETCH_REQUESTED, fetchEpisodes),
+    takeLatest(inboxTypes.INBOX_FETCH_REQUESTED, fetchEpisodes),
     takeLatest(podtoTypes.PODTO_PODCAST_REQUESTED, getPodcastDetailsFromWeb),
     takeLatest(podtoTypes.PODTO_PODCAST_RETRIEVED, getEpisodeList),
     takeLatest('*', logger)

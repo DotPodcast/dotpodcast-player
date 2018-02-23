@@ -15,6 +15,7 @@ import Subscribe from '../containers/Subscribe';
 import Callback from '../containers/Callback';
 import LoginSplash from '../containers/LoginSplash';
 import RibbonSplash from '../components/RibbonSplash';
+import Inbox from '../containers/Inbox';
 
 const InLayoutRouter = (props) => {
   return (
@@ -26,6 +27,7 @@ const InLayoutRouter = (props) => {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/subscribe" component={Subscribe} />
+            <Route exact path="/inbox" component={Inbox} />
             <Route exact path="/:slug" component={PodcastWrapper} />
           </Switch>
         </Layout>
