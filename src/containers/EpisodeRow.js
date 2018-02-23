@@ -3,6 +3,7 @@ import MiniPlayButton from '../components/MiniPlayButton';
 import { anonymousPlayAlert } from '../utils/alerts'
 import { actions } from '../reducers/media';
 import { connect } from 'react-redux';
+import { Row, Col, Grid } from 'react-bootstrap';
 import { StyleSheet, css } from 'aphrodite';
 import moment from 'moment';
 
@@ -32,8 +33,8 @@ class EpisodeRow extends Component {
     }
 
     return (
-      <tr className={css(styles.row)} onMouseOver={() => this.setState({hovering: true})} onMouseOut={() => this.setState({hovering: false})}>
-        <td className={css(styles.cell, styles.playCell)}>
+      <Row className={css(styles.row)} onMouseOver={() => this.setState({hovering: true})} onMouseOut={() => this.setState({hovering: false})}>
+        <Col xs={1} className={css(styles.cell, styles.playCell)}>
           <div className={css(styles.hiddenPlay, this.state.hovering && styles.visiblePlay)}>
             <MiniPlayButton
               username={this.props.username}
@@ -43,30 +44,34 @@ class EpisodeRow extends Component {
               action={this.handleMediaRequest}
             />
           </div>
-        </td>
-        <td className={css(styles.cell, styles.cellPrimary)}>
+        </Col>
+        <Col xs={8} sm={5} className={css(styles.cell, styles.cellPrimary)}>
           {this.props.episode.title}
-        </td>
-        <td className={css(styles.cell)}>
+        </Col>
+        <Col xsHidden sm={4} className={css(styles.cell)}>
           {this.props.episode.date_published && moment(this.props.episode.date_published).format('MMMM Do, YYYY')}
-        </td>
-        <td className={css(styles.cell)}>
+        </Col>
+        <Col xs={3} smHidden mdHidden lgHidden className={css(styles.cell)}>
+          {this.props.episode.date_published && moment(this.props.episode.date_published).format('L')}
+        </Col>
+        <Col xsHidden sm={2} className={css(styles.cell)}>
           {durationText}
-        </td>
-      </tr>
+        </Col>
+      </Row>
     )
   }
 };
 
 const styles = StyleSheet.create({
   row: {
+    display: 'flex',
+    alignItems: 'center',
     borderTop: '1px solid #444',
     ':hover': {
       backgroundColor: '#1f1f1f',
     },
   },
   playCell: {
-    width: 60,
   },
   cellPrimary: {
     color: '#ddd',
