@@ -4,6 +4,8 @@ export const types = makeTypes([
   'PLAY_URL',
   'SET_PLAYING',
   'UPDATE_PROGRESS',
+  'SHOW_EPISODE',
+  'HIDE_EPISODE',
   'SET_DURATION',
   'SET_MUTE_VALUE',
   'SET_VOLUME',
@@ -12,10 +14,14 @@ export const types = makeTypes([
 ]);
 
 export const actions = {
-  playUrl: (url) => {
+  playUrl: (url, title, episode, image_url, description) => {
     return {
       type: types.PLAY_URL,
-      url
+      url,
+      title,
+      episode,
+      image_url,
+      description
     }
   },
   setPlaying: (isPlaying) => {
@@ -28,6 +34,16 @@ export const actions = {
     return {
       type: types.UPDATE_PROGRESS,
       progress
+    }
+  },
+  showDetail: () => {
+    return {
+      type: types.SHOW_EPISODE
+    }
+  },
+  hideDetail: () => {
+    return {
+      type: types.HIDE_EPISODE
     }
   },
   setDuration: (duration) => {
@@ -77,9 +93,11 @@ const defaultState = {
   loop: false,
   trackMetadata: {
     title: '',
-    podcast: '',
-    image: '',
+    episode: '',
+    image_url: '',
+    description: ''
   },
+  detailsVisible: false
 };
 
 const player = (state = defaultState, action) => {
@@ -88,6 +106,12 @@ const player = (state = defaultState, action) => {
       return {
         ...state,
         url: action.url,
+        trackMetadata: {
+          title: action.title,
+          episode: action.episode,
+          image_url: action.image_url,
+          description: action.description
+        },
         played: 0,
         playedSeconds: 0,
         loaded: 0,
@@ -103,6 +127,16 @@ const player = (state = defaultState, action) => {
       return {
         ...state,
         ...action.progress
+      }
+    case types.SHOW_EPISODE:
+      return {
+        ...state,
+        detailsVisible: true
+      }
+    case types.HIDE_EPISODE:
+      return {
+        ...state,
+        detailsVisible: false
       }
     case types.SET_DURATION:
       return {
