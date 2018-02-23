@@ -12,19 +12,14 @@ export function* fetchEpisodes(action) {
       subscriptionArray.map(s => call(getEpisodes, action.userPublicKey, s))
     )
 
-    // subscriptionEpisodes is a nested array of podcasts and we need to
-    // return an array of each episode in the form of: { episode: {}, podcast: {} }
-
-    const episodes = subscriptionEpisodes.map((item, index) => {
-      return item.map(e => {
-        return {
-          podcast: subscriptionArray[index],
-          episode: e
-        }
-      });
+    const result = subscriptionEpisodes.map((item, index) => {
+      return {
+        podcast: subscriptionArray[index],
+        episodes: item
+      }
     });
 
-    yield put(actions.fetchComplete([].concat(...episodes)))
+    yield put(actions.fetchComplete(result));
   }  catch(e) {
     yield put(actions.fetchError(e))
   }
