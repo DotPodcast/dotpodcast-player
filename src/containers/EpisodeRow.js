@@ -17,11 +17,11 @@ class EpisodeRow extends Component {
     };
   }
 
-  handleMediaRequest = (username, podcast, episode) => {
+  handleMediaRequest = (podcast, episode) => {
     if (this.props.userIsAnonymous) {
       anonymousPlayAlert();
     }
-    this.props.requestMedia(username, this.props.userPublicKey, podcast, episode);
+    this.props.requestMedia(this.props.userPublicKey, podcast, episode);
   }
 
   render() {
@@ -37,8 +37,6 @@ class EpisodeRow extends Component {
         <Col xs={1} className={css(styles.cell, styles.playCell)}>
           <div className={css(styles.hiddenPlay, this.state.hovering && styles.visiblePlay)}>
             <MiniPlayButton
-              username={this.props.username}
-              url={this.props.episode.content_audio.url}
               podcast={this.props.podcast}
               episode={this.props.episode}
               action={this.handleMediaRequest}
@@ -92,16 +90,15 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     userIsAnonymous: state.user.anonymous,
-    username: state.user.username,
     userPublicKey: state.user.publicKey,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    requestMedia: (username, userPublicKey, podcast, episode) => {
+    requestMedia: (userPublicKey, podcast, episode) => {
       dispatch(
-        actions.mediaRequested(username, userPublicKey, podcast, episode)
+        actions.mediaRequested(userPublicKey, userPublicKey, podcast, episode)
       );
     }
   }
