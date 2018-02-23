@@ -55,7 +55,7 @@ class Header extends Component {
           <Navbar.Collapse>
             {this.props.isAuthenticated && <Nav>
                 <NavItem componentClass={Link} href="/" to="/">Home</NavItem>
-                <NavItem componentClass={Link} href="/inbox" to="/inbox">Your Subscriptions</NavItem>
+                <NavItem componentClass={Link} href="/search" to={this.props.searchText ? `/search?q=${this.props.searchText}` : '/search'}>Search</NavItem>
                 <NavItem onClick={this.handleLogout}>Log Out</NavItem>
             </Nav>}
             {!this.props.isAuthenticated && <Nav>
@@ -105,7 +105,5 @@ const mapDispatchToProps = dispatch => {
     updateSearch: (text) => dispatch(actions.updateQuery(text))
   }
 }
-
-
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
