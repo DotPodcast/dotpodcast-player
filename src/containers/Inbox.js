@@ -25,7 +25,7 @@ class Inbox extends Component {
                   <td colspan="4" className={css(styles.title)}>{item.podcast.title} ({item.episodes.length} New)</td>
                 </tr>
                 {item.episodes.map(e => {
-                    return(<EpisodeRow podcast={item.podcast} episode={e} />)
+                    return(!!e.content_audio && <EpisodeRow podcast={item.podcast} episode={e} />)
                   }
                 )}
             </table>);
