@@ -28,7 +28,7 @@ class LoginSplash extends Component {
           <div className={css(styles.inline)}>
             <h3>DOTPODCAST</h3>
             <p>
-              Enabling listeners to search, subscribe, and support podcasters without being tracked or censored.
+              Search, subscribe, and pay podcasters without being tracked or censored. 
             </p>
             <button className={css(styles.loginButton)} onClick={this.handleLogin}>
               <img className={css(styles.loginIcon)} alt="" src={blockstackIcon}/>Login with Blockstack</button>
@@ -36,7 +36,7 @@ class LoginSplash extends Component {
           <hr/>
           <div>
             <span className={css(styles.small)}>
-            We require BlockStack so your data is owned by you and safe from prying eyes. If you would like to browse with limited functionality, 
+            We require BlockStack. If you would like to browse with limited functionality, 
             you may <a href="javascript:void(null);" onClick={this.props.bypassLogin}>continue anonymously</a>.
             </span>
           </div>
