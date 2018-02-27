@@ -25,7 +25,7 @@ class SubscribeButton extends Component {
     }
 
     return (
-      <Button bsStyle='success' onClick={this.subscribe}>Subscribe to {this.props.podcast.title}</Button>
+      <Button bsStyle='success' onClick={this.subscribe}>Subscribe</Button>
     )
   }
 

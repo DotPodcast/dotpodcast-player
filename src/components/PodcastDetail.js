@@ -37,17 +37,27 @@ const styles = StyleSheet.create({
   headerContainer: {
     display: 'flex',
     marginBottom: 40,
+    '@media (max-width: 768px)': {
+      flexWrap: 'wrap',
+    },
   },
   imageContainer: {
     width: 300,
-    minWidth: 200,
+    marginRight: 15,
+    '@media (max-width: 768px)': {
+      marginRight: 0,
+      width: '100%',
+    },
   },
   artwork: {
-    marginRight: '15px',
-    width: '100%'
+    width: '100%',
   },
   detailContainer: {
     marginLeft: 30,
+    '@media (max-width: 768px)': {
+      marginLeft: 0,
+      marginTop: 20,
+    },
   },
   title: {
     fontSize: 28,
