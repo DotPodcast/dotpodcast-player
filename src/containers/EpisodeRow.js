@@ -84,7 +84,8 @@ const styles = StyleSheet.create({
   },
   visiblePlay: {
     visibility: 'visible',
-  }
+    textAlign: 'center',
+  },
 });
 
 const mapStateToProps = state => {
