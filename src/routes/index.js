@@ -42,10 +42,14 @@ const InLayoutRouter = (props) => {
 class AppRouter extends Component {
   componentDidMount() {
     this.props.startup();
+
+    // :( so we can reference `this` and the function within
+    //    itself at the same time
+    let self = this;
     window.addEventListener('touchstart', function onFirstTouch() {
-      this.props.touchDetected();
+      self.props.touchDetected();
       window.removeEventListener('touchstart', onFirstTouch, false)
-    }.bind(this), false);
+    }, false);
   }
   render() {
     return (
