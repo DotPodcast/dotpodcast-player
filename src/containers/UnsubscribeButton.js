@@ -24,7 +24,7 @@ class UnsubscribeButton extends Component {
     }
 
     return (
-      <Button bsStyle='warning' onClick={this.unsubscribe}>Unsubscribe from {this.props.podcast.title}</Button>
+      <Button bsStyle='warning' onClick={this.unsubscribe}>Unsubscribe</Button>
     )
   }
 
