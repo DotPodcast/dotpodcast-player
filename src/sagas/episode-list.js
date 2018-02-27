@@ -10,3 +10,12 @@ export function* getEpisodeList(action) {
     yield put(actions.listError(e));
   }
 }
+
+export function* getEpisodeListFromPodTo(action) {
+  try {
+    const results = yield call(getEpisodeListFromFeed, action.metadata.items_url);
+    yield put(actions.listRetrieved(results));
+  } catch(e) {
+    yield put(actions.listError(e));
+  }
+}
