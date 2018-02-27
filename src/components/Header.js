@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import ProtocolPrompt from '../components/ProtocolPrompt';
 import { Navbar, Nav, NavItem, FormGroup, FormControl } from 'react-bootstrap';
@@ -39,14 +40,22 @@ class Header extends Component {
                   type="text"
                   placeholder="Search"
                   value={this.props.searchText}
-                  onInput={(evt) => this.props.updateSearch(evt.target.value)}
+                  onInput={(evt) => {
+                    this.props.updateSearch(evt.target.value);
+                    console.log(this.props.location)
+                    if(this.props.location.pathname === '/search') {
+                      this.props.history.replace(`/search?q=${evt.target.value}`)
+                    }
+                  }}
+                  onKeyUp={(evt) => evt.key === 'Enter' && this.props.history.push(`/search?q=${this.props.searchText}`)}
                 />
               </FormGroup>
             </Navbar.Form>
           </Nav>
           <Navbar.Collapse>
             {this.props.isAuthenticated && <Nav>
-                <NavItem componentClass={Link} href="/" to="/" active={window.location.pathname === '/'}>Home</NavItem>
+                <NavItem componentClass={Link} href="/" to="/">Home</NavItem>
+                <NavItem componentClass={Link} href="/search" to={this.props.searchText ? `/search?q=${this.props.searchText}` : '/search'}>Search</NavItem>
                 <NavItem onClick={this.handleLogout}>Log Out</NavItem>
             </Nav>}
             {!this.props.isAuthenticated && <Nav>
@@ -97,6 +106,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

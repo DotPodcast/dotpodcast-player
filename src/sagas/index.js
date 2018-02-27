@@ -31,6 +31,7 @@ export default function* root() {
     takeLatest(userTypes.USER_LOGIN_CALLBACK, handleLoginCallback),
     takeLatest(podcastDetailTypes.PODCAST_REQUESTED, getPodcastDetails),
     takeLatest(episodeListTypes.EPISODES_REQUESTED, getEpisodeList),
+    takeLatest(episodeListTypes.MORE_EPISODES_REQUESTED, getEpisodeList),
     takeLatest(subscriptionDetailTypes.SUBSCRIPTION_REQUESTED_BY_URL, getSubscriptionByURL),
     takeLatest(userTypes.USER_DETAILS_LOADED, getSubscriptionList),
     takeLatest(subscriptionListTypes.SUBSCRIPTIONS_ADD_REQUESTED, addSubscription),
@@ -39,8 +40,7 @@ export default function* root() {
     takeLatest(mediaTypes.MEDIA_REQUESTED, getMediaUrl),
     takeLatest(mediaTypes.MEDIA_RETRIEVED, playMedia),
     takeLatest(mediaTypes.MEDIA_PLAYING, savePlaying),
-    takeLatest(inboxTypes.INBOX_REQUESTED, prepareFetchQueue),
-    takeEvery(inboxTypes.INBOX_FETCH_REQUESTED, fetchEpisodes),
+    takeLatest(inboxTypes.INBOX_FETCH_REQUESTED, fetchEpisodes),
     takeLatest(podtoTypes.PODTO_PODCAST_REQUESTED, getPodcastDetailsFromWeb),
     takeLatest(podtoTypes.PODTO_PODCAST_RETRIEVED, getEpisodeList),
     takeLatest('*', logger)

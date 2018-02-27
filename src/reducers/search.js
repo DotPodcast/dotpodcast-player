@@ -63,6 +63,12 @@ const search = (state = defaultState, action) => {
       return {
         ...state,
         text: action.text,
+        podcastResults: {
+          searching: true,
+          error: null,
+          hits: action.text === '' ? [] : state.podcastResults.hits,
+          total: action.text === '' ? 0 : state.podcastResults.total,
+        },
         episodeResults: {
           ...state.episodeResults,
           searching: true,
@@ -74,6 +80,7 @@ const search = (state = defaultState, action) => {
       return {
         ...state,
         episodeResults: {
+          ...state.episodeResults,
           searching: false,
           total: action.results.total,
           hits: action.results.hits
@@ -92,6 +99,7 @@ const search = (state = defaultState, action) => {
       return {
         ...state,
         podcastResults: {
+          ...state.podcastResults,
           searching: false,
           total: action.results.total,
           hits: action.results.hits

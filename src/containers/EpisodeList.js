@@ -3,6 +3,7 @@ import { Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { actions } from '../reducers/episode-list';
 import { StyleSheet, css } from 'aphrodite';
+import { Row, Col, Grid } from 'react-bootstrap';
 import EpisodeRow from '../containers/EpisodeRow';
 import StandardButton from '../components/StandardButton';
 
@@ -18,26 +19,25 @@ class EpisodeList extends Component {
 
     if(this.props.episodes) {
       const renderedList = this.props.episodes.map(
-        (episode, idx) => (
-          <EpisodeRow key={idx} podcast={this.props.podcast} episode={episode} />
-        )
+        (episode, idx) => {
+          if(episode.content_audio) {
+            return (<EpisodeRow key={idx} podcast={this.props.podcast} episode={episode} />)
+          }
+        }
       )
 
       return (
-        <table className={css(styles.table)}>
-          <thead>
-            <tr>
-              <th className={css(styles.header)}></th>
-              <th className={css(styles.header)}>Title</th>
-              <th className={css(styles.header)}>Release Date</th>
-              <th className={css(styles.header)}>Duration</th>
-            </tr>
-          </thead>
-          <tbody>
-            {renderedList}
-            {!!this.props.paginator && !!this.props.paginator.next_url && <tr><td colspan="4" className={css(styles.loadMore)}><StandardButton onClick={() => this.props.getList(this.props.paginator.next_url)}>Load More Episodes</StandardButton></td></tr>}
-          </tbody>
-        </table>
+        <Grid className={css(styles.table)}>
+          <Row className={css(styles.row)} onMouseOver={() => this.setState({hovering: true})} onMouseOut={() => this.setState({hovering: false})}>
+            <Col xs={1} className={css(styles.header)}></Col>
+            <Col xs={8} sm={5} className={css(styles.header)}>Title</Col>
+            <Col xsHidden sm={4} className={css(styles.header)}>Release Date</Col>
+            <Col xs={3} smHidden mdHidden lgHidden className={css(styles.header)}>Release Date</Col>
+            <Col xsHidden sm={2} className={css(styles.header)}>Duration</Col>
+          </Row>
+          {renderedList}
+          {!!this.props.paginator && !!this.props.paginator.next_url && <Row><Col xs={12} className={css(styles.loadMore)}><StandardButton onClick={() => this.props.getMore(this.props.paginator.next_url)}>Load More Episodes</StandardButton></Col></Row>}
+        </Grid>
       )
     }
 
@@ -74,8 +74,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getList: (url) => {
-      dispatch(actions.listRequested(url));
+    getMore: (url) => {
+      dispatch(actions.moreEpisodesRequested(url));
     },
   }
 }

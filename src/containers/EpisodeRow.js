@@ -3,6 +3,7 @@ import MiniPlayButton from '../components/MiniPlayButton';
 import { anonymousPlayAlert } from '../utils/alerts'
 import { actions } from '../reducers/media';
 import { connect } from 'react-redux';
+import { Row, Col, Grid } from 'react-bootstrap';
 import { StyleSheet, css } from 'aphrodite';
 import moment from 'moment';
 
@@ -16,11 +17,11 @@ class EpisodeRow extends Component {
     };
   }
 
-  handleMediaRequest = (username, podcast, episode) => {
+  handleMediaRequest = (podcast, episode) => {
     if (this.props.userIsAnonymous) {
       anonymousPlayAlert();
     }
-    this.props.requestMedia(username, this.props.userPublicKey, podcast, episode);
+    this.props.requestMedia(this.props.userPublicKey, podcast, episode);
   }
 
   render() {
@@ -32,41 +33,43 @@ class EpisodeRow extends Component {
     }
 
     return (
-      <tr className={css(styles.row)} onMouseOver={() => this.setState({showPlay: true})} onMouseOut={() => this.setState({showPlay: false})}>
-        <td className={css(styles.cell, styles.playCell)}>
+      <Row className={css(styles.row)} onMouseOver={() => this.setState({showPlay: true})} onMouseOut={() => this.setState({showPlay: false})}>
+        <Col xs={1} className={css(styles.cell, styles.playCell)}>
           <div className={css(styles.hiddenPlay, (this.props.userHasTouched || this.state.showPlay) && styles.visiblePlay)}>
             <MiniPlayButton
-              username={this.props.username}
-              url={this.props.episode.content_audio.url}
               podcast={this.props.podcast}
               episode={this.props.episode}
               action={this.handleMediaRequest}
             />
           </div>
-        </td>
-        <td className={css(styles.cell, styles.cellPrimary)}>
+        </Col>
+        <Col xs={8} sm={5} className={css(styles.cell, styles.cellPrimary)}>
           {this.props.episode.title}
-        </td>
-        <td className={css(styles.cell)}>
+        </Col>
+        <Col xsHidden sm={4} className={css(styles.cell)}>
           {this.props.episode.date_published && moment(this.props.episode.date_published).format('MMMM Do, YYYY')}
-        </td>
-        <td className={css(styles.cell)}>
+        </Col>
+        <Col xs={3} smHidden mdHidden lgHidden className={css(styles.cell)}>
+          {this.props.episode.date_published && moment(this.props.episode.date_published).format('L')}
+        </Col>
+        <Col xsHidden sm={2} className={css(styles.cell)}>
           {durationText}
-        </td>
-      </tr>
+        </Col>
+      </Row>
     )
   }
 };
 
 const styles = StyleSheet.create({
   row: {
+    display: 'flex',
+    alignItems: 'center',
     borderTop: '1px solid #444',
     ':hover': {
       backgroundColor: '#1f1f1f',
     },
   },
   playCell: {
-    width: 60,
   },
   cellPrimary: {
     color: '#ddd',
@@ -87,7 +90,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     userIsAnonymous: state.user.anonymous,
-    username: state.user.username,
     userPublicKey: state.user.publicKey,
     userHasTouched: state.behaviors.touched,
   }
@@ -95,9 +97,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    requestMedia: (username, userPublicKey, podcast, episode) => {
+    requestMedia: (userPublicKey, podcast, episode) => {
       dispatch(
-        actions.mediaRequested(username, userPublicKey, podcast, episode)
+        actions.mediaRequested(userPublicKey, userPublicKey, podcast, episode)
       );
     }
   }
