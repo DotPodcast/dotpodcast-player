@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import ProtocolPrompt from '../components/ProtocolPrompt';
 import { Navbar, Nav, NavItem, FormGroup, FormControl } from 'react-bootstrap';
-import logo from '../images/web-logo-dark.png';
+import logo from '../images/web-logo-dark-extended.png';
 import { StyleSheet, css } from 'aphrodite';
 import { actions } from '../reducers/search';
 import {
@@ -28,7 +28,7 @@ class Header extends Component {
           <Navbar.Header>
             <Navbar.Brand className={css(styles.icon)}>
               <Link to="/">
-                <img src={logo} alt="Logo" />
+                <img src={logo} alt="DotPodcast, built on Blockstack" />
               </Link>
             </Navbar.Brand>
           </Navbar.Header>
