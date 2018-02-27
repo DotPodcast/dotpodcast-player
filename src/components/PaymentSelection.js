@@ -206,7 +206,7 @@ I love your podcast and I just tried to donate $${this.state.selectedAmount} to 
         <Modal.Body>
           <div className={css(styles.container)}>
             <p style={{textAlign: 'center'}}>
-              This podcast accepts payments in the form of {niceList(this.state.availableMethods.map(o => o.humanReadable))}.
+              Tip this podcaster with {niceList(this.state.availableMethods.map(o => o.humanReadable))}.
             </p>
             {this.renderAmountPrompt()}
             {!!this.state.selectedAmount && this.state.availableMethods.length > 1 && this.renderMethodPrompt()}
