@@ -78,9 +78,9 @@ class Player extends Component {
           </div>
           <div className={css(styles.controls)}>
             <ButtonRow>
-              <GlyphButton icon="step-backward" onClick={this.backwardTen} />
+              <GlyphButton stylesheet={styles.fwdBack} icon="step-backward" onClick={this.backwardTen} />
               <PlayButton playing={playing} onClick={() => this.props.setPlaying(!playing)} />
-              <GlyphButton icon="step-forward" onClick={this.forwardTen} />
+              <GlyphButton stylesheet={styles.fwdBack} icon="step-forward" onClick={this.forwardTen} />
             </ButtonRow>
             <div className={css(styles.progressContainer)}>
                 <ProgressSeeker
@@ -135,7 +135,10 @@ const styles = StyleSheet.create({
   controls: {
     width: '50%',
     float: 'left',
-    margin: '0 auto'
+    margin: '0 auto',
+    '@media (max-width: 768px)': {
+      width: '100%',
+    },
   },
   playPause: {
     backgroundColor: '#333',
@@ -143,11 +146,17 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     outline: 'none'
   },
+  fwdBack: {
+    margin: '0 15px',
+  },
   meta: {
     float: 'left',
     width: '25%',
     cursor: 'pointer',
-    display: 'flex'
+    display: 'flex',
+    '@media (max-width: 768px)': {
+      display: 'none',
+    },
   },
   playerMeta: {
     order: 1,
@@ -189,9 +198,12 @@ const styles = StyleSheet.create({
   volumeContainer: {
     float: 'right',
     width: '15%',
-    marginLeft: '10%'
-  }
-})
+    marginLeft: '10%',
+    '@media (max-width: 768px)': {
+      display: 'none',
+    },
+  },
+});
 
 const mapStateToProps = (state) => {
   return {

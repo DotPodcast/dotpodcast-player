@@ -13,7 +13,7 @@ class EpisodeRow extends Component {
     super();
 
     this.state = {
-      hovering: false,
+      showPlay: false,
     };
   }
 
@@ -33,9 +33,9 @@ class EpisodeRow extends Component {
     }
 
     return (
-      <Row className={css(styles.row)} onMouseOver={() => this.setState({hovering: true})} onMouseOut={() => this.setState({hovering: false})}>
+      <Row className={css(styles.row)} onMouseOver={() => this.setState({showPlay: true})} onMouseOut={() => this.setState({showPlay: false})}>
         <Col xs={1} className={css(styles.cell, styles.playCell)}>
-          <div className={css(styles.hiddenPlay, this.state.hovering && styles.visiblePlay)}>
+          <div className={css(styles.hiddenPlay, (this.props.userHasTouched || this.state.showPlay) && styles.visiblePlay)}>
             <MiniPlayButton
               podcast={this.props.podcast}
               episode={this.props.episode}
@@ -84,13 +84,15 @@ const styles = StyleSheet.create({
   },
   visiblePlay: {
     visibility: 'visible',
-  }
+    textAlign: 'center',
+  },
 });
 
 const mapStateToProps = state => {
   return {
     userIsAnonymous: state.user.anonymous,
     userPublicKey: state.user.publicKey,
+    userHasTouched: state.behaviors.touched,
   }
 }
 

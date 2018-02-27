@@ -16,8 +16,10 @@ const ProgressSeeker = (props) => {
           step="any"
           value={props.value}
           onMouseDown={(evt) => props.onStartChange && props.onStartChange(evt.target.value)}
+          onTouchStart={(evt) => props.onStartChange && props.onStartChange(evt.target.value)}
           onChange={(evt) => props.onChange && props.onChange(evt.target.value) }
           onMouseUp={(evt) => props.onCompleteChange && props.onCompleteChange(evt.target.value)}
+          onTouchEnd={(evt) => props.onCompleteChange && props.onCompleteChange(evt.target.value)}
         />
       </div>
       {props.afterValue && <div className={css(styles.timeDisplay)}>{props.afterValue}</div>}

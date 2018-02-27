@@ -67,7 +67,6 @@ const sortAlpha = subscriptions => {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 10
   },
   podcastTitle: {
     fontSize: 18,

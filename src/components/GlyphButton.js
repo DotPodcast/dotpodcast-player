@@ -4,7 +4,7 @@ import { Glyphicon } from 'react-bootstrap';
 
 const GlyphButton = (props) => {
   return (
-    <div className={css(styles.container)} onClick={props.onClick}>
+    <div className={css(styles.container, props.stylesheet)} onClick={props.onClick}>
       <Glyphicon className={css(styles.icon)} glyph={props.icon}/>
     </div>
   )
@@ -13,7 +13,6 @@ const GlyphButton = (props) => {
 const styles = StyleSheet.create({
   container: {
     display: 'inline-block',
-    margin: '0 15px',
     padding: 5,
     ':hover': {
       borderColor: 'white',
