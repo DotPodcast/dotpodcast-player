@@ -18,7 +18,6 @@ class PodcastDetail extends Component {
           <div className={css(styles.detailContainer)}>
             <div className={css(styles.title)}>{podcast.title}</div>
             <div className={css(styles.author)}>{podcast.author.name}</div>
-            <div><a href={podcast.home_page_url} target="_blank">{podcast.home_page_url}</a></div>
             {(podcast.ethereumAddress || podcast.bitcoinCashAddress || podcast.bitcoinAddress) ?
               <TipButton ethereum={podcast.ethereumAddress} bitcoinCash={podcast.bitcoinCashAddress} bitcoin={podcast.bitcoinAddress} />
                 :
