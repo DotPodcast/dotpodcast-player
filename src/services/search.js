@@ -3,11 +3,10 @@ import elasticsearch from 'elasticsearch-browser';
 const client = new elasticsearch.Client({
   host: [
     {
-      host: 'd695e02a11cb3743d675f08895639dae.us-east-1.aws.found.io',
-      port: 9243,
+      host: 'search.dotpodcast.co',
+      port: 443,
       log: 'info',
-      protocol: 'https',
-      auth: 'search_ui_readonly:publiclyaccessible',
+      protocol: 'https'
     }
   ]
 });
