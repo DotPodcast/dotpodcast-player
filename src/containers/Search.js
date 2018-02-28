@@ -21,7 +21,7 @@ class Search extends Component {
       <Grid fluid>
         <Row>
           <Col xs={12}>
-            {this.props.searchText && <span>{this.props.podcastResults.total} podcasts found.</span>}
+            <h4>{this.props.podcastResults.total} Podcasts Found</h4>
             <PodcastTileList>
               {this.props.podcastResults.hits.map((podcast, idx) => <PodcastTile key={idx} {...podcast._source}/>)}
             </PodcastTileList>
