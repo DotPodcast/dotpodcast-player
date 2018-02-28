@@ -45,7 +45,7 @@ class Header extends Component {
           </Navbar.Header>
 
           <Navbar.Collapse>
-            <Nav>
+            <Nav pullRight>
               <Navbar.Form >
                 <FormGroup>
                   <FormControl
@@ -63,6 +63,7 @@ class Header extends Component {
                       if (evt.key === 'Enter') {
                         this.props.history.push(`/search?q=${this.props.searchText}`)
                         this.toggleNavExpansion();
+                        document.activeElement.blur();
                       }
                     }}
                   />
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
       border: 0,
       backgroundColor: '#EEE',
       color: '#111',
-      width: 350,
+      width: 300,
     },
     '::placeholder': {
       color: '#ababab'
