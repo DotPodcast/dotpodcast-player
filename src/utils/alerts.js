@@ -8,5 +8,5 @@ export const anonymousPlayAlert = () => {
 }
 
 export const anonymousSubscribeAlert = () => {
-  alert("To subscribe, you need the BlockStack browser so your data is kept secure from prying eyes.");
+  alert("To subscribe, you need the BlockStack browser installed.");
 }
