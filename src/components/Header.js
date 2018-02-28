@@ -13,6 +13,12 @@ import {
 } from 'blockstack';
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { expanded: false };
+    this.toggleNavExpansion = this.toggleNavExpansion.bind(this);
+  }
+
   handleLogout() {
     signUserOut(`${window.location.origin}/login`)
   }
@@ -21,38 +27,48 @@ class Header extends Component {
     window.location = '/login';
   }
 
+  toggleNavExpansion(expanded) {
+    this.setState({expanded: expanded});
+  }
+
   render() {
     return (
       <div>
-        <Navbar className={css(styles.header)} fluid inverse fixedTop>
+        <Navbar className={css(styles.header)} expanded={this.state.expanded} onToggle={this.toggleNavExpansion} fluid inverse fixedTop>
           <Navbar.Header>
             <Navbar.Brand className={css(styles.icon)}>
               <Link to="/">
                 <img src={logo} alt="DotPodcast, built on Blockstack" />
               </Link>
             </Navbar.Brand>
+            <Navbar.Toggle />
           </Navbar.Header>
-          <Nav pullRight>
-            <Navbar.Form>
-              <FormGroup>
-                <FormControl
-                  className={css(styles.searchInput)}
-                  type="text"
-                  placeholder="Search"
-                  value={this.props.searchText}
-                  onInput={(evt) => {
-                    this.props.updateSearch(evt.target.value);
-                    console.log(this.props.location)
-                    if(this.props.location.pathname === '/search') {
-                      this.props.history.replace(`/search?q=${evt.target.value}`)
-                    }
-                  }}
-                  onKeyUp={(evt) => evt.key === 'Enter' && this.props.history.push(`/search?q=${this.props.searchText}`)}
-                />
-              </FormGroup>
-            </Navbar.Form>
-          </Nav>
+
           <Navbar.Collapse>
+            <Nav>
+              <Navbar.Form >
+                <FormGroup>
+                  <FormControl
+                    className={css(styles.searchInput)}
+                    type="text"
+                    placeholder="Search"
+                    value={this.props.searchText}
+                    onInput={(evt) => {
+                      this.props.updateSearch(evt.target.value);
+                      if(this.props.location.pathname === '/search') {
+                        this.props.history.replace(`/search?q=${evt.target.value}`)
+                      }
+                    }}
+                    onKeyUp={(evt) => {
+                      if (evt.key === 'Enter') {
+                        this.props.history.push(`/search?q=${this.props.searchText}`)
+                        this.toggleNavExpansion();
+                      }
+                    }}
+                  />
+                </FormGroup>
+              </Navbar.Form>
+            </Nav>
             {this.props.isAuthenticated && <Nav>
                 <NavItem componentClass={Link} href="/" to="/">Home</NavItem>
                 <NavItem onClick={this.handleLogout}>Log Out</NavItem>
@@ -60,6 +76,10 @@ class Header extends Component {
             {!this.props.isAuthenticated && <Nav>
               <NavItem onClick={this.handleLogin}>Login</NavItem>
             </Nav>}
+            <Nav>
+              <NavItem componentClass={Link} href="/hosting" to="/hosting" onSelect={this.toggleNavExpansion}>Hosting</NavItem>
+              <NavItem componentClass={Link} href="/contact" to="/contact" onSelect={this.toggleNavExpansion}>Contact</NavItem>
+            </Nav>
           </Navbar.Collapse>
         </Navbar>
         <ProtocolPrompt />
@@ -78,16 +98,19 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     border: '1px solid #111',
-    backgroundColor: '#262D30',
-    color: '#ddd',
+    backgroundColor: '#ddd',
     borderRadius: 17,
     width: 180,
+    marginLeft: 5,
     transition: '.2s',
     ':focus': {
       border: 0,
       backgroundColor: '#EEE',
       color: '#111',
-      width: 300,
+      width: 350,
+    },
+    '::placeholder': {
+      color: '#ababab'
     }
   },
   link: {"color":"#9d9d9d"}
