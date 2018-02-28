@@ -48,7 +48,7 @@ class PaymentSelection extends Component {
 
     this.state = {
       availableMethods,
-      selectedMethod: availableMethods.length > 1 ? '' : availableMethods[0].currency,
+      selectedMethod: '',
       selectedAmount: 0,
       rates: {},
     };
@@ -61,7 +61,7 @@ class PaymentSelection extends Component {
   }
 
   getPaymentOptions(props) {
-    const acceptedMethods = [];
+    let acceptedMethods = [];
     Object.keys(paymentMethods).forEach((method) => {
       if(method in props) {
         acceptedMethods.push({ ...paymentMethods[method], address: props[paymentMethods[method].key]});
@@ -69,7 +69,7 @@ class PaymentSelection extends Component {
     });
 
     if(acceptedMethods.length === 0 && props.placeholder === true) {
-      acceptedMethods.push({ ...paymentMethods.bitcoin });
+      acceptedMethods = Object.keys(paymentMethods).map((key) => ({ ...paymentMethods[key] }));
     }
 
     return acceptedMethods;
