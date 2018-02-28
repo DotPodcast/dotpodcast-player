@@ -70,17 +70,17 @@ class Header extends Component {
                 </FormGroup>
               </Navbar.Form>
             </Nav>
+            <Nav>
+              <NavItem componentClass={Link} href="/" to="/" onSelect={this.toggleNavExpansion}>Home</NavItem>
+              <NavItem componentClass={Link} href="/hosting" to="/hosting" onSelect={this.toggleNavExpansion}>Hosting</NavItem>
+              <NavItem componentClass={Link} href="/contact" to="/contact" onSelect={this.toggleNavExpansion}>Contact</NavItem>
+            </Nav>
             {this.props.isAuthenticated && <Nav>
-                <NavItem componentClass={Link} href="/" to="/">Home</NavItem>
                 <NavItem onClick={this.handleLogout}>Log Out</NavItem>
             </Nav>}
             {!this.props.isAuthenticated && <Nav>
               <NavItem onClick={this.handleLogin}>Login</NavItem>
             </Nav>}
-            <Nav>
-              <NavItem componentClass={Link} href="/hosting" to="/hosting" onSelect={this.toggleNavExpansion}>Hosting</NavItem>
-              <NavItem componentClass={Link} href="/contact" to="/contact" onSelect={this.toggleNavExpansion}>Contact</NavItem>
-            </Nav>
           </Navbar.Collapse>
         </Navbar>
         <ProtocolPrompt />
