@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { StyleSheet, css } from 'aphrodite';
 
@@ -19,7 +18,7 @@ class ContactUs extends Component {
             <h3>Podcast Hosting</h3>
             DPX is our open source self-hosted platform, allowing you to quickly upload new episodes, or migrate an existing podcast while supporting all the new features of the DotPodcast protocol. DPX provides a legacy RSS feed, so you can still serve traditional podcast clients and directories. If you’re familiar with Docker and have previously hosted your own websites, you can deploy your own DPX site by following the instructions on GitHub.
 
-            If you’d like to take advantage of the DotPodcast protocol but would prefer someone else look after the technical side, <Link to="/contact">email us.</Link>       
+            If you’d like to take advantage of the DotPodcast protocol but would prefer someone else look after the technical side, email us.
           </Col>
         </Row>
 
