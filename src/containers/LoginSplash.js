@@ -37,7 +37,7 @@ class LoginSplash extends Component {
           <div>
             <span className={css(styles.small)}>
             We require BlockStack. If you would like to browse with limited functionality, 
-            you may <a href="javascript:void(null);" onClick={this.props.bypassLogin}>continue anonymously</a>.
+            you may <a href="javascript:void(null);" onClick={this.props.bypassLogin}>continue without login</a>.
             </span>
           </div>
         </RibbonSplash>
