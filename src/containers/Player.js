@@ -9,8 +9,9 @@ import EpisodeDetail from '../components/EpisodeDetail';
 import { StyleSheet, css } from 'aphrodite';
 import ButtonRow from '../components/ButtonRow';
 import PlayButton from '../components/PlayButton';
-import GlyphButton from '../components/GlyphButton';
 import VolumeControl from '../components/VolumeControl';
+import FwdTenButton from '../components/FwdTenButton';
+import BackTenButton from '../components/BackTenButton';
 
 class Player extends Component {
   ref = (player) => {
@@ -78,9 +79,9 @@ class Player extends Component {
           </div>
           <div className={css(styles.controls)}>
             <ButtonRow>
-              <GlyphButton stylesheet={styles.fwdBack} icon="step-backward" onClick={this.backwardTen} />
+              <BackTenButton onClick={this.backwardTen} style={{marginRight: 20}}/>
               <PlayButton playing={playing} onClick={() => this.props.setPlaying(!playing)} />
-              <GlyphButton stylesheet={styles.fwdBack} icon="step-forward" onClick={this.forwardTen} />
+              <FwdTenButton onClick={this.forwardTen} style={{marginLeft: 20}}/>
             </ButtonRow>
             <div className={css(styles.progressContainer)}>
                 <ProgressSeeker
@@ -98,7 +99,7 @@ class Player extends Component {
                 />
             </div>
           </div>
-          
+
           <div className={css(styles.volumeContainer)}>
             <VolumeControl
               volume={volume}
