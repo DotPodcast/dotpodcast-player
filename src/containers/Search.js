@@ -16,7 +16,11 @@ class Search extends Component {
       this.props.updateSearch(q || '');
     }
   }
+
   render() {
+    if (this.props.searching)
+      return(<div><h4>Searching...</h4></div>)
+
     return (
       <Grid fluid>
         <Row>
@@ -39,6 +43,7 @@ const mapStateToProps = state => {
     userPublicKey: state.user.publicKey,
     podcastResults: state.search.podcastResults,
     episodeResults: state.search.episodeResults,
+    searching: state.search.podcastResults.searching && state.search.episodeResults.searching
   }
 }
 
