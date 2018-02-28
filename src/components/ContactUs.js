@@ -7,7 +7,7 @@ class ContactUs extends Component {
       <div className={css(styles.content)}>
         <h2>Get In Touch</h2>
         <div>
-          Have feedback or questions? Please <a href="mailto:dotpodcastinc@gmail.com">send us a message!</a>
+          Have feedback or questions? Please <a href="mailto:info@dotpodcast.co">send us a message!</a>
         </div>
       </div>
     )
