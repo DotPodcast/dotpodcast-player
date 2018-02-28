@@ -12,7 +12,9 @@ export const actions = {
   updateQuery: (text) => {
     return {
       type: types.SEARCH_REQUESTED,
-      text
+      text,
+      podcastResults: null,
+      episodeResults: null
     };
   },
   episodeSuccess: (results) => {

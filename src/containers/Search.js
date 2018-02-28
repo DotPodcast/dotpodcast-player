@@ -16,12 +16,16 @@ class Search extends Component {
       this.props.updateSearch(q || '');
     }
   }
+
   render() {
+    if (this.props.searching)
+      return(<div><h4>Searching...</h4></div>)
+
     return (
       <Grid fluid>
         <Row>
           <Col xs={12}>
-            {this.props.searchText && <span>{this.props.podcastResults.total} podcasts found.</span>}
+            <h4>{this.props.podcastResults.total} Podcasts Found</h4>
             <PodcastTileList>
               {this.props.podcastResults.hits.map((podcast, idx) => <PodcastTile key={idx} {...podcast._source}/>)}
             </PodcastTileList>
@@ -39,6 +43,7 @@ const mapStateToProps = state => {
     userPublicKey: state.user.publicKey,
     podcastResults: state.search.podcastResults,
     episodeResults: state.search.episodeResults,
+    searching: state.search.podcastResults.searching && state.search.episodeResults.searching
   }
 }
 
