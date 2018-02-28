@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { actions } from '../reducers/inbox';
 import { StyleSheet, css } from 'aphrodite';
 import EpisodeRow from '../containers/EpisodeRow';
+import SearchInput from '../containers/SearchInput';
 import moment from 'moment';
 
 class Inbox extends Component {
@@ -12,6 +13,15 @@ class Inbox extends Component {
 
   componentDidMount() {
     this.props.getInbox(this.props.userPublicKey)
+  }
+
+  renderEmptySubscriptions() {
+    return (
+      <div>
+        Looks like you don't have any subscriptions yet! Search for podcasts or episodes below.
+        <SearchInput />
+      </div>
+    )
   }
 
   render() {
@@ -56,6 +66,7 @@ class Inbox extends Component {
           );
         }
         )}
+        {this.props.inbox.fetching === false && this.props.inbox.episodes.length === 0 && this.renderEmptySubscriptions()}
       </div>
     )
   }
@@ -102,7 +113,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     userPublicKey: state.user.publicKey,
-    subscriptions: sortAlpha(state.inbox.episodes)
+    subscriptions: sortAlpha(state.inbox.episodes),
+    inbox: state.inbox,
   }
 }
 
