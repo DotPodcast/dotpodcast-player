@@ -71,12 +71,11 @@ class Header extends Component {
               </Navbar.Form>
             </Nav>
             <Nav>
-              <NavItem componentClass={Link} href="/" to="/" onSelect={this.toggleNavExpansion}>Home</NavItem>
-              <NavItem componentClass={Link} href="/hosting" to="/hosting" onSelect={this.toggleNavExpansion}>Hosting</NavItem>
-              <NavItem componentClass={Link} href="/contact" to="/contact" onSelect={this.toggleNavExpansion}>Contact</NavItem>
+              <NavItem componentClass={Link} href="/" to="/" onSelect={this.toggleNavExpansion}>Your Subscriptions</NavItem>
+              <NavItem componentClass={Link} href="/about" to="/about" onSelect={this.toggleNavExpansion}>About</NavItem>
             </Nav>
             {this.props.isAuthenticated && <Nav>
-                <NavItem onClick={this.handleLogout}>Log Out</NavItem>
+                <NavItem onClick={this.handleLogout}>Logout</NavItem>
             </Nav>}
             {!this.props.isAuthenticated && <Nav>
               <NavItem onClick={this.handleLogin}>Login</NavItem>

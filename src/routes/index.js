@@ -18,7 +18,6 @@ import LoginSplash from '../containers/LoginSplash';
 import RibbonSplash from '../components/RibbonSplash';
 import Inbox from '../containers/Inbox';
 import Search from '../containers/Search';
-import Hosting from '../components/Hosting';
 import ContactUs from '../components/ContactUs';
 
 const InLayoutRouter = (props) => {
@@ -32,8 +31,7 @@ const InLayoutRouter = (props) => {
             <Route exact path="/" component={Home} />
             <Route exact path="/subscribe" component={Subscribe} />
             <Route exact path="/inbox" component={Inbox} />
-            <Route exact path="/hosting" component={Hosting} />
-            <Route exact path="/contact" component={ContactUs} />
+            <Route exact path="/about" component={ContactUs} />
             <Route path="/search" component={Search} />
             <Route exact path="/:slug" component={PodcastWrapper} />
           </Switch>
