@@ -63,6 +63,7 @@ class Header extends Component {
                       if (evt.key === 'Enter') {
                         this.props.history.push(`/search?q=${this.props.searchText}`)
                         this.toggleNavExpansion();
+                        document.activeElement.blur();
                       }
                     }}
                   />
