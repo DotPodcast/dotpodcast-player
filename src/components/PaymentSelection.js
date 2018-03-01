@@ -7,7 +7,7 @@ import exchangeRatesService from '../services/exchange-rate';
 import noPayment from '../images/no-payment.jpg';
 
 const paymentMethods = {
-  bitcoin: {
+  btc: {
     key: 'bitcoin',
     humanReadable: 'Bitcoin',
     currency: 'BTC',
@@ -16,7 +16,7 @@ const paymentMethods = {
       return `bitcoin:${address}?amount=${amount}`
     },
   },
-  bitcoinCash: {
+  bch: {
     key: 'bitcoinCash',
     humanReadable: 'Bitcoin Cash',
     currency: 'BCH',
@@ -25,7 +25,7 @@ const paymentMethods = {
       return `bitcoincash:${address}?amount=${amount}`
     },
   },
-  ethereum: {
+  eth: {
     key: 'ethereum',
     humanReadable: 'Ethereum',
     currency: 'ETH',
@@ -48,7 +48,7 @@ class PaymentSelection extends Component {
 
     this.state = {
       availableMethods,
-      selectedMethod: '',
+      selectedMethod: availableMethods.length > 1 ? '' : availableMethods[0].currency,
       selectedAmount: 0,
       rates: {},
     };
@@ -62,11 +62,14 @@ class PaymentSelection extends Component {
 
   getPaymentOptions(props) {
     let acceptedMethods = [];
-    Object.keys(paymentMethods).forEach((method) => {
-      if(method in props) {
-        acceptedMethods.push({ ...paymentMethods[method], address: props[paymentMethods[method].key]});
-      }
-    });
+
+    if(props.addresses) {
+      Object.keys(paymentMethods).forEach((method) => {
+        if(method in props.addresses) {
+          acceptedMethods.push({ ...paymentMethods[method], address: props.addresses[method]});
+        }
+      });
+    }
 
     if(acceptedMethods.length === 0 && props.placeholder === true) {
       acceptedMethods = Object.keys(paymentMethods).map((key) => ({ ...paymentMethods[key] }));
@@ -102,8 +105,6 @@ class PaymentSelection extends Component {
       content = this.renderBitcoinPayment(amount);
     } else if(this.state.selectedMethod === 'BCH') {
       content = this.renderBitcoinCashPayment(amount);
-    } else if(this.state.selectedMethod === 'ZEC') {
-      content = this.renderZcashPayment(amount);
     } else if(this.state.selectedMethod === 'ETH') {
       content = this.renderEthereumPayment(amount);
     }
@@ -116,7 +117,7 @@ class PaymentSelection extends Component {
       </div>);
   }
   renderBitcoinPayment(amount) {
-    const uri = paymentMethods.bitcoin.uriGenerator(this.props.bitcoin, amount);
+    const uri = paymentMethods.btc.uriGenerator(this.props.bitcoin, amount);
     return (
       <div className={css(styles.paymentContainer)}>
         <div className={css(styles.qrContainer)}>
@@ -128,19 +129,7 @@ class PaymentSelection extends Component {
   }
 
   renderBitcoinCashPayment(amount) {
-    const uri = paymentMethods.bitcoinCash.uriGenerator(this.props.bitcoinCash, amount);
-    return (
-      <div className={css(styles.paymentContainer)}>
-        <div className={css(styles.qrContainer)}>
-          <QRCode value={uri} size={256} level='M'/>
-        </div>
-        <a href={uri}>Click here to use your native wallet app</a>
-      </div>
-    )
-  }
-
-  renderZcashPayment(amount) {
-    const uri = paymentMethods.zcash.uriGenerator(this.props.zcash, amount);
+    const uri = paymentMethods.bch.uriGenerator(this.props.bitcoinCash, amount);
     return (
       <div className={css(styles.paymentContainer)}>
         <div className={css(styles.qrContainer)}>
@@ -152,7 +141,7 @@ class PaymentSelection extends Component {
   }
 
   renderEthereumPayment(amount) {
-    const uri = paymentMethods.ethereum.uriGenerator(this.props.ethereum, amount);
+    const uri = paymentMethods.eth.uriGenerator(this.props.ethereum, amount);
     return (
       <div className={css(styles.paymentContainer)}>
         <div className={css(styles.qrContainer)}>

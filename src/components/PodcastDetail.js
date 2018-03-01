@@ -6,6 +6,16 @@ import TipButton from '../components/TipButton';
 import { StyleSheet, css } from 'aphrodite';
 
 class PodcastDetail extends Component {
+  renderTipLink() {
+    let addresses = this.props.podcast.payment_addresses;
+    if(addresses && Object.keys(addresses).length > 0) {
+      return (
+        <TipButton addresses={addresses} />
+      )
+    } else {
+      return (<TipButton placeholder={true} podcastName={this.props.podcast.title} podcastEmail={this.props.podcast.author.email}/>)
+    }
+  }
   render() {
     const podcast = this.props.podcast;
 
@@ -18,11 +28,7 @@ class PodcastDetail extends Component {
           <div className={css(styles.detailContainer)}>
             <div className={css(styles.title)}>{podcast.title}</div>
             <div className={css(styles.author)}>{podcast.author.name}</div>
-            {(podcast.ethereumAddress || podcast.bitcoinCashAddress || podcast.bitcoinAddress) ?
-              <TipButton ethereum={podcast.ethereumAddress} bitcoinCash={podcast.bitcoinCashAddress} bitcoin={podcast.bitcoinAddress} />
-                :
-              <TipButton placeholder={true} podcastName={podcast.title} podcastEmail={podcast.author.email}/>
-            }
+            {this.renderTipLink(podcast.payment_addresses)}
             <p className={css(styles.description)}>{podcast.description_text}</p>
             <SubscriptionChoice podcast={podcast} />
           </div>
