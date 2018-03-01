@@ -16,13 +16,13 @@ const paymentMethods = {
       return `bitcoin:${address}?amount=${amount}`
     },
   },
-  bch: {
-    key: 'bitcoinCash',
-    humanReadable: 'Bitcoin Cash',
-    currency: 'BCH',
+  zec: {
+    key: 'zcash',
+    humanReadable: 'ZCash',
+    currency: 'ZEC',
     // icon: bitcoinIcon,
-    uriGenerator: (address, amount) => {
-      return `bitcoincash:${address}?amount=${amount}`
+    uriGenerator: (address) => {
+      return `${address}`
     },
   },
   eth: {
@@ -32,6 +32,15 @@ const paymentMethods = {
     // icon: bitcoinIcon,
     uriGenerator: (address, amount) => {
       return `ethereum:${address}?value=${amount}`
+    },
+  },
+  bch: {
+    key: 'bitcoinCash',
+    humanReadable: 'Bitcoin Cash',
+    currency: 'BCH',
+    // icon: bitcoinIcon,
+    uriGenerator: (address, amount) => {
+      return `bitcoincash:${address}?amount=${amount}`
     },
   },
 };
@@ -107,6 +116,8 @@ class PaymentSelection extends Component {
       content = this.renderBitcoinCashPayment(amount);
     } else if(this.state.selectedMethod === 'ETH') {
       content = this.renderEthereumPayment(amount);
+    } else if(this.state.selectedMethod === 'ZEC') {
+      content = this.renderZcashPayment(amount);
     }
     return (
       <div>
@@ -114,10 +125,11 @@ class PaymentSelection extends Component {
         <div className={css(styles.disclaimer)}>
           Conversion rates are approximate and provided by <a href="https://www.cryptocompare.com/" rel="noopener noreferrer" target="_blank">CryptoCompare</a>
         </div>
-      </div>);
+      </div>
+    );
   }
   renderBitcoinPayment(amount) {
-    const uri = paymentMethods.btc.uriGenerator(this.props.bitcoin, amount);
+    const uri = paymentMethods.btc.uriGenerator(this.props.addresses.btc, amount);
     return (
       <div className={css(styles.paymentContainer)}>
         <div className={css(styles.qrContainer)}>
@@ -129,7 +141,7 @@ class PaymentSelection extends Component {
   }
 
   renderBitcoinCashPayment(amount) {
-    const uri = paymentMethods.bch.uriGenerator(this.props.bitcoinCash, amount);
+    const uri = paymentMethods.bch.uriGenerator(this.props.addresses.bch, amount);
     return (
       <div className={css(styles.paymentContainer)}>
         <div className={css(styles.qrContainer)}>
@@ -141,13 +153,25 @@ class PaymentSelection extends Component {
   }
 
   renderEthereumPayment(amount) {
-    const uri = paymentMethods.eth.uriGenerator(this.props.ethereum, amount);
+    const uri = paymentMethods.eth.uriGenerator(this.props.addresses.eth, amount);
     return (
       <div className={css(styles.paymentContainer)}>
         <div className={css(styles.qrContainer)}>
           <QRCode value={uri} size={256} level='M'/>
         </div>
         <a href={uri}>Click here to use your native wallet app</a>
+      </div>
+    )
+  }
+
+  renderZcashPayment(amount) {
+    const uri = paymentMethods.zec.uriGenerator(this.props.addresses.zec);
+    return (
+      <div className={css(styles.paymentContainer)}>
+        <div className={css(styles.qrContainer)}>
+          <QRCode value={uri} size={256} level='M'/>
+        </div>
+        <span>Note: you will have to enter the amount manually in your wallet ({amount}).</span>
       </div>
     )
   }
