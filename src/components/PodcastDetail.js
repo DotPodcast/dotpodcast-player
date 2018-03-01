@@ -21,7 +21,7 @@ class PodcastDetail extends Component {
             {(podcast.ethereumAddress || podcast.bitcoinCashAddress || podcast.bitcoinAddress) ?
               <TipButton ethereum={podcast.ethereumAddress} bitcoinCash={podcast.bitcoinCashAddress} bitcoin={podcast.bitcoinAddress} />
                 :
-              <TipButton placeholder={true} podcastName={podcast.title}/>
+              <TipButton placeholder={true} podcastName={podcast.title} podcastEmail={podcast.author.email}/>
             }
             <p className={css(styles.description)}>{podcast.description_text}</p>
             <SubscriptionChoice podcast={podcast} />

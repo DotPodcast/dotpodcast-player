@@ -167,8 +167,7 @@ class PaymentSelection extends Component {
     let subject = `$${this.state.selectedAmount} donation for ${this.props.podcastName}`
     let toAddress = this.props.podcastEmail;
     let ccAddress = 'info@dotpodcast.co';
-    let body = `Hey there!
-
+    let body = `Hey there! 
 I love your podcast and I just tried to donate $${this.state.selectedAmount} to you through the DotPodcast App (http://player.dotpodcast.co/),
  but you don't have any payment methods set up yet. If you want to start accepting payments through the DotPodcast App, send an email to Bill
  and Jonathan at info@dotpodcast.co for help!`
@@ -182,7 +181,7 @@ I love your podcast and I just tried to donate $${this.state.selectedAmount} to 
           <img src={noPayment} />
         </div>
         <p> Whoops! Looks like this podcaster hasn't set up any payment methods yet.</p>
-        <p> <a href={this.generateEmailLink()} target="_blank">Send them an email</a> letting them know you just tried to pay them ${amount}.</p>
+        {!!this.props.podcastEmail && <p> <a href={this.generateEmailLink()} target="_blank">Send them an email</a> letting them know you just tried to pay them ${amount}.</p>}
       </div>
     )
   }
