@@ -6,7 +6,7 @@ import SearchResults from '../components/SearchResults';
 import PodcastTileList from '../components/PodcastTileList';
 import PodcastTile from '../components/PodcastTile';
 import { actions as searchActions } from '../reducers/search';
-import { actions as mediaActions } from '../reducers/media';
+import { actions as playerActions } from '../reducers/player';
 
 class Search extends Component {
   componentDidMount() {
@@ -43,14 +43,16 @@ const mapStateToProps = state => {
     userPublicKey: state.user.publicKey,
     podcastResults: state.search.podcastResults,
     episodeResults: state.search.episodeResults,
-    searching: state.search.podcastResults.searching && state.search.episodeResults.searching
+    searching: state.search.podcastResults.searching && state.search.episodeResults.searching,
+    userHasTouched: state.behaviors.touched,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    playEpisode: (userPublicKey, podcast, episode) => {
-      dispatch(mediaActions.mediaRequested(null, userPublicKey, podcast, episode));    
+    playEpisode: (userPublicKey, podcast, episode, touch) => {
+      dispatch(playerActions.playUrl(episode.content_audio.url, podcast.title, episode.title, podcast.artwork['@1x'], episode.content_text, touch));
+ 
     },
     updateSearch: (text) => dispatch(searchActions.updateQuery(text)),
   }

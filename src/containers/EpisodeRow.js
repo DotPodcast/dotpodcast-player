@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MiniPlayButton from '../components/MiniPlayButton';
 import { anonymousPlayAlert } from '../utils/alerts'
-import { actions } from '../reducers/media';
+import { actions as playerActions } from '../reducers/player';
 import { connect } from 'react-redux';
 import { Row, Col, Grid } from 'react-bootstrap';
 import { StyleSheet, css } from 'aphrodite';
@@ -18,7 +18,7 @@ class EpisodeRow extends Component {
   }
 
   handleMediaRequest = (podcast, episode) => {
-    this.props.requestMedia(this.props.userPublicKey, podcast, episode);
+    this.props.requestMedia(this.props.userPublicKey, podcast, episode, this.props.userHasTouched);
   }
 
   render() {
@@ -95,9 +95,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    requestMedia: (userPublicKey, podcast, episode) => {
+    requestMedia: (userPublicKey, podcast, episode, touch) => {
       dispatch(
-        actions.mediaRequested(userPublicKey, userPublicKey, podcast, episode)
+        playerActions.playUrl(episode.content_audio.url, podcast.title, episode.title, podcast.artwork['@1x'], episode.content_text, touch)
       );
     }
   }

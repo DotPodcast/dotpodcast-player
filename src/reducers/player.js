@@ -14,14 +14,15 @@ export const types = makeTypes([
 ]);
 
 export const actions = {
-  playUrl: (url, title, episode, image_url, description) => {
+  playUrl: (url, title, episode, image_url, description, touch) => {
     return {
       type: types.PLAY_URL,
       url,
       title,
       episode,
       image_url,
-      description
+      description,
+      touch
     }
   },
   setPlaying: (isPlaying) => {
@@ -116,7 +117,7 @@ const player = (state = defaultState, action) => {
         playedSeconds: 0,
         loaded: 0,
         loadedSeconds: 0,
-        playing: true
+        playing: !action.touch
       };
     case types.SET_PLAYING:
       return {

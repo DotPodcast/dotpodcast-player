@@ -67,6 +67,9 @@ class Player extends Component {
             muted={muted}
             loop={loop}
             ref={this.ref}
+            fileConfig={{
+                forceAudio: true
+            }}
             onProgress={(progress) => !this.props.player.seeking && this.props.updateProgress(progress)}
             onDuration={this.props.setDuration}
           />
@@ -80,7 +83,7 @@ class Player extends Component {
           <div className={css(styles.controls)}>
             <ButtonRow>
               <BackTenButton onClick={this.backwardTen} style={{marginRight: 20}}/>
-              <PlayButton playing={playing} onClick={() => this.props.setPlaying(!playing)} />
+              <PlayButton playing={playing} touched={this.props.touched} onClick={() => this.props.setPlaying(!playing)} />
               <FwdTenButton onClick={this.forwardTen} style={{marginLeft: 20}}/>
             </ButtonRow>
             <div className={css(styles.progressContainer)}>
@@ -209,6 +212,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     player: state.player,
+    touched: state.behaviors.touched
   };
 };
 const mapDispatchToProps = (dispatch) => {
