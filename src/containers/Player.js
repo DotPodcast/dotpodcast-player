@@ -43,6 +43,10 @@ class Player extends Component {
         console.debug('Duration', duration);
     }
 
+    if (!this.props.playing && this.props.touched) {
+      // HI MARK
+    }
+
     const displayDuration = toReadableTime(duration * 1000);
 
     const detail = (
@@ -212,6 +216,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     player: state.player,
+    touched: state.behaviors.touched
   };
 };
 const mapDispatchToProps = (dispatch) => {
