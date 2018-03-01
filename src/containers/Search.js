@@ -43,14 +43,15 @@ const mapStateToProps = state => {
     userPublicKey: state.user.publicKey,
     podcastResults: state.search.podcastResults,
     episodeResults: state.search.episodeResults,
-    searching: state.search.podcastResults.searching && state.search.episodeResults.searching
+    searching: state.search.podcastResults.searching && state.search.episodeResults.searching,
+    userHasTouched: state.behaviors.touched,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    playEpisode: (userPublicKey, podcast, episode) => {
-      dispatch(playerActions.playUrl(episode.content_audio.url, podcast.title, episode.title, podcast.artwork['@1x'], episode.content_text));
+    playEpisode: (userPublicKey, podcast, episode, touch) => {
+      dispatch(playerActions.playUrl(episode.content_audio.url, podcast.title, episode.title, podcast.artwork['@1x'], episode.content_text, touch));
  
     },
     updateSearch: (text) => dispatch(searchActions.updateQuery(text)),
