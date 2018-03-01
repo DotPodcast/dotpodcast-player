@@ -3,7 +3,7 @@ import { StyleSheet, css } from 'aphrodite';
 
 const StandardButton = (props) => {
   return (
-    <button className={css(styles.button)} onClick={props.onClick}>
+    <button className={css(styles.button)} type="button" onClick={props.onClick}>
       {props.children}
     </button>
   );

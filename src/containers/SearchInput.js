@@ -9,7 +9,7 @@ import { css, StyleSheet } from 'aphrodite';
 class SearchInput extends Component {
   render() {
     return (
-      <form className={css(styles.container)}>
+      <div className={css(styles.container)}>
         <FormGroup>
           <FormControl
             className={css(styles.searchInput)}
@@ -25,12 +25,13 @@ class SearchInput extends Component {
             onKeyUp={(evt) => {
               if (evt.key === 'Enter') {
                 this.props.history.push(`/search?q=${this.props.searchText}`)
+                evt.preventDefault();
               }
             }}
           />
-          <StandardButton onClick={() => this.props.history.push(`/search?q=${this.props.searchText}`)}>Search</StandardButton>
+          <StandardButton onClick={() =>this.props.history.push(`/search?q=${this.props.searchText}`)}>Search</StandardButton>
         </FormGroup>
-      </form>
+      </div>
     )
   }
 }
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
     border: '1px solid #111',
     backgroundColor: '#ddd',
     borderRadius: 17,
-    width: 300,
+    width: 225,
     marginLeft: 5,
     marginRight: 20,
     display: 'inline-block',
