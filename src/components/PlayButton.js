@@ -4,7 +4,7 @@ import { Glyphicon } from 'react-bootstrap';
 
 const PlayButton = (props) => {
   return (
-    <div className={css(styles.container)} onClick={props.onClick}>
+    <div className={css(styles.container, !props.playing && styles.ready)} onClick={props.onClick}>
       <Glyphicon className={css(styles.icon)} glyph={props.playing ? 'pause' : 'play'}/>
     </div>
   )
@@ -40,6 +40,9 @@ const styles = StyleSheet.create({
     top: 0,
     left: 1,
   },
+  ready: {
+    backgroundColor: 'red'
+  }
 });
 
 export default PlayButton;
