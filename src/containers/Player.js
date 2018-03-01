@@ -43,10 +43,6 @@ class Player extends Component {
         console.debug('Duration', duration);
     }
 
-    if (!this.props.playing && this.props.touched) {
-      // HI MARK
-    }
-
     const displayDuration = toReadableTime(duration * 1000);
 
     const detail = (
@@ -87,7 +83,7 @@ class Player extends Component {
           <div className={css(styles.controls)}>
             <ButtonRow>
               <BackTenButton onClick={this.backwardTen} style={{marginRight: 20}}/>
-              <PlayButton playing={playing} onClick={() => this.props.setPlaying(!playing)} />
+              <PlayButton playing={playing} touched={this.props.touched} onClick={() => this.props.setPlaying(!playing)} />
               <FwdTenButton onClick={this.forwardTen} style={{marginLeft: 20}}/>
             </ButtonRow>
             <div className={css(styles.progressContainer)}>
