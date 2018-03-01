@@ -67,6 +67,7 @@ class Player extends Component {
             muted={muted}
             loop={loop}
             ref={this.ref}
+            fileConfig={{forceAudio: true}}
             onProgress={(progress) => !this.props.player.seeking && this.props.updateProgress(progress)}
             onDuration={this.props.setDuration}
           />
