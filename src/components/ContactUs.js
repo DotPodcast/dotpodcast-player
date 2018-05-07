@@ -8,7 +8,7 @@ class ContactUs extends Component {
     return (
       <Grid fluid>
         <Row>
-          <Col xs={12}>
+          <Col sm={8} md={6}>
             <h3>About DotPodcast</h3>
             <p>
               Search, subscribe, and pay podcasters without being tracked or censored.
@@ -17,7 +17,7 @@ class ContactUs extends Component {
         </Row>
 
         <Row>
-          <Col xs={12}>
+          <Col sm={8} md={6}>
             <h3>Podcast Hosting</h3>
             <p>
               DPX is our open source self-hosted platform, allowing you to quickly
@@ -39,8 +39,8 @@ class ContactUs extends Component {
         </Row>
 
         <Row>
-          <Col xs={12}>
-            <h3>Get In Touch</h3>
+          <Col sm={8} md={6}>
+            <h3>Get in Touch</h3>
             Have feedback or questions? Please <a href="mailto:info@dotpodcast.co">send us a message.</a>
           </Col>
         </Row>
