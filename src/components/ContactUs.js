@@ -9,8 +9,6 @@ class ContactUs extends Component {
       <Grid fluid>
         <Row>
           <Col sm={8} md={6}>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/TbIaWvR37q0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-
             <h3>About DotPodcast</h3>
             <p>DotPodcast is a podcast protocol for the decentralized web, featuring</p>
             <ul>
@@ -82,7 +80,9 @@ class ContactUs extends Component {
             <p>
               Have feedback or questions? Please
               <a href="mailto:info@dotpodcast.co">send us a message.</a>
-          </p>
+            </p>
+
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/TbIaWvR37q0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
           </Col>
         </Row>
       </Grid>
