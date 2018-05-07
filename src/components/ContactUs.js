@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { StyleSheet, css } from 'aphrodite';
+import dotpodcastDiagram from '../images/diagram.png';
 
 class ContactUs extends Component {
   render() {
@@ -9,16 +10,31 @@ class ContactUs extends Component {
         <Row>
           <Col xs={12}>
             <h3>About DotPodcast</h3>
-            Search, subscribe, and pay podcasters without being tracked or censored.
+            <p>
+              Search, subscribe, and pay podcasters without being tracked or censored.
+            </p>
          </Col>
         </Row>
 
         <Row>
           <Col xs={12}>
             <h3>Podcast Hosting</h3>
-            DPX is our open source self-hosted platform, allowing you to quickly upload new episodes, or migrate an existing podcast while supporting all the new features of the DotPodcast protocol. DPX provides a legacy RSS feed, so you can still serve traditional podcast clients and directories. If you’re familiar with Docker and have previously hosted your own websites, you can deploy your own DPX site by following the instructions on GitHub.
+            <p>
+              DPX is our open source self-hosted platform, allowing you to quickly
+              upload new episodes, or migrate an existing podcast while supporting
+              all the new features of the DotPodcast protocol. DPX provides a
+              legacy RSS feed, so you can still serve traditional podcast clients
+              and directories. If you’re familiar with Docker and have previously
+              hosted your own websites, you can deploy your own DPX site by
+              following the instructions on GitHub.
+            </p>
 
-            If you’d like to take advantage of the DotPodcast protocol but would prefer someone else look after the technical side, email us.
+            <img className={css(styles.diagram)} src={dotpodcastDiagram} />
+
+            <p>
+              If you’d like to take advantage of the DotPodcast protocol but would
+              prefer someone else look after the technical side, email us.
+            </p>
           </Col>
         </Row>
 
@@ -33,7 +49,12 @@ class ContactUs extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-});
+const styles = StyleSheet.create(
+  {
+    diagram: {
+      maxWidth: '100%'
+    }
+  }
+);
 
 export default ContactUs;
