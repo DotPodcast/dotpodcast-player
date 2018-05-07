@@ -18,7 +18,7 @@ class ContactUs extends Component {
               <li>open search</li>
               <li>a decentralized player app ("dApp") with privacy and ability to pay podcasters</li>
               <li>a JSON schema to replace RSS</li>
-              <li>one-click self hosting</li>
+              <li><a href="/hosting">one-click self hosting</a></li>
             </ul>
 
             <h3>A blockchain-based directory with no gatekeepers</h3>
@@ -78,42 +78,11 @@ class ContactUs extends Component {
               </a>
             </p>
 
-            <h3>One-click self hosting</h3>
-            <p>
-              DPX is our open source self-hosted platform, allowing you to quickly
-              upload new episodes, or migrate an existing podcast while supporting
-              all the new features of the DotPodcast protocol. DPX provides a
-              legacy RSS feed, so you can still serve traditional podcast clients
-              and directories. If you’re familiar with Docker and have previously
-              hosted your own websites, you can deploy your own DPX site by
-              following the instructions on GitHub.
-            </p>
-
-            <p>
-              <a className="btn btn-primary" href="https://github.com/dotpodcast/dotpodcast-dpx/" target="_blank">View the project on GitHub</a>
-            </p>
-
-            <p>
-              DPX can be deployed on any VPS (virtual private server) that supports
-              Docker, modern infrastructures like Convox, and cloud hosting providers
-              like Heroku.
-            </p>
-
-            <h3>How everything connects at a glance</h3>
-            <p>
-              <a href={dotpodcastDiagram}>
-                <img className={css(styles.diagram)} src={dotpodcastDiagram} alt="Diagram showing how all the pieces of the DotPodcast protocol connect together" />
-              </a>
-            </p>
-
-            <p>
-              If you’d like to take advantage of the DotPodcast protocol but would
-              prefer someone else look after the technical side,
-              <a href="https://twitter.com/dotpodcast/" target="_blank">contact us on Twitter</a>.
-            </p>
-
             <h3>Get in Touch</h3>
-            Have feedback or questions? Please <a href="mailto:info@dotpodcast.co">send us a message.</a>
+            <p>
+              Have feedback or questions? Please
+              <a href="mailto:info@dotpodcast.co">send us a message.</a>
+          </p>
           </Col>
         </Row>
       </Grid>

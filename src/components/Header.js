@@ -73,6 +73,7 @@ class Header extends Component {
             <Nav>
               <NavItem componentClass={Link} href="/" to="/" onSelect={this.toggleNavExpansion}>Your Subscriptions</NavItem>
               <NavItem componentClass={Link} href="/about" to="/about" onSelect={this.toggleNavExpansion}>About</NavItem>
+              <NavItem componentClass={Link} href="/hosting" to="/hosting" onSelect={this.toggleNavExpansion}>Hosting</NavItem>
             </Nav>
             {this.props.isAuthenticated && <Nav>
                 <NavItem onClick={this.handleLogout}>Logout</NavItem>

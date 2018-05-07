@@ -19,6 +19,7 @@ import RibbonSplash from '../components/RibbonSplash';
 import Inbox from '../containers/Inbox';
 import Search from '../containers/Search';
 import ContactUs from '../components/ContactUs';
+import Hosting from '../components/Hosting';
 
 const InLayoutRouter = (props) => {
   return (
@@ -32,6 +33,7 @@ const InLayoutRouter = (props) => {
             <Route exact path="/subscribe" component={Subscribe} />
             <Route exact path="/inbox" component={Inbox} />
             <Route exact path="/about" component={ContactUs} />
+            <Route exact path="/hosting" component={Hosting} />
             <Route path="/search" component={Search} />
             <Route exact path="/:slug" component={PodcastWrapper} />
           </Switch>
@@ -69,7 +71,7 @@ class AppRouter extends Component {
 };
 
 const mapStateToProps = state => {
-  return { 
+  return {
     userLoaded: !!state.user.profile || state.user.anonymous
   }
 }
