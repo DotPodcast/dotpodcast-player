@@ -29,6 +29,10 @@ class ContactUs extends Component {
               following the instructions on GitHub.
             </p>
 
+            <p>
+              <a className="btn btn-primary" href="https://github.com/dotpodcast/dotpodcast-dpx/" target="_blank">View the project on GitHub</a>
+            </p>
+
             <img className={css(styles.diagram)} src={dotpodcastDiagram} />
 
             <p>
