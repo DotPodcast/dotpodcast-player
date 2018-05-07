@@ -25,7 +25,7 @@ class ContactUs extends Component {
         <Row>
           <Col xs={12}>
             <h3>Get In Touch</h3>
-            Have feedback or questions? Please <a href="mailto:info@dotpodcast.co">send us a message.</a>
+            Have feedback or questions? Please <a href="mailto:info@dotpodcast.org">send us a message.</a>
           </Col>
         </Row>
       </Grid>

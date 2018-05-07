@@ -3,9 +3,8 @@ import jwt from 'jsonwebtoken';
 import md5 from 'md5';
 import { findSubscription } from './subscriptions';
 
-const APP_URL = 'https://yetunpublished.dotpodcast.co'
-const APP_NAME = 'dotpodcast_alpha'
-const APP_LOGO = 'https://player.dotpodcast.org/img/logo.svg'
+const APP_URL = 'https://player.dotpodcast.org'
+const APP_NAME = 'dotpodcast_beta'
 
 const getMetadata = url => {
   return axios.get(url).then(
@@ -26,7 +25,6 @@ const subscribe = (username, userPublicKey, endpoint, preview = false) => {
       {
         app_name: APP_NAME,
         app_url: APP_URL,
-        app_logo: APP_LOGO,
         token_kind: 'preview',
         activity: 'listen'
       }
@@ -37,7 +35,6 @@ const subscribe = (username, userPublicKey, endpoint, preview = false) => {
     endpoint,
     {
       app_name: APP_NAME,
-      app_logo: APP_LOGO,
       token_kind: 'download',
       activity: 'subscribe',
       subscriber_hash: md5(userPublicKey)
