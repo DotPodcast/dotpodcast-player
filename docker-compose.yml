@@ -3,7 +3,8 @@ services:
   player:
     build: .
     ports:
-      - 80:80
+      - 80:8080
       - 443:80
     labels:
       - convox.port.443.protocol=https
+      - convox.port.80.protocol=http
