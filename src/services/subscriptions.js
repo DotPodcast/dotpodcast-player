@@ -1,6 +1,6 @@
 import { getFile, putFile, deleteFile } from 'blockstack';
 import { subscribe as registerSubscription } from './dotpodcast';
-import Guid from 'guid';
+import uuidV4 from 'uuid/v4';
 import axios from 'axios';
 import md5 from 'md5';
 
@@ -117,7 +117,7 @@ const addSubscription = async (username, userPublicKey, url) => {
   // Register the subscription with the hosting company
   const response = await registerSubscription(username, userPublicKey, feed.data.subscription_url)
 
-  const id = Guid.create().value // Create a new ID for the subscription
+  const id = uuidV4() // Create a new ID for the subscription
 
   // The user is not yet subscribed to the podcast. Add the new
   // subscription info to the list of subscribed podcasts

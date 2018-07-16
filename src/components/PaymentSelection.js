@@ -122,6 +122,9 @@ class PaymentSelection extends Component {
     return (
       <div>
         {content}
+        <div className={css(styles.getWallet)}>
+          New to Crypto? Don't have a wallet? Don't worry! <a href="https://www.coinbase.com/signup" target="_blank" rel="noopener noreferrer">Get one at Coinbase</a>
+        </div>
         <div className={css(styles.disclaimer)}>
           Conversion rates are approximate and provided by <a href="https://www.cryptocompare.com/" rel="noopener noreferrer" target="_blank">CryptoCompare</a>
         </div>
@@ -241,6 +244,11 @@ const styles = StyleSheet.create({
   },
   qrContainer: {
     marginBottom: 20,
+  },
+  getWallet: {
+    textAlign: 'center',
+    marginTop: 25,
+    fontSize: '1.1em',
   },
   disclaimer: {
     marginTop: 25,
