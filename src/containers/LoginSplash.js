@@ -34,12 +34,6 @@ class LoginSplash extends Component {
               <img className={css(styles.loginIcon)} alt="" src={blockstackIcon}/>Login with Blockstack</button>
           </div>
           <hr/>
-          <div>
-            <span className={css(styles.small)}>
-            We require BlockStack. If you would like to browse with limited functionality, 
-            you may <a href="javascript:void(null);" onClick={this.props.bypassLogin}>continue without login</a>.
-            </span>
-          </div>
         </RibbonSplash>
       </div>
     );
